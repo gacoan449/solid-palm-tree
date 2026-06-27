@@ -102,13 +102,18 @@ if peran == "Pembeli (Warga Desa)":
 
     # Navigasi Kategori Produk dengan Sistem Tab Modern Streamlit
     tab1, tab2, tab3 = st.tabs(["🍞 Sembako & Tepung", "🥦 Sayuran Segar", "🍗 Lauk Pauk"])
-    
-    with tab1:
-        kat_pilihan = "Sembako Utama & Tepung"
-    with tab2:
-        kat_pilihan = "Sayuran Segar"
-    with tab3:
-        kat_pilihan = "Lauk Pauk"
+    # Perbaikan Sistem Tab Menggunakan Fitur Menu Pilihan Berwarna Cerah
+kat_pilihan = st.radio("Pilih Kategori Kebutuhan:", ["🍞 Sembako & Tepung", "🥦 Sayuran Segar", "🍗 Lauk Pauk"], horizontal=True)
+
+# Logika penerjemah teks kategori
+if "Sembako" in kat_pilihan:
+    kat_pilihan = "Sembako Utama & Tepung"
+elif "Sayuran" in kat_pilihan:
+    kat_pilihan = "Sayuran Segar"
+else:
+    kat_pilihan = "Lauk Pauk"
+
+    w
         
     # Saring data barang berdasarkan kategori yang aktif di tab
     daftar_barang = {k: v for k, v in st.session_state.stok_toko[cabang_pilihan].items() if v["kategori"] == kat_pilihan}
