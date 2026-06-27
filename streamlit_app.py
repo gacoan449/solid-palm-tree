@@ -1,5 +1,5 @@
 # ==============================================================================
-# 🌾 PETANI DESA BERKAH OMNICHANNEL SUPERAPP - VERSION 20.0 PRODUCTION CORE
+# 🌾 PETANI DESA BERKAH OMNICHANNEL SUPERAPP - VERSION 20.0 PRODUCTION CORE (FIXED)
 # Kiblat Desain: Alfagift Ultra Engine x Klik Indomaret POS Hardware Integrated
 # Keunggulan: Full Screen CSS Injection (99% Streamlit Core Hidden), QRIS Generator,
 #             Logistik Ekspedisi Multi-Pilihan, POS Offline Cashier Desktop Layer.
@@ -111,6 +111,13 @@ if 'keranjang_online' not in st.session_state: st.session_state.keranjang_online
 if 'keranjang_kasir_toko' not in st.session_state: st.session_state.keranjang_kasir_toko = []
 if 'chat_ai_history' not in st.session_state: st.session_state.chat_ai_history = []
 if 'user_login_session' not in st.session_state: st.session_state.user_login_session = st.session_state.pelanggan_db[0]
+
+# --- VARIABLES & DATA FIXED ---
+iklan_list = [
+    "🔥 MEGAMURAH KAGET: Tebas harga Gula Pasir hanya Rp 12.000 khusus pembayaran menggunakan DESA-PAY malam ini!",
+    "🚚 SUBSIDI ONGKIR DESA: Jaminan pengantaran kurir kilat kurang dari 30 menit sampai ke depan pintu dapur Anda!",
+    "⚡ KEMUDAHAN POS FISIK: Monitor kasir kini mendukung printer thermal bluetooth dan barcode scanner otomatis!"
+]
 
 # --- HELPER: BASE64 GALERI UPLOADER ENGINE ---
 def eksekusi_konversi_gambar(uploaded_file):
