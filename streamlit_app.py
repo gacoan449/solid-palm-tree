@@ -67,8 +67,7 @@ st.markdown(
     </marquee>
     </div>
     """,
-    unsafe_allow_html=True
-    
+    unsafe_allowed_html=True
 )
 
 st.title("🌾 Platform Digital Petani Desa Berkah")
@@ -100,22 +99,18 @@ if peran == "Pembeli (Warga Desa)":
     elif "Anak Yatim" in status_member:
         diskon_persen = 0.35
 
-    # Navigasi Kategori Produk dengan Sistem Tab Modern Streamlit
-    tab1, tab2, tab3 = st.tabs(["🍞 Sembako & Tepung", "🥦 Sayuran Segar", "🍗 Lauk Pauk"])
-    # Perbaikan Sistem Tab Menggunakan Fitur Menu Pilihan Berwarna Cerah
-kat_pilihan = st.radio("Pilih Kategori Kebutuhan:", ["🍞 Sembako & Tepung", "🥦 Sayuran Segar", "🍗 Lauk Pauk"], horizontal=True)
-
-# Logika penerjemah teks kategori
-if "Sembako" in kat_pilihan:
-    kat_pilihan = "Sembako Utama & Tepung"
-elif "Sayuran" in kat_pilihan:
-    kat_pilihan = "Sayuran Segar"
-else:
-    kat_pilihan = "Lauk Pauk"
-
-    w
+    # Perbaikan Sistem Kategori Menggunakan Fitur Menu Pilihan Berwarna Cerah
+    kategori_tombol = st.radio("Pilih Kategori Kebutuhan:", ["🍞 Sembako & Tepung", "🥦 Sayuran Segar", "🍗 Lauk Pauk"], horizontal=True)
+    
+    # Logika penerjemah teks kategori
+    if "Sembako" in kategori_tombol:
+        kat_pilihan = "Sembako Utama & Tepung"
+    elif "Sayuran" in kategori_tombol:
+        kat_pilihan = "Sayuran Segar"
+    else:
+        kat_pilihan = "Lauk Pauk"
         
-    # Saring data barang berdasarkan kategori yang aktif di tab
+    # Saring data barang berdasarkan kategori yang aktif
     daftar_barang = {k: v for k, v in st.session_state.stok_toko[cabang_pilihan].items() if v["kategori"] == kat_pilihan}
     
     # Form Input Belanjaan ke Keranjang
@@ -155,7 +150,6 @@ else:
     if len(st.session_state.keranjang) > 0:
         st.markdown("---")
         st.subheader("📋 Isi Keranjang Belanja Anda Sekarang")
-        df_keranjang = pd.DataFrame(st.session_state.stok_toko[cabang_pilihan]) # Hanya pemicu format
         df_tampil = pd.DataFrame(st.session_state.keranjang)
         st.dataframe(df_tampil, use_container_width=True)
         
@@ -188,4 +182,4 @@ else:
                 # Buat ID transaksi unik berurutan
                 id_baru = len(st.session_state.data_pesanan) + 1
                 waktu_sekarang = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-                
+
