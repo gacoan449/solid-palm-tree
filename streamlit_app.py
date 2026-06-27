@@ -67,7 +67,8 @@ st.markdown(
     </marquee>
     </div>
     """,
-    unsafe_allowed_html=True
+    unsafe_allow_html=True
+
 )
 
 st.title("🌾 Platform Digital Petani Desa Berkah")
