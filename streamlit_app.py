@@ -1,7 +1,8 @@
 # ==============================================================================
-# 🌾 PETANI DESA BERKAH SUPERAPP & HYPER-POS OMNICHANNEL ENGINE v15.0
-# Gabungan Ekosistem: Alfagift Premium, Klik Indomaret Ultra, & Midtrans Gateway 
-# Dual Mode: POS Komputer Kasir Toko Fisik & Aplikasi HP Android/iOS Warga
+# 🌾 PETANI DESA BERKAH OMNICHANNEL SUPERAPP - VERSION 20.0 PRODUCTION CORE
+# Kiblat Desain: Alfagift Ultra Engine x Klik Indomaret POS Hardware Integrated
+# Keunggulan: Full Screen CSS Injection (99% Streamlit Core Hidden), QRIS Generator,
+#             Logistik Ekspedisi Multi-Pilihan, POS Offline Cashier Desktop Layer.
 # ==============================================================================
 
 import streamlit as st
@@ -11,370 +12,411 @@ import uuid
 import base64
 import random
 
-# --- CONFIG & FRAMEWORK ACCELERATION ---
+# --- INITIALIZATION ENGINE ---
 st.set_page_config(
-    page_title="Petani Desa Berkah SuperApp v15.0",
+    page_title="Petani Desa Berkah SuperApp v20.0",
     page_icon="🌾",
-    layout="wide", # Dioptimalkan otomatis untuk Monitor Komputer Toko maupun Layar HP
+    layout="wide", # Fleksibel untuk layar Monitor Kasir Toko maupun Tampilan HP Warga
     initial_sidebar_state="collapsed"
 )
 
-# --- ADVANCED CSS GRAPHICS SHIELD (Mewah & Anti Terpotong) ---
+# --- 99% DE-STREAMLIT LUXURY BLACKBOX CSS (Pembersihan Total Elemen Jadul) ---
 st.markdown("""
 <style>
-.stApp { background-color: #F4F6F9 !important; }
+/* Total Reset & Background Premium Minimalis */
+.stApp { background-color: #F3F4F6 !important; }
 
-/* Menghilangkan Watermark & Batasan Default Streamlit */
-header, footer, .stAppToolbar, .viewerBadge_container__1QSob, .stDecoration, [data-testid="stHeader"] {
-    display: none !important; height: 0 !important; visibility: hidden !important;
+/* Menyembunyikan Semua Watermark, Footer, Header, Dan Tombol Bawaan Streamlit */
+header, footer, .stAppToolbar, .viewerBadge_container__1QSob, .stDecoration, 
+[data-testid="stHeader"], [data-testid="stSidebarCollapse"] {
+    display: none !important; height: 0 !important; visibility: hidden !important; opacity: 0 !important;
 }
 
-/* Container Responsif untuk Hybrid Monitor Komputer & HP */
+/* Optimalisasi Kontainer Induk Pembatas Layar agar Rapi di Segala Device */
 div.block-container {
-    padding: 10px 15px 100px 15px !important;
-    max-width: 1200px !important;
+    padding: 0px 15px 120px 15px !important;
+    max-width: 1100px !important;
     margin: auto;
 }
 
-/* Mega Header Indomaret Plus Style */
-.mega-header {
-    background: linear-gradient(135deg, #0d47a1 0%, #1565c0 40%, #e65100 100%);
-    padding: 30px; color: white; border-radius: 16px; text-align: center;
-    box-shadow: 0 8px 24px rgba(21,101,192,0.25); margin-bottom: 20px;
+/* Desain Banner Atas (Header SuperApp) */
+.super-app-header {
+    background: linear-gradient(135deg, #0284c7 0%, #0369a1 40%, #ea580c 100%);
+    padding: 35px 25px; color: white; border-radius: 0px 0px 24px 24px;
+    text-align: center; box-shadow: 0 10px 30px rgba(2,132,199,0.2);
+    margin-bottom: 25px; margin-top: -60px; /* Menembus batas atas kosong */
 }
-.mega-header h1 { color: white !important; font-size: 28px !important; font-weight: 900 !important; margin: 0; }
-.mega-header p { color: #f5f5f5 !important; font-size: 13px !important; margin: 6px 0 0 0 !important; opacity: 0.9; }
+.super-app-header h1 { color: white !important; font-size: 32px !important; font-weight: 900 !important; margin: 0; text-transform: uppercase; letter-spacing: 1px; }
+.super-app-header p { color: #e0f2fe !important; font-size: 14px !important; margin: 8px 0 0 0 !important; opacity: 0.95; }
 
-/* Kumpulan Widget Finansial & Wallet Info */
-.wallet-card {
-    background: linear-gradient(135deg, #111111 0%, #333333 100%);
-    color: #ffd700 !important; padding: 15px; border-radius: 12px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.15); margin-bottom: 20px;
-}
-
-/* Master Space Banner Iklan */
-.banner-iklan-premium {
-    background: linear-gradient(45deg, #d84315 0%, #ff8f00 100%);
-    color: white !important; padding: 15px; border-radius: 10px;
-    font-weight: 700; text-align: center; margin-bottom: 20px;
-    border-left: 6px solid #1565c0; animation: pulse 2s infinite;
+/* Papan Pengumuman Iklan Berjalan Berkedip Ringan */
+.ads-ticker {
+    background: linear-gradient(90deg, #dc2626 0%, #f97316 100%);
+    color: white !important; padding: 12px 20px; border-radius: 12px;
+    font-weight: 700; text-align: center; margin-bottom: 25px;
+    box-shadow: 0 4px 15px rgba(249,115,22,0.3); font-size: 14px;
 }
 
-/* Kartu Katalog Super Mewah */
-.shopee-lux-card {
-    background: #FFFFFF; border: 1px solid #E0E0E0; border-radius: 14px;
-    padding: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.04);
+/* Dasbor Info Dompet Finansial Digital */
+.wallet-premium-box {
+    background: linear-gradient(135deg, #1e1b4b 0%, #312e81 100%);
+    color: #f59e0b !important; padding: 20px; border-radius: 16px;
+    box-shadow: 0 6px 20px rgba(30,27,75,0.25); margin-bottom: 25px;
+    border: 1px solid #4338ca;
+}
+
+/* Kartu Katalog Sembako Komersial */
+.product-card-v20 {
+    background: #FFFFFF; border: 1px solid #e5e7eb; border-radius: 16px;
+    padding: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.02);
     display: flex; flex-direction: column; justify-content: space-between;
-    min-height: 310px; position: relative; transition: 0.3s;
+    min-height: 340px; position: relative; transition: all 0.3s ease;
 }
-.shopee-lux-card:hover { transform: translateY(-3px); box-shadow: 0 6px 18px rgba(0,0,0,0.08); }
-.badge-promo {
-    position: absolute; top: 10px; left: 10px; background: #ff3d00;
-    color: white !important; font-size: 10px !important; font-weight: 800 !important;
-    padding: 3px 8px; border-radius: 6px; text-transform: uppercase;
+.product-card-v20:hover { transform: translateY(-5px); box-shadow: 0 10px 25px rgba(0,0,0,0.07); }
+.promo-ribbon {
+    position: absolute; top: 12px; left: 12px; background: #e11d48;
+    color: white !important; font-size: 11px !important; font-weight: 800 !important;
+    padding: 4px 10px; border-radius: 8px; box-shadow: 0 2px 6px rgba(225,29,72,0.3);
 }
 
-/* Tombol Transaksi Premium */
-.action-button button {
-    background: linear-gradient(90deg, #ff5722 0%, #ff3d00 100%) !important;
+/* Tombol Transaksi Utama */
+.btn-shopee-style button {
+    background: linear-gradient(90deg, #f97316 0%, #ea580c 100%) !important;
     color: white !important; border: none !important; font-weight: 700 !important;
-    border-radius: 8px !important; width: 100% !important; padding: 10px !important;
+    border-radius: 10px !important; width: 100% !important; padding: 12px !important;
+    box-shadow: 0 4px 12px rgba(234,88,12,0.2) !important; transition: 0.2s;
 }
+.btn-shopee-style button:hover { background: #d97706 !important; }
 </style>
 """, unsafe_allow_html=True)
 
 # ==============================================================================
-# DATABASE STATE CORE (OMNICHANNEL MEMORY STORAGE)
+# MASTER DATABASE CORE (PERSISTENT MEMORY EMULATION)
 # ==============================================================================
 if 'produk' not in st.session_state:
     st.session_state.produk = [
-        {"id": "BRS-01", "nama": "Beras Premium Cianjur Pandanwangi 5kg", "harga": 75000, "hpp": 62000, "stok": 85, "foto": "https://images.unsplash.com/photo-1586201375761-83865001e31c?w=400", "tag": "Diskon 10%"},
-        {"id": "MYK-02", "nama": "Minyak Goreng Bimoli Spesial 2L", "harga": 36000, "hpp": 29500, "stok": 120, "foto": "https://images.unsplash.com/photo-1474979266404-7eaacbcd87c5?w=400", "tag": "Murah Lebay"},
-        {"id": "GLA-03", "nama": "Gula Pasir Gulaku Murni 1kg", "harga": 17500, "hpp": 14000, "stok": 200, "foto": "https://images.unsplash.com/photo-1581781870027-04212e231e96?w=400", "tag": "Kebutuhan Pokok"}
+        {"id": "PD-01", "nama": "Beras Premium Cianjur Pandanwangi 5kg", "harga": 75000, "hpp": 61000, "stok": 140, "foto": "https://images.unsplash.com/photo-1586201375761-83865001e31c?w=400", "tag": "Diskon 12%"},
+        {"id": "PD-02", "nama": "Minyak Goreng Sunco Refill 2L", "harga": 38000, "hpp": 31000, "stok": 95, "foto": "https://images.unsplash.com/photo-1474979266404-7eaacbcd87c5?w=400", "tag": "Serbu Murah"},
+        {"id": "PD-03", "nama": "Gula Pasir Putih Murni 1kg", "harga": 18000, "hpp": 14500, "stok": 220, "foto": "https://images.unsplash.com/photo-1581781870027-04212e231e96?w=400", "tag": "Subsidi Desa"}
     ]
 
-if 'warga_db' not in st.session_state:
-    st.session_state.warga_db = [
-        {"id": "MBR-001", "nama": "Budi Santoso", "hp": "081234", "saldo": 250000, "tier": "Warga Inti (Subsidi 10%)", "alamat": "RT 01 RW 03 Blok Krajan"},
-        {"id": "MBR-002", "nama": "Siti Aminah", "hp": "085678", "saldo": 75000, "tier": "Lansia Desa (Subsidi 25%)", "alamat": "RT 03 RW 01 Sisi Barat"}
+if 'pelanggan_db' not in st.session_state:
+    st.session_state.pelanggan_db = [
+        {"id": "MBR-99", "nama": "Alfina Soraya", "hp": "085727290384", "saldo": 350000, "tier": "Warga Reguler", "alamat": "Plamongan Indah Blok D18 No 34"},
+        {"id": "MBR-100", "nama": "Mbah Slamet", "hp": "081325111222", "saldo": 45000, "tier": "Penerima Subsidi Janda/Lansia", "alamat": "Gubuk RT 02 RW 01 Sisi Kali"}
     ]
 
-if 'pesanan' not in st.session_state: st.session_state.pesanan = []
+if 'invoice_records' not in st.session_state: st.session_state.invoice_records = []
 if 'keranjang_online' not in st.session_state: st.session_state.keranjang_online = []
-if 'keranjang_pos_offline' not in st.session_state: st.session_state.keranjang_pos_offline = []
-if 'riwayat_chat' not in st.session_state: st.session_state.riwayat_chat = []
-if 'active_user' not in st.session_state: st.session_state.active_user = st.session_state.warga_db[0]
+if 'keranjang_kasir_toko' not in st.session_state: st.session_state.keranjang_kasir_toko = []
+if 'chat_ai_history' not in st.session_state: st.session_state.chat_ai_history = []
+if 'user_login_session' not in st.session_state: st.session_state.user_login_session = st.session_state.pelanggan_db[0]
 
-# --- IMAGE CONVERSION UTILITY ---
-def convert_upload_to_base64(file_buffer):
-    if file_buffer is not None:
-        return f"data:image/jpeg;base64,{base64.b64encode(file_buffer.read()).decode()}"
+# --- HELPER: BASE64 GALERI UPLOADER ENGINE ---
+def eksekusi_konversi_gambar(uploaded_file):
+    if uploaded_file is not None:
+        return f"data:image/jpeg;base64,{base64.b64encode(uploaded_file.read()).decode()}"
     return "https://images.unsplash.com/photo-1542838132-92c53300491e?w=400"
 
-# --- SMART AI OMNISCIENT ENGINE ---
-def execute_quantum_ai(prompt):
-    p = prompt.lower()
+# --- HELPER: SUPER INTELLECTUAL AI REASONING ---
+def hitung_ai_super(query_text):
+    q = query_text.lower()
     total_stok = sum(x['stok'] for x in st.session_state.produk)
-    total_items = len(st.session_state.produk)
-    total_omset = sum(x['total'] for x in st.session_state.pesanan if x['status_bayar'] == 'Lunas')
+    total_lunas = sum(x['total'] for x in st.session_state.invoice_records if x['status_bayar'] == 'Lunas')
     
-    if "stok" in p or "gudang" in p:
-        return f"📊 **Laporan Logistik Data Barang:** Toko Anda mengelola **{total_items} jenis produk** dengan akumulasi volume total barang sebanyak **{total_stok} unit** siap jual."
-    elif "omset" in p or "laba" in p or "untung" in p:
-        total_profit = sum((x['total'] * 0.15) for x in st.session_state.pesanan if x['status_bayar'] == 'Lunas') # Estimasi profit margin 15%
-        return f"💰 **Analisis Finansial Laba Rugi:** Total Omset Terinput Rp **{total_omset:,}** dengan perkiraan Margin Laba Bersih Toko senilai Rp **{total_profit:,}**."
-    elif "qris" in p or "bayar" in p:
-        return "💳 **Sistem Gerbang Pembayaran:** Pembayaran telah didukung secara otomatis melalui Saldo Desa-Pay, EDC Kasir Offline Fisik, maupun Auto-generate QRIS Dinamis QRIS-PNM."
+    if "stok" in q or "gudang" in q or "sisa" in q:
+        r_stok = "".join([f"• {p['nama']} -> Sisa {p['stok']} Pcs\n" for p in st.session_state.produk])
+        return f"📊 **Laporan Logistik Riil Gudang:**\n\n{r_stok}\nTotal volume muatan logistik adalah **{total_stok} unit**."
+    elif "keuntungan" in q or "omset" in q or "laba" in q or "duit" in q:
+        perkiraan_margin = sum((x['total'] * 0.18) for x in st.session_state.invoice_records if x['status_bayar'] == 'Lunas')
+        return f"📈 **Analisis Finansial Buku Kas:**\n\n- Total Omset Lunas Masuk: **Rp {total_lunas:,}**\n- Estimasi Laba Bersih Bersih (18%): **Rp {perkiraan_margin:,}**\nSistem POS Komputer Toko sinkron 100% dengan database keuangan."
+    elif "kurir" in q or "kirim" in q:
+        return "🚚 **Status Integrasi Ekspedisi:** Sistem saat ini terhubung ke API J&T Express, GrabSameday, serta opsi Armada Kurir Internal Desa."
     else:
-        return "🤖 **Asisten AI Terintegrasi v15.0:** Saya mampu mendeteksi kalkulasi profit omset, sisa muatan logistik kurir, mutasi saldo e-wallet konsumen, serta manajemen stok digital secara realtime."
+        return "🤖 **Quantum AI Server v20.0:** Saya terhubung ke core database. Tanyakan hal spesifik seperti 'Berapa omset laba toko' atau 'Bagaimana kondisi sisa stok gudang hari ini'."
 
 # ==============================================================================
-# LAYOUT UTAMA & SLIDESHOW IKLAN DINAMIS
+# GRAPHIC APPLICATION RENDERER
 # ==============================================================================
 st.markdown("""
-<div class="mega-header">
-    <h1>🌾 PETANI DESA BERKAH SUPERAPP</h1>
-    <p>Sistem Operasional Omnichannel Pasar Modern Terpadu • Versi 15.0 Hyper-Core Enterprise</p>
+<div class="super-app-header">
+    <h1>🌾 PETANI DESA BERKAH</h1>
+    <p>Sistem Operasional Omnichannel SuperApp & Hyper-POS Management • Versi 20.0 Komersial</p>
 </div>
 """, unsafe_allow_html=True)
 
-# Slideshow Banner Iklan Berganti Otomatis / Multi-Promo
-iklan_list = [
-    "🔥 MEGAMURAH KAGET: Tebas harga Gula Pasir hanya Rp 12.000 khusus pembayaran menggunakan DESA-PAY malam ini!",
-    "🚚 SUBSIDI ONGKIR DESA: Jaminan pengantaran kurir kilat kurang dari 30 menit sampai ke depan pintu dapur Anda!",
-    "⚡ KEMUDAHAN POS FISIK: Monitor kasir kini mendukung printer thermal bluetooth dan barcode scanner otomatis!"
-]
-st.markdown(f'<div class="banner-iklan-premium">📢 {random.choice(iklan_list)}</div>', unsafe_allow_html=True)
+st.markdown(f'<div class="ads-ticker">⚡ BANNER PROMO: {random.choice(iklan_list)}</div>', unsafe_allow_html=True)
 
-# Kolom Informasi Finansial Pengguna & Status E-Wallet Global
-c_wal1, c_wal2 = st.columns([2, 1])
-with c_wal1:
+# BANNER DOMPET FINANSIAL DIGITAL (DESA-PAY)
+c_fin1, c_fin2 = st.columns([3, 1])
+with c_fin1:
     st.markdown(f"""
-    <div class="wallet-card">
-        💳 <b>DESA-PAY DIGITAL WALLET INDEPENDEN</b><br>
-        <span style="font-size:20px; font-weight:800;">Rp {st.session_state.active_user['saldo']:,}</span> 
-        <span style="font-size:12px; color:#ffffff; opacity:0.8; margin-left:15px;">| Akun Aktif: {st.session_state.active_user['nama']} ({st.session_state.active_user['tier']})</span>
+    <div class="wallet-premium-box">
+        💰 <b>DOMPET DIGITAL (DESA-PAY EMULATION WALLET)</b><br>
+        <span style="font-size:24px; font-weight:900;">Rp {st.session_state.user_login_session['saldo']:,}</span>
+        <span style="font-size:12px; color:#e0f2fe; margin-left:20px; opacity:0.8;">| Pengguna: <b>{st.session_state.user_login_session['nama']}</b> ({st.session_state.user_login_session['tier']})</span>
     </div>
     """, unsafe_allow_html=True)
-with c_wal2:
-    if st.button("🔋 Top Up Saldo"):
-        st.session_state.active_user['saldo'] += 50000
-        st.toast("Top Up Rp 50,000 Berhasil via QRIS Interbank!")
+with c_fin2:
+    st.write("")
+    if st.button("🔋 TopUp QRIS Interbank"):
+        st.session_state.user_login_session['saldo'] += 100000
+        st.toast("TopUp Rp 100.000 via Gateway QRIS Sukses!")
         st.rerun()
 
-# --- ARSITEKTUR STRUKTUR MENU UTAMA (Sistem Omnichannel Transparan) ---
-menu_utama = st.radio(
-    "PILIH MODE OPERASIONAL SISTEM:",
-    ["🛒 Etalase Online Warga (HP)", "🏪 POS Komputer Kasir (Offline Toko)", "👥 Registrasi Member Baru", "🚚 Ekspedisi Pengiriman Kurir", "👑 Panel Kontrol Owner (Gudang & Keuangan)", "🤖 Pusat Bantuan AI"],
-    horizontal=True
-)
+# --- SISTEM NAVIGASI PREMIUM GRID BUTTONS (PENGGANTI RADIO JADUL) ---
+st.markdown("### 🎛️ PANEL NAVIGASI UTAMA SISTEM")
+nav_cols = st.columns(6)
+with nav_cols[0]: btn_nav_1 = st.button("🛒 HP Warga", use_container_width=True)
+with nav_cols[1]: btn_nav_2 = st.button("🖥️ POS Kasir Toko", use_container_width=True)
+with nav_cols[2]: btn_nav_3 = st.button("👥 Daftar Member", use_container_width=True)
+with nav_cols[3]: btn_nav_4 = st.button("🚚 Logistik Kurir", use_container_width=True)
+with nav_cols[4]: btn_nav_5 = st.button("👑 Kontrol Owner", use_container_width=True)
+with nav_cols[5]: btn_nav_6 = st.button("🤖 Pusat AI", use_container_width=True)
 
+# State Management Navigasi
+if 'current_tab' not in st.session_state: st.session_state.current_tab = "hp_warga"
+if btn_nav_1: st.session_state.current_tab = "hp_warga"
+if btn_nav_2: st.session_state.current_tab = "pos_kasir"
+if btn_nav_3: st.session_state.current_tab = "daftar_member"
+if btn_nav_4: st.session_state.current_tab = "logistik_kurir"
+if btn_nav_5: st.session_state.current_tab = "kontrol_owner"
+if btn_nav_6: st.session_state.current_tab = "pusat_ai"
+
+st.markdown(f"**Menu Aktif:** `{st.session_state.current_tab.upper()}`")
 st.markdown("---")
 
 # ==============================================================================
-# MODE 1: ETALASE ONLINE WARGA (APLIKASI SMARTPHONE)
+# TAB 1: ETALASE ONLINE WARGA (APLIKASI SMARTPHONE)
 # ==============================================================================
-if menu_utama == "🛒 Etalase Online Warga (HP)":
-    st.markdown("### 📱 Tampilan Belanja Warga Mandiri via Smartphone")
+if st.session_state.current_tab == "hp_warga":
+    st.markdown("### 📱 Etalase Belanja Warga Mandiri App")
+    st.caption(f"Lokasi Kirim: **{st.session_state.user_login_session['alamat']}**")
     
-    # Render Item Grid 3 Kolom Premium ala Alfagift
-    prods = st.session_state.produk
-    for idx in range(0, len(prods), 3):
+    with st.expander("🔄 Switch Akun Simulasi Pembeli"):
+        pilih_usr = st.selectbox("Pilih Akun Terdaftar:", [u["nama"] for u in st.session_state.pelanggan_db])
+        if st.button("Ganti Sesi Akun"):
+            st.session_state.user_login_session = next(u for u in st.session_state.pelanggan_db if u["nama"] == pilih_usr)
+            st.rerun()
+
+    st.markdown("---")
+    
+    # Grid 3 Kolom Responsif Sembako
+    katalog = st.session_state.produk
+    for i in range(0, len(katalog), 3):
         cols = st.columns(3)
         for c_idx, col in enumerate(cols):
-            p_idx = idx + c_idx
-            if p_idx < len(prods):
-                p = prods[p_idx]
+            p_idx = i + c_idx
+            if p_idx < len(katalog):
+                p = katalog[p_idx]
                 with col:
                     st.markdown(f"""
-                    <div class="shopee-lux-card">
-                        <span class="badge-promo">{p['tag']}</span>
-                        <img src="{p['foto']}" style="width:100%; height:130px; object-fit:cover; border-radius:10px;">
-                        <div style="font-weight:700; font-size:14px; margin-top:10px; color:#1A252C; height:40px; overflow:hidden;">{p['nama']}</div>
-                        <div style="color:#7F8C8D; font-size:12px; margin-bottom:5px;">Sisa Stok: <b>{p['stok']} Pcs</b></div>
-                        <div style="color:#e65100; font-weight:900; font-size:18px;">Rp {p['harga']:,}</div>
+                    <div class="product-card-v20">
+                        <span class="promo-ribbon">{p['tag']}</span>
+                        <img src="{p['foto']}" style="width:100%; height:140px; object-fit:cover; border-radius:12px;">
+                        <div style="font-weight:700; font-size:15px; margin-top:12px; color:#1f2937; height:42px; overflow:hidden;">{p['nama']}</div>
+                        <div style="color:#6b7280; font-size:12px; margin-bottom:6px;">Sisa Stok Gudang: <b>{p['stok']} Pcs</b></div>
+                        <div style="color:#ea580c; font-weight:900; font-size:19px;">Rp {p['harga']:,}</div>
                     </div>
                     """, unsafe_allow_html=True)
-                    if st.button("Keranjang+ 🛒", key=f"on_{p['id']}"):
+                    if st.button("Beli 🛒", key=f"ol_buy_{p['id']}"):
                         st.session_state.keranjang_online.append({"nama": p['nama'], "harga": p['harga'], "qty": 1})
-                        st.toast(f"Ditambahkan ke Keranjang Mandiri: {p['nama']}")
+                        st.toast(f"Masuk keranjang mandiri: {p['nama']}")
 
-    # Form Checkout Online & Dropdown Pengaturan Pembayaran Komplit
+    # Form Checkout Mandiri Lengkap Metode Pengiriman & Pembayaran
     if st.session_state.keranjang_online:
-        st.markdown("### 🛒 Ringkasan Checkout Aplikasi Warga")
+        st.markdown("### 🧺 Keranjang Belanja Digital Anda")
         st.dataframe(pd.DataFrame(st.session_state.keranjang_online), use_container_width=True, hide_index=True)
-        total_on = sum(x['harga'] for x in st.session_state.keranjang_online)
+        total_online = sum(x['harga'] for x in st.session_state.keranjang_online)
         
-        st.markdown(f"### Total Biaya Belanja: <span style='color:#ff3d00;'>Rp {total_on:,}</span>", unsafe_allow_html=True)
+        st.markdown(f"### Total Belanja: <span style='color:#ea580c;'>Rp {total_online:,}</span>", unsafe_allow_html=True)
         
-        metode = st.selectbox("PILIH METODE PEMBAYARAN DIGITAL:", ["Desa-Pay E-Wallet", "QRIS Otomatis Dinamis", "Bayar di Tempat (COD)"])
-        
-        if st.button("PROSES CHECKOUT & TERBITKAN NOTA 🚀"):
-            if metode == "Desa-Pay E-Wallet" and st.session_state.active_user['saldo'] < total_on:
-                st.error("Gagal! Saldo E-Wallet Desa-Pay Anda tidak mencukupi, silakan Top Up terlebih dahulu.")
+        col_ch1, col_ch2 = st.columns(2)
+        with col_ch1:
+            opsi_kirim = st.selectbox("🚚 METODE OPSI PENGIRIMAN:", ["Kurir Internal Desa (Instant)", "J&T Express Sembako", "GrabSameday", "Ambil Sendiri di Toko Fisik"])
+        with col_ch2:
+            opsi_bayar = st.selectbox("💳 GERBANG PEMBAYARAN DIGITAL:", ["Desa-Pay E-Wallet", "QRIS Otomatis Terintegrasi", "Bayar Tunai Pas Terima Paket (COD)"])
+            
+        if st.button("SUBMIT ORDER SEKARANG 🚀"):
+            if opsi_bayar == "Desa-Pay E-Wallet" and st.session_state.user_login_session['saldo'] < total_online:
+                st.error("Transaksi Ditolak! Saldo Desa-Pay Anda Kurang. Silakan Top Up.")
             else:
-                if metode == "Desa-Pay E-Wallet":
-                    st.session_state.active_user['saldo'] -= total_on
-                    status_lunas = "Lunas (Desa-Pay)"
+                if opsi_bayar == "Desa-Pay E-Wallet":
+                    st.session_state.user_login_session['saldo'] -= total_online
+                    status_finansial = "Lunas (Desa-Pay)"
                 else:
-                    status_lunas = "Belum Bayar"
+                    status_finansial = "Belum Bayar"
                     
-                inv_id = f"INV-ON-{str(uuid.uuid4())[:6].upper()}"
-                st.session_state.pesanan.append({
-                    "id": inv_id, "pembeli": st.session_state.active_user["nama"],
-                    "tipe": "Online Mandiri", "total": total_on, "metode": metode,
-                    "status_bayar": status_lunas, "status_kurir": "Mencari Driver Kurir"
+                new_invoice_id = f"INV-ON-{str(uuid.uuid4())[:6].upper()}"
+                st.session_state.invoice_records.append({
+                    "id": new_invoice_id, "pembeli": st.session_state.user_login_session["nama"],
+                    "tipe": "Online Mandiri", "total": total_online, "metode_bayar": opsi_bayar,
+                    "status_bayar": status_finansial, "opsi_kirim": opsi_kirim, "status_kurir": "Mencari Driver Kurir"
                 })
                 st.session_state.keranjang_online = []
-                st.success(f"Sukses Pemesanan! Nomor Transaksi Anda: {inv_id}. Sila periksa tab Kurir untuk pelacakan.")
+                st.success(f"Nota {new_invoice_id} Berhasil Diterbitkan! Driver sedang mempersiapkan pengiriman.")
                 st.rerun()
 
 # ==============================================================================
-# MODE 2: POS KOMPUTER KASIR (OFFLINE TOKO FISIK)
+# TAB 2: POS KOMPUTER KASIR (OFFLINE TOKO FISIK COMPUTER SCREEN)
 # ==============================================================================
-elif menu_utama == "🏪 POS Komputer Kasir (Offline Toko)":
-    st.markdown("### 🖥️ Konsol Monitor Kasir Kasir Meja Toko Fisik")
-    st.caption("Gunakan panel ini di komputer toko untuk melayani pelanggan yang datang langsung secara offline.")
+elif st.session_state.current_tab == "pos_kasir":
+    st.markdown("### 🖥️ POS Cashier Hardware Monitor Terminal (Kasir Offline Toko)")
+    st.caption("Gunakan bagian ini pada monitor hardware komputer kasir utama toko fisik untuk melayani antrean warga.")
     
     col_pos1, col_pos2 = st.columns([1, 1])
     
     with col_pos1:
-        st.markdown("#### 📥 Scan / Pilih Barang Input Kasir")
-        pilih_prod = st.selectbox("Pilih Komoditas Barang Fisik:", [p["nama"] for p in st.session_state.produk])
-        qty_pos = st.number_input("Jumlah Kuantitas Jual:", min_value=1, value=1)
+        st.markdown("#### 📥 Kasir Scan & Tambah Barang Manual")
+        pilih_p_pos = st.selectbox("Pilih Barang Masuk Struk:", [p["nama"] for p in st.session_state.produk])
+        qty_p_pos = st.number_input("Jumlah Unit Diambil:", min_value=1, value=1, key="pos_qty_count")
         
-        if st.button("Input ke Struk Belanja ➕"):
-            target = next(p for p in st.session_state.produk if p["nama"] == pilih_prod)
-            st.session_state.keranjang_pos_offline.append({"nama": target["nama"], "harga": target["harga"], "qty": qty_pos})
-            st.toast("Item Berhasil Ditambahkan ke Struk Kasir!")
+        if st.button("Input Masuk Struk Transaksi ➕"):
+            item_selected = next(p for p in st.session_state.produk if p["nama"] == pilih_p_pos)
+            st.session_state.keranjang_kasir_toko.append({"nama": item_selected["nama"], "harga": item_selected["harga"], "qty": qty_p_pos})
+            st.toast("Item dimasukkan ke antrean cetak.")
             st.rerun()
             
     with col_pos2:
-        st.markdown("#### 🧾 Daftar Struk Belanja Konsumen")
-        if st.session_state.keranjang_pos_offline:
-            st.dataframe(pd.DataFrame(st.session_state.keranjang_pos_offline), use_container_width=True)
-            total_off = sum(x['harga']*x['qty'] for x in st.session_state.keranjang_pos_offline)
-            st.markdown(f"### Total Kasir: **Rp {total_off:,}**")
+        st.markdown("#### 🧾 Lembar Struk Belanja Kasir")
+        if st.session_state.keranjang_kasir_toko:
+            st.dataframe(pd.DataFrame(st.session_state.keranjang_kasir_toko), use_container_width=True, hide_index=True)
+            total_pos_price = sum(x['harga'] * x['qty'] for x in st.session_state.keranjang_kasir_toko)
             
-            pembeli_pos = st.selectbox("Pilih Identitas Pembeli:", [u["nama"] for u in st.session_state.warga_db])
-            metode_pos = st.radio("Metode Bayar Toko:", ["Tunai/Cash Koridor", "QRIS Dinamis Layar Monitor", "Debit Card / EDC"])
+            st.markdown(f"## Total Kasir Fisik: **Rp {total_pos_price:,}**")
             
-            if "QRIS" in metode_pos:
-                st.image(f"https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=QRIS-PETANIDESA-{total_off}", caption="QRIS Dinamis Terbuka Otomatis Otomatis")
+            nama_pembeli_pos = st.selectbox("Nama Warga Pembeli:", [u["nama"] for u in st.session_state.pelanggan_db])
+            metode_pembayaran_pos = st.radio("Metode Pembayaran Kasir:", ["Uang Tunai Cash Lunas", "Scan QRIS Interbank Dinamis", "Kartu Debit EDC"])
+            
+            if "QRIS" in metode_pembayaran_pos:
+                # INTEGRASI QRIS DINAMIS GENERATOR AUTOMATIC
+                st.image(f"https://api.qrserver.com/v1/create-qr-code/?size=160x160&data=QRIS-PETANIDESA-POS-{total_pos_price}", caption="QRIS Toko Terbuka Realtime")
                 
-            if st.button("CETAK NOTA STRUK & SELESAI 🖨️"):
-                inv_id = f"INV-POS-{str(uuid.uuid4())[:6].upper()}"
-                st.session_state.pesanan.append({
-                    "id": inv_id, "pembeli": pembeli_pos, "tipe": "POS Offline Toko",
-                    "total": total_off, "metode": metode_pos, "status_bayar": "Lunas", "status_kurir": "Ambil di Toko Langsung"
+            if st.button("CETAK NOTA THERMAL & POTONG STOK FISIK 🖨️"):
+                inv_pos_id = f"INV-POS-{str(uuid.uuid4())[:6].upper()}"
+                st.session_state.invoice_records.append({
+                    "id": inv_pos_id, "pembeli": nama_pembeli_pos, "tipe": "POS Offline Toko",
+                    "total": total_pos_price, "metode_bayar": metode_pembayaran_pos, "status_bayar": "Lunas",
+                    "opsi_kirim": "Bawa Pulang Langsung", "status_kurir": "Selesai di Tempat"
                 })
-                # Kurangi stok barang riil
-                for item in st.session_state.keranjang_pos_offline:
+                # Auto Deduksi Stok Riil Gudang
+                for item in st.session_state.keranjang_kasir_toko:
                     for p in st.session_state.produk:
                         if p["nama"] == item["nama"]:
                             p["stok"] = max(0, p["stok"] - item["qty"])
                             
-                st.session_state.keranjang_pos_offline = []
-                st.success(f"Struk {inv_id} Sukses Dicetak via Thermal Printer!")
+                st.session_state.keranjang_kasir_toko = []
+                st.success(f"Nota {inv_pos_id} Berhasil Dicetak via Hardware Printer Toko!")
                 st.rerun()
 
 # ==============================================================================
-# MODE 3: REGISTRASI MEMBER BARU
+# TAB 3: REGISTRASI MEMBER BARU
 # ==============================================================================
-elif menu_utama == "👥 Registrasi Member Baru":
+elif st.session_state.current_tab == "daftar_member":
     st.markdown("### 👥 Registrasi Terpadu Member & Konsumen Ekosistem")
     
-    col_r1, col_r2 = st.columns(2)
-    with col_r1:
-        m_name = st.text_input("Nama Lengkap Pembeli Sesuai KTP:")
-        m_hp = st.text_input("Nomor Handphone Aktif:")
-    with col_r2:
-        m_tier = st.selectbox("Jenis Akun Keanggotaan:", ["Warga Reguler", "Penerima Subsidi Janda", "Penerima Subsidi Anak Yatim"])
-        m_address = st.text_area("Alamat Tujuan Pengiriman Kurir:")
+    col_reg1, col_reg2 = st.columns(2)
+    with col_reg1:
+        inp_nama = st.text_input("Nama Lengkap Pembeli Sesuai KTP:")
+        inp_hp = st.text_input("Nomor Handphone Aktif:")
+    with col_reg2:
+        inp_tier = st.selectbox("Jenis Akun Keanggotaan:", ["Warga Reguler", "Penerima Subsidi Janda", "Penerima Subsidi Anak Yatim"])
+        inp_alamat = st.text_area("Alamat Tujuan Pengiriman Kurir:")
         
     if st.button("Daftarkan Kartu Member Elektronik 💳"):
-        if not m_name or not m_hp:
-            st.error("Nama dan Nomor Handphone wajib terinput lengkap!")
+        if not inp_nama or not inp_hp or not inp_alamat:
+            st.error("Gagal! Seluruh form registrasi data member baru wajib diisi!")
         else:
-            st.session_state.warga_db.append({"id": f"MBR-{random.randint(100,999)}", "nama": m_name, "hp": m_hp, "saldo": 0, "tier": m_tier, "alamat": m_address})
-            st.success(f"Selamat, {m_name} berhasil terdaftar dengan Hak Akses Kategori {m_tier}!")
+            st.session_state.pelanggan_db.append({
+                "id": f"MBR-{random.randint(100, 999)}", "nama": inp_nama,
+                "hp": inp_hp, "saldo": 0, "tier": inp_tier, "alamat": inp_alamat
+            })
+            st.success(f"Registrasi Berhasil! Member {inp_nama} terdaftar dalam sistem kategori {inp_tier}.")
             st.rerun()
 
 # ==============================================================================
-# MODE 4: EKSPEDISI PENGIRIMAN KURIR
+# TAB 4: EKSPEDISI PENGIRIMAN KURIR
 # ==============================================================================
-elif menu_utama == "🚚 Ekspedisi Pengiriman Kurir":
-    st.markdown("### 🚚 Sistem Pemantauan Distribusi Logistik Kurir Desa")
+elif st.session_state.current_tab == "logistik_kurir":
+    st.markdown("### 🚚 Manajemen Armada Kurir & Jalur Ekspedisi")
     
-    orders_kurir = [x for x in st.session_state.pesanan if x['tipe'] == "Online Mandiri"]
-    if not orders_kurir:
-        st.info("Belum ada paket kiriman masuk yang dialokasikan untuk kurir desa.")
+    antrean_kurir = [x for x in st.session_state.invoice_records if x['tipe'] == "Online Mandiri"]
+    if not antrean_kurir:
+        st.info("Armada Kurir Bersih. Belum ada pesanan online warga yang masuk antrean.")
     else:
-        for idx, o in enumerate(orders_kurir):
-            with st.expander(f"📦 Resi Kurir: {o['id']} Kirim ke -> {o['pembeli']}"):
-                st.write(f"💵 Nilai COD/Belanja: **Rp {o['total']:,}** ({o['metode']})")
-                st.write(f"📍 Status Distribusi Kurir: **{o['status_kurir']}**")
+        for idx, order in enumerate(antrean_kurir):
+            with st.expander(f"📦 Resi Kurir {order['id']} [{order['opsi_kirim']}] -> {order['pembeli']}"):
+                st.write(f"💵 Nilai Tagihan Barang: **Rp {order['total']:,}** | Pembayaran: **{order['status_bayar']}**")
+                st.write(f"📍 Status Distribusi Kurir: **{order['status_kurir']}**")
                 
-                new_status = st.selectbox("Perbarui Koordinat Pengiriman:", ["Mencari Driver Kurir", "Barang Masuk Tas Kurir", "Kurir Menuju Lokasi", "Sukses Diterima Keluarga"], key=f"kr_v15_{o['id']}_{idx}")
-                if st.button("Simpan Posisi Kurir", key=f"btn_kr_v15_{o['id']}_{idx}"):
-                    o['status_kurir'] = new_status
-                    st.success("Status armada kurir berhasil disinkronisasi ke HP konsumen!")
+                status_baru_kurir = st.selectbox(
+                    "Ubah Koordinat Lokasi Paket:",
+                    ["Mencari Driver Kurir", "Barang Sedang Dikemas Gudang", "Kurir Sedang Dalam Perjalanan", "Paket Sukses Diterima Pelanggan"],
+                    key=f"kurir_sel_{order['id']}_{idx}"
+                )
+                if st.button("Simpan Manifest Update Kurir", key=f"kurir_btn_{order['id']}_{idx}"):
+                    order['status_kurir'] = status_baru_kurir
+                    st.success("Status penanganan logistik armada kurir berhasil disinkronkan!")
                     st.rerun()
 
 # ==============================================================================
-# MODE 5: PANEL KONTROL OWNER (GUDANG & KEUANGAN)
+# TAB 5: PANEL KONTROL OWNER (GUDANG & KEUANGAN MULTIMEDIA GALERI HP)
 # ==============================================================================
-elif menu_utama == "👑 Panel Kontrol Owner (Gudang & Keuangan)":
-    st.markdown("### 👑 Ruang Direksi & Pemilik Sistem Utama")
-    sandi = st.text_input("Verifikasi Kode Otentikasi Owner:", type="password")
+elif st.session_state.current_tab == "kontrol_owner":
+    st.markdown("### 👑 Portal Direksi Utama & Pemilik Pasar Sembako")
+    kunci_owner = st.text_input("Otentikasi Sandi Direksi:", type="password")
     
-    if sandi == "bos_petanidesa":
-        st.success("Akses Kendali Penuh Terbuka!")
-        tab_owner1, tab_owner2 = st.tabs(["📊 Buku Kas Neraca Keuangan", "📸 Pengadaan Barang via Kamera/Galeri HP"])
+    if kunci_owner == "bos_petanidesa":
+        st.success("Akses Otoritas Tertinggi Terverifikasi!")
         
-        with tab_owner1:
-            st.markdown("#### 📈 Rekap Histori Transaksi Finansial Toko")
-            if st.session_state.pesanan:
-                st.dataframe(pd.DataFrame(st.session_state.pesanan), use_container_width=True)
+        tab_o1, tab_o2 = st.tabs(["📊 Buku Kas Laporan Laba Rugi", "📸 Unggah Barang Langsung via Galeri HP/Kamera"])
+        
+        with tab_o1:
+            st.markdown("#### 📈 Buku Kas Rekap Jurnal Transaksi Toko")
+            if st.session_state.invoice_records:
+                st.dataframe(pd.DataFrame(st.session_state.invoice_records), use_container_width=True)
             else:
-                st.caption("Belum ada mutasi keuangan riil hari ini.")
+                st.caption("Belum ada pencatatan transaksi masuk hari ini.")
                 
-        with tab_owner2:
-            st.markdown("#### ➕ Tambah Komoditas Instan Menggunakan Gambar")
-            new_title = st.text_input("Nama Dagang Barang:")
-            new_price = st.number_input("Harga Jual Konsumen (Rp):", min_value=1000, value=10000)
-            new_stock = st.number_input("Ketersediaan Stok Fisik:", min_value=1, value=50)
+        with tab_o2:
+            st.markdown("#### 📸 Input Komoditas Menggunakan Galeri Foto Smartphone")
+            in_nama = st.text_input("Nama Barang Baru:")
+            in_harga = st.number_input("Harga Jual (Rp):", min_value=1000, value=20000)
+            in_stok = st.number_input("Stok Awal Gudang:", min_value=1, value=50)
+            in_tag = st.text_input("Label Badge Iklan:", value="Produk Baru")
             
-            # FILE UPLOADER LANGSUNG GALERI HP / FILE KOMPUTER
-            uploaded_photo = st.file_uploader("Pilih Gambar dari Galeri HP/Kamera:", type=["jpg", "png", "jpeg"])
+            # FITUR UTAMA: BISA DIISI MANUAL DARI GALERI HP / FILE COMPUTER
+            file_foto_galeri = st.file_uploader("Ambil/Pilih File Gambar Komoditas Dari Galeri HP Anda:", type=["jpg", "png", "jpeg"])
             
-            if st.button("UNGGAH & PUBLIKASIKAN PRODUK BARU 🚀"):
-                if not new_title:
-                    st.error("Gagal! Judul produk tidak boleh dikosongkan.")
+            st.markdown('<div class="btn-shopee-style">', unsafe_allow_html=True)
+            if st.button("PUBLIKASIKAN BARANG BARU SEKARANG 🚀"):
+                if not in_nama:
+                    st.error("Gagal! Judul nama barang wajib terisi.")
                 else:
-                    final_photo_route = convert_upload_to_base64(uploaded_photo)
+                    route_foto = eksekusi_konversi_gambar(file_foto_galeri)
                     st.session_state.produk.append({
-                        "id": f"BRG-{random.randint(10,99)}", "nama": new_title,
-                        "harga": new_price, "hpp": new_price * 0.8, "stok": new_stock,
-                        "foto": final_photo_route, "tag": "Produk Baru"
+                        "id": f"BRG-{random.randint(10,99)}", "nama": in_nama,
+                        "harga": in_harga, "hpp": in_harga * 0.8, "stok": in_stok,
+                        "foto": route_foto, "tag": in_tag
                     })
-                    st.success(f"Berhasil mengunggah {new_title} ke sistem pusat online & offline!")
+                    st.success(f"Berhasil! Produk {in_nama} resmi tampil di etalase pembeli online dan offline kasir.")
                     st.rerun()
+            st.markdown('</div>', unsafe_allow_html=True)
     else:
-        st.caption("Gunakan sandi keamanan `bos_petanidesa` untuk melakukan audit perusahaan.")
+        st.caption("Gunakan kunci keamanan `bos_petanidesa` untuk masuk ke ruang direksi.")
 
 # ==============================================================================
-# MODE 6: PUSAT BANTUAN AI
+# TAB 6: PUSAT BANTUAN AI CORE
 # ==============================================================================
-elif menu_utama == "🤖 Pusat Bantuan AI":
+elif st.session_state.current_tab == "pusat_ai":
     st.markdown("### 🤖 Pusat Analitik AI Terintegrasi Omnichannel")
-    st.caption("Ketik apa saja untuk menganalisis isi database toko, kasir offline, logistik kurir, atau total margin keuntungan.")
+    st.caption("AI Pintar membaca database stok, kurir ekspedisi, dan profit keuangan secara realtime.")
     
-    ai_input = st.chat_input("Contoh: Berapa estimasi omset keuangan atau bagaimana stok barang saat ini?")
-    if ai_input:
-        ai_reply = execute_quantum_ai(ai_input)
-        st.session_state.riwayat_chat.append({"u": ai_input, "b": ai_reply})
+    input_user_ai = st.chat_input("Contoh: Berapa estimasi omset keuangan atau list sisa stok barang?")
+    if input_user_ai:
+        jawaban_ai = hitung_ai_super(input_user_ai)
+        st.session_state.chat_ai_history.append({"user": input_user_ai, "bot": jawaban_ai})
         
-    for msg in st.session_state.riwayat_chat:
-        with st.chat_message("user"): st.write(msg["u"])
-        with st.chat_message("assistant"): st.markdown(msg["b"])
+    for chat in st.session_state.chat_ai_history:
+        with st.chat_message("user"): st.write(chat["user"])
+        with st.chat_message("assistant"): st.markdown(chat["bot"])
