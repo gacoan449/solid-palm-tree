@@ -1,23 +1,22 @@
 # ==============================================================================
-# 🌾 PETANI DESA BERKAH OMNICHANNEL SUPERAPP - VERSION 30.0 ENTERPRISE CORE
-# Keunggulan: Sinkronisasi Riil POS-Mobile, Simulasi Gerbang Fintek VA/Indomaret,
-#             Manajemen Nota Terintegrasi & Pengurang Stok Otomatis.
+# 🌾 PETANI DESA BERKAH OMNICHANNEL SUITE ERP - PRODUCTION GRADE v45.0
 # ==============================================================================
 
 import streamlit as st
 import pandas as pd
-import uuid
+import datetime
 import random
+import uuid
 
-# --- INITIALIZATION ENGINE ---
+# --- ENGINE CONFIGURATION ---
 st.set_page_config(
-    page_title="Petani Desa Berkah v30.0",
+    page_title="Petani Desa Berkah ERP v45.0",
     page_icon="🌾",
     layout="wide",
     initial_sidebar_state="collapsed"
 )
 
-# --- 99% DE-STREAMLIT LUXURY BLACKBOX CSS ---
+# --- ADVANCED LUXURY ENTERPRISE UI STYLING ---
 st.markdown("""
 <style>
 .stApp { background-color: #F8FAFC !important; }
@@ -26,296 +25,307 @@ header, footer, .stAppToolbar, .viewerBadge_container__1QSob, .stDecoration,
     display: none !important; height: 0 !important; visibility: hidden !important; opacity: 0 !important;
 }
 div.block-container {
-    padding: 0px 15px 120px 15px !important;
-    max-width: 1200px !important;
+    padding: 0px 15px 100px 15px !important;
+    max-width: 1300px !important;
     margin: auto;
 }
-.super-app-header {
-    background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 50%, #f97316 100%);
-    padding: 30px 20px; color: white; border-radius: 0px 0px 20px 20px;
-    text-align: center; box-shadow: 0 10px 25px rgba(59,130,246,0.15);
+.main-banner {
+    background: linear-gradient(135deg, #1E3A8A 0%, #0D9488 50%, #EA580C 100%);
+    padding: 25px; color: white; border-radius: 0px 0px 20px 20px;
+    text-align: center; box-shadow: 0 4px 20px rgba(30,58,138,0.2);
     margin-bottom: 25px; margin-top: -60px;
 }
-.super-app-header h1 { color: white !important; font-size: 30px !important; font-weight: 900 !important; margin: 0; }
-.wallet-premium-box {
-    background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
-    color: #fbbf24 !important; padding: 20px; border-radius: 16px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.1); margin-bottom: 25px;
-    border: 1px solid #334155;
+.main-banner h1 { color: white !important; font-size: 28px !important; font-weight: 800 !important; margin: 0; }
+.card-metric {
+    background: white; border: 1px solid #E2E8F0; padding: 15px;
+    border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.02);
 }
-.product-card-v30 {
-    background: #FFFFFF; border: 1px solid #e2e8f0; border-radius: 16px;
-    padding: 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.01);
-    display: flex; flex-direction: column; justify-content: space-between;
-    min-height: 320px; position: relative;
-}
-.promo-ribbon {
-    position: absolute; top: 12px; left: 12px; background: #ef4444;
-    color: white !important; font-size: 11px !important; font-weight: 800 !important;
-    padding: 4px 8px; border-radius: 6px;
-}
-.gateway-box {
-    background: #ffffff; border-left: 5px solid #f97316;
-    padding: 15px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-    margin-top: 10px; margin-bottom: 15px;
-}
+.owner-title { color: #1E3A8A; font-weight: 800; border-bottom: 2px solid #3B82F6; padding-bottom: 5px; }
 </style>
 """, unsafe_allow_html=True)
 
 # ==============================================================================
-# DATABASE CENTRAL (PERSISTENT STATE)
+# INDUSTRIAL CORE DATABASE (PERSISTENT BETWEEN RERUNS)
 # ==============================================================================
-if 'produk' not in st.session_state:
-    st.session_state.produk = [
-        {"id": "PD-01", "nama": "Beras Premium Cianjur 5kg", "harga": 75000, "stok": 50, "foto": "https://images.unsplash.com/photo-1586201375761-83865001e31c?w=400", "tag": "Diskon 12%"},
-        {"id": "PD-02", "nama": "Minyak Goreng Sunco 2L", "harga": 38000, "stok": 40, "foto": "https://images.unsplash.com/photo-1474979266404-7eaacbcd87c5?w=400", "tag": "Best Seller"},
-        {"id": "PD-03", "nama": "Gula Pasir Murni 1kg", "harga": 18000, "stok": 100, "foto": "https://images.unsplash.com/photo-1581781870027-04212e231e96?w=400", "tag": "Subsidi Desa"}
+if 'db_cabang' not in st.session_state:
+    st.session_state.db_cabang = ["Cabang Desa Utara", "Cabang Desa Selatan", "Cabang Sleman Pusat"]
+
+if 'db_produk' not in st.session_state:
+    st.session_state.db_produk = [
+        {"id": "PD-01", "nama": "Beras Premium Cianjur 5kg", "kategori": "Sembako", "harga": 75000, "stok": 45, "tag": "Subsidi"},
+        {"id": "PD-02", "nama": "Minyak Goreng Sunco 2L", "kategori": "Sembako", "harga": 38000, "stok": 60, "tag": "Promo"},
+        {"id": "PD-03", "nama": "Daging Ayam Potong 1kg", "kategori": "Lauk Pauk", "harga": 36000, "stok": 31, "tag": "Segar"}
     ]
 
-if 'pelanggan_db' not in st.session_state:
-    st.session_state.pelanggan_db = {
-        "Mbah Slamet": {"id": "MBR-100", "saldo": 145000, "alamat": "Gubuk RT 02 RW 01 Sisi Kali", "tier": "Subsidi Lansia"},
-        "Alfina Soraya": {"id": "MBR-99", "saldo": 350000, "alamat": "Plamongan Indah Blok D18 No 34", "tier": "Warga Reguler"}
+if 'db_member' not in st.session_state:
+    st.session_state.db_member = {
+        "Alfina Soraya": {"hp": "085727290384", "saldo": 350000, "poin": 120, "alamat": "Plamongan Indah Blok D18 No 34", "tipe": "Warga Reguler"},
+        "Mbah Slamet": {"hp": "081325111222", "saldo": 0, "poin": 0, "alamat": "Gubuk RT 02 RW 01 Sisi Kali", "tipe": "Janda/Lansia"}
     }
 
+if 'db_transaksi' not in st.session_state: st.session_state.db_transaksi = []
+if 'db_mutasi_bank_owner' not in st.session_state: st.session_state.db_mutasi_bank_owner = []
 if 'active_user' not in st.session_state: st.session_state.active_user = "Mbah Slamet"
-if 'orders_database' not in st.session_state: st.session_state.orders_database = []
-if 'keranjang_warga' not in st.session_state: st.session_state.keranjang_warga = []
-if 'keranjang_kasir' not in st.session_state: st.session_state.keranjang_kasir = []
-if 'topup_session' not in st.session_state: st.session_state.topup_session = None
-
-# --- HARGA LOGISTIK ---
-ekspedisi_tarif = {"Ambil di Toko": 0, "Kurir Desa": 5000, "J&T Express": 12000}
+if 'active_cabang' not in st.session_state: st.session_state.active_cabang = "Cabang Desa Utara"
+if 'cart_warga' not in st.session_state: st.session_state.cart_warga = []
 
 # ==============================================================================
-# INTERFACE LAYOUT
+# HEADER & MASTER ACCOUNT CONTROLLER
 # ==============================================================================
 st.markdown("""
-<div class="super-app-header">
-    <h1>🌾 PETANI DESA BERKAH SUPERAPP</h1>
-    <p>Sistem Ekosistem Terpadu v30.0 — Sinkronisasi Penuh Antara Handphone Warga & Komputer Kasir Agen</p>
+<div class="main-banner">
+    <h1>🌾 PETANI DESA BERKAH — OPERATIONAL ERP SYSTEM</h1>
+    <p>Unified Multi-Branch POS, Live Fintech Topup Gateway & Customer Analytics Suite v45.0</p>
 </div>
 """, unsafe_allow_html=True)
 
-# SIFAT SINKRONISASI AKUN DATA MALAM
-user_sekarang = st.session_state.active_user
-data_user = st.session_state.pelanggan_db[user_sekarang]
+# NAVIGASI TOP PANEL SYSTEM
+c_set1, c_set2, c_set3 = st.columns([1, 1, 1])
+with c_set1:
+    st.session_state.active_cabang = st.selectbox("📍 Pilih Lokasi Operasional Cabang:", st.session_state.db_cabang)
+with c_set2:
+    st.session_state.active_user = st.selectbox("👤 Sesi Login User Pembeli:", list(st.session_state.db_member.keys()))
+with c_set3:
+    current_tab = st.radio("🎛️ PILIH LAYAR OPERASIONAL:", ["🛒 Belanja HP", "🖥️ POS Kasir Toko", "🚚 Logistik Kurir", "👑 Panel Control Owner"], horizontal=True)
 
-# PANEL ATAS: DOMPET & SIMULASI TOP UP REALISTIS
-c_wal1, c_wal2 = st.columns([2, 1])
-with c_wal1:
-    st.markdown(f"""
-    <div class="wallet-premium-box">
-        💳 <b>DESA-PAY BALANCES (DOMPET DIGITAL INTERNAL)</b><br>
-        <span style="font-size:26px; font-weight:900; color:#fbbf24;">Rp {data_user['saldo']:,}</span>
-        <span style="font-size:13px; color:#cbd5e1; margin-left:15px;">| Pengguna: <b>{user_sekarang}</b> ({data_user['tier']})</span>
-    </div>
-    """, unsafe_allow_html=True)
+user_profile = st.session_state.db_member[st.session_state.active_user]
 
-with c_wal2:
-    st.write("")
-    st.markdown("**🔋 GERBANG TOPUP MULTI-CHANNEL**")
-    tipe_topup = st.selectbox("Pilih Metode Pengisian:", ["-- Pilih Gerbang --", "Kasir Indomaret / Alfamart", "Virtual Account Bank Mandiri/BCA", "Scan QRIS Interbank"])
-    
-    if tipe_topup != "-- Pilih Gerbang --":
-        nominal_topup = st.number_input("Nominal Isi Saldo (Rp):", min_value=10000, step=10000, value=50000)
-        
-        if st.button("Dapatkan Kode Bayar / QRIS 🧾"):
-            kode_acak = random.randint(1000000000, 9999999999)
-            st.session_state.topup_session = {
-                "metode": tipe_topup,
-                "nominal": nominal_topup,
-                "kode": kode_acak
-            }
-            
-        if st.session_state.topup_session:
-            ts = st.session_state.topup_session
-            st.markdown(f"""
-            <div class="gateway-box">
-                ⚠️ <b>INSTRUKSI PEMBAYARAN KASIR/BANK:</b><br>
-                Metode: Ditransfer ke <b>{ts['metode']}</b><br>
-                Kode Bayar/VA: <code style='color:#ef4444; font-size:14px;'>{ts['kode']}</code><br>
-                Total Harus Dibayar: <b>Rp {ts['nominal']:,}</b>
-            </div>
-            """, unsafe_allow_html=True)
-            
-            if "QRIS" in ts['metode']:
-                st.image(f"https://api.qrserver.com/v1/create-qr-code/?size=130x130&data=PAY-TOPUP-{ts['kode']}", caption="Pindai QRIS Menggunakan e-Wallet Lain (Dana/Gopay/Shopee)")
-            
-            if st.button("Konfirmasi Saya Sudah Bayar di Merchant/Bank ✅"):
-                st.session_state.pelanggan_db[user_sekarang]['saldo'] += ts['nominal']
-                st.success(f"Sukses! Pembayaran dari {ts['metode']} diverifikasi otomatis. Saldo bertambah Rp {ts['nominal']:,}")
-                st.session_state.topup_session = None
-                st.rerun()
-
-# --- NAVIGATION PANEL ---
-st.markdown("### 🎛️ PANEL KONTROL EKOSISTEM")
-col_nav = st.columns(3)
-with col_nav[0]: btn_tab_warga = st.button("🛒 [APLIKASI HP] Belanja Mandiri Warga", use_container_width=True)
-with col_nav[1]: btn_tab_kasir = st.button("🖥️ [SISTEM KASIR] Monitor POS Toko Agen", use_container_width=True)
-with col_nav[2]: btn_tab_owner = st.button("👑 [OWNER MASTER] Monitor Riwayat Nota", use_container_width=True)
-
-if 'menu_aktif' not in st.session_state: st.session_state.menu_aktif = "warga"
-if btn_tab_warga: st.session_state.menu_aktif = "warga"
-if btn_tab_kasir: st.session_state.menu_aktif = "kasir"
-if btn_tab_owner: st.session_state.menu_aktif = "owner"
-
-st.markdown(f"Posisi Layar Saat Ini: **{st.session_state.menu_aktif.upper()} MODE**")
 st.markdown("---")
 
 # ==============================================================================
-# MENU 1: APLIKASI HANDPHONE WARGA
+# TAB 1: APLIKASI BELANJA HP WARGA & FINTECH INTEGRATION
 # ==============================================================================
-if st.session_state.menu_aktif == "warga":
-    st.markdown("### 📱 Tampilan Smartphone Pembeli")
+if current_tab == "🛒 Belanja HP":
+    st.subheader(f"📱 Portal Handphone Pembeli: {st.session_state.active_user}")
     
-    pilih_akun = st.selectbox("Simulasi Login Pemilik HP:", list(st.session_state.pelanggan_db.keys()))
-    if pilih_akun != st.session_state.active_user:
-        st.session_state.active_user = pilih_akun
-        st.rerun()
+    # KARTU INFORMASI SALDO & POIN CUSTOMER
+    c_inf1, c_inf2, c_inf3 = st.columns(3)
+    with c_inf1:
+        st.metric(label="Saldo Desa-Pay Aktif", value=f"Rp {user_profile['saldo']:,}")
+    with c_inf2:
+        st.metric(label="Poin Loyalitas Member", value=f"{user_profile['poin']} POIN")
+    with c_inf3:
+        st.markdown(f"**Alamat Pengiriman:**\n`{user_profile['alamat']}`")
+
+    # EXPANDER TOP-UP REALISTIS VIA GERBANG FINTECH OUTSOURCING
+    with st.expander("🔋 ISI SALDO EMULATION (QRIS BANK / GOPAY / INDOMARET)"):
+        st.markdown("### 🏦 Sistem Multi-Channel Gateway Payment")
+        opsi_channel = st.selectbox("Pilih Channel Pembayaran Luar:", ["Gopay Official E-Wallet", "Scan QRIS Interbank Dinamis", "Indomaret Pembayaran Tunai", "Bank Mandiri Virtual Account"])
+        nominal_isi = st.number_input("Input Nominal Pengisian Saldo (Rp):", min_value=10000, step=5000, value=50000)
+        biaya_admin = 1500 if "QRIS" in opsi_channel or "Gopay" in opsi_channel else 2500
+        st.markdown(f"🏷️ *Biaya Admin Settlement Bank: Rp {biaya_admin:,}*")
         
-    st.caption(f"Alamat Pengantaran Sistem: **{data_user['alamat']}**")
-    
-    # Grid Barang Sembako
-    kat = st.session_state.produk
-    cols = st.columns(3)
-    for idx, p in enumerate(kat):
-        with cols[idx % 3]:
+        if st.button("Dapatkan Invoice & Kode QR Resmi 🧾"):
+            st.session_state.current_invoice = {
+                "trx_id": f"TOPUP-{random.randint(100000,999999)}",
+                "nominal": nominal_isi,
+                "admin": biaya_admin,
+                "total": nominal_isi + biaya_admin,
+                "channel": opsi_channel
+            }
+            
+        if 'current_invoice' in st.session_state:
+            inv = st.session_state.current_invoice
+            st.warning(f"**Silakan Lakukan Pembayaran Luar:**\n\n* **ID Transaksi:** `{inv['trx_id']}`\n* **Total Tagihan Pembayaran:** **Rp {inv['total']:,}** (Sudah Termasuk Admin)\n* **Tujuan Rekening Bisnis:** `PT. PETANI DESA BERKAH GROUP (OWNER ACCT)`")
+            
+            if "QRIS" in inv['channel'] or "Gopay" in inv['channel']:
+                st.image(f"https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=PROD-FINTECH-OWNER-ACC-{inv['trx_id']}", caption="Pindai QRIS Interbank untuk Settlement Finansial")
+            else:
+                st.info(f"🔑 **Nomor Virtual Account Pembayaran:** `9044-2805-2200-{random.randint(10,99)}`")
+                
+            if st.button("SAYA SUDAH SELESAI BAYAR DI APK BANK/OUTLET ✅"):
+                # Uang murni masuk ke saldo user
+                st.session_state.db_member[st.session_state.active_user]['saldo'] += inv['nominal']
+                # Dana real-time terekam masuk ke akun mutasi bank milik Owner
+                st.session_state.db_mutasi_bank_owner.append({
+                    "waktu": datetime.datetime.now().strftime("%Y-%m-%d %H:%M"),
+                    "keterangan": f"Topup E-Wallet Warga: {st.session_state.active_user} via {inv['channel']}",
+                    "tipe": "CR (Kredit Masuk)",
+                    "jumlah_bersih": inv['nominal'],
+                    "pendapatan_admin": inv['admin']
+                })
+                st.success("Verifikasi webhook finansial sukses! Saldo Anda resmi bertambah.")
+                del st.session_state.current_invoice
+                st.rerun()
+
+    st.markdown("#### 🛒 Katalog Belanja Sembako Digital")
+    c_p1, c_p2, c_p3 = st.columns(3)
+    for idx, prod in enumerate(st.session_state.db_produk):
+        with [c_p1, c_p2, c_p3][idx % 3]:
             st.markdown(f"""
-            <div class="product-card-v30">
-                <span class="promo-ribbon">{p['tag']}</span>
-                <img src="{p['foto']}" style="width:100%; height:120px; object-fit:cover; border-radius:8px;">
-                <div style="font-weight:700; font-size:14px; margin-top:10px;">{p['nama']}</div>
-                <div style="color:#64748b; font-size:12px;">Sisa Stok: {p['stok']} Pcs</div>
-                <div style="color:#f97316; font-weight:800; font-size:18px;">Rp {p['harga']:,}</div>
+            <div class="card-metric">
+                <span style="background:#EF4444; color:white; padding:2px 6px; font-size:11px; border-radius:4px;">{prod['tag']}</span>
+                <h5><b>{prod['nama']}</b></h5>
+                <p style="margin:0; font-size:12px; color:#64748B;">Stok Cabang: <b>{prod['stok']}</b></p>
+                <h4 style="color:#EA580C; font-weight:800; margin-top:5px;">Rp {prod['harga']:,}</h4>
             </div>
             """, unsafe_allow_html=True)
-            if st.button(f"Tambah Ke Keranjang 🛒", key=f"add_wg_{p['id']}"):
-                if p['stok'] > 0:
-                    st.session_state.keranjang_warga.append({"id": p['id'], "nama": p['nama'], "harga": p['harga'], "qty": 1})
-                    st.toast(f"{p['nama']} masuk daftar belanja HP.")
+            if st.button(f"Masukan Struk Belanja", key=f"add_cart_{prod['id']}"):
+                if prod['stok'] > 0:
+                    st.session_state.cart_warga.append(prod)
+                    st.toast(f"{prod['nama']} ditambahkan.")
                 else:
-                    st.error("Stok habis!")
+                    st.error("Stok Cabang Habis!")
 
-    # REVIEW CHECKOUT DARI HP WARGA
-    if st.session_state.keranjang_warga:
-        st.markdown("#### 🧺 Daftar Keranjang Belanja HP")
-        df_wg = pd.DataFrame(st.session_state.keranjang_warga)
-        st.dataframe(df_wg[["nama", "harga", "qty"]], use_container_width=True, hide_index=True)
+    # CHECKOUT ENGINE
+    if st.session_state.cart_warga:
+        st.markdown("### 🧺 Form Konfirmasi Checkout Belanja")
+        df_cart = pd.DataFrame(st.session_state.cart_warga)
+        st.dataframe(df_cart[["nama", "harga"]], use_container_width=True)
         
-        subtotal_barang = sum(x['harga'] * x['qty'] for x in st.session_state.keranjang_warga)
+        subtotal_item = sum(x['harga'] for x in st.session_state.cart_warga)
+        ongkir_delivery = 5000
+        total_pembayaran = subtotal_item + ongkir_delivery
         
-        c_chx1, c_chx2 = st.columns(2)
-        with c_chx1:
-            pil_ekspedisi = st.selectbox("Pilih Kurir Pengiriman Paket:", list(ekspedisi_tarif.keys()))
-            ongkos = ekspedisi_tarif[pil_ekspedisi]
-        with c_chx2:
-            metode_beli = st.selectbox("Metode Pembayaran Nota:", ["Desa-Pay E-Wallet", "Bayar di Tempat (COD/Tunai Kasir)"])
-            
-        total_akhir = subtotal_barang + ongkos
-        st.markdown(f"**Total Belanja:** Rp {subtotal_barang:,} + **Ongkir:** Rp {ongkos:,} = **Total Tagihan: Rp {total_akhir:,}**")
+        st.markdown(f"**Rincian Transaksi:** Barang Rp {subtotal_item:,} + Ongkir Logistik Desa Rp {ongkir_delivery:,} = **Total Wajib Bayar Rp {total_pembayaran:,}**")
+        metode_checkout = st.selectbox("Pilih Opsi Metode Pengurangan Finansial:", ["Potong Saldo Desa-Pay Digital", "Bayar Tunai COD di Rumah"])
         
-        if st.button("KIRIM PESANAN KE SISTEM TOKO 🚀"):
-            if metode_beli == "Desa-Pay E-Wallet" and data_user['saldo'] < total_akhir:
-                st.error("Gagal! Saldo Desa-Pay Anda tidak cukup. Lakukan topup di panel atas dahulu lewat VA/Indomaret.")
+        if st.button("SUBMIT ORDER KE KASIR CABANG 🚀"):
+            if metode_checkout == "Potong Saldo Desa-Pay Digital" and user_profile['saldo'] < total_pembayaran:
+                st.error("Gagal! Saldo Anda Rp 0 atau Kurang. Silakan Top Up Terlebih Dahulu Melalui Menu di Atas.")
             else:
-                if metode_beli == "Desa-Pay E-Wallet":
-                    st.session_state.pelanggan_db[user_sekarang]['saldo'] -= total_akhir
-                    status_bayar = "Lunas (Desa-Pay)"
-                else:
-                    status_bayar = "Belum Bayar (COD)"
+                if metode_checkout == "Potong Saldo Desa-Pay Digital":
+                    st.session_state.db_member[st.session_state.active_user]['saldo'] -= total_pembayaran
                 
-                id_nota = f"NOT-OMNI-{random.randint(1000,9990)}"
+                # Hitung akumulasi poin loyalitas (tiap Rp 10.000 dapat 1 Poin)
+                poin_baru = int(subtotal_item / 10000)
+                st.session_state.db_member[st.session_state.active_user]['poin'] += poin_baru
                 
-                # Masukkan ke basis data order pusat agar kasir bisa memprosesnya
-                st.session_state.orders_database.append({
-                    "nota": id_nota, "pembeli": user_sekarang, "tipe": "Order Lewat HP (Online)",
-                    "item": st.session_state.keranjang_warga.copy(), "total": total_akhir,
-                    "metode": metode_beli, "status": status_bayar, "kurir": pil_ekspedisi, "proses_kasir": "Antrean Masuk"
+                id_nota_baru = f"NOTA-OMNI-{random.randint(1000,9999)}"
+                
+                # Input ke Master Order Database Pusat agar disinkronisasikan ke Komputer Kasir
+                st.session_state.db_transaksi.append({
+                    "id_nota": id_nota_baru,
+                    "waktu": datetime.datetime.now().strftime("%Y-%m-%d %H:%M"),
+                    "pembeli": st.session_state.active_user,
+                    "cabang_asal": st.session_state.active_cabang,
+                    "daftar_barang": [x['nama'] for x in st.session_state.cart_warga],
+                    "total_dana": total_pembayaran,
+                    "metode_pembayaran": metode_checkout,
+                    "poin_didapat": poin_baru,
+                    "status_kasir": "Antrean Masuk (Belum Diproses Kasir)",
+                    "posisi_kurir": "Menunggu Konfirmasi Kasir Agen",
+                    "latitude_gps": -6.2000 + random.uniform(-0.01, 0.01),
+                    "longitude_gps": 106.8166 + random.uniform(-0.01, 0.01)
                 })
                 
-                # Potong stok gudang
-                for item in st.session_state.keranjang_warga:
-                    for prod in st.session_state.produk:
-                        if prod['id'] == item['id']:
-                            prod['stok'] = max(0, prod['stok'] - item['qty'])
+                # Potong Stok Gudang Cabang
+                for item in st.session_state.cart_warga:
+                    for p in st.session_state.db_produk:
+                        if p['id'] == item['id']:
+                            p['stok'] = max(0, p['stok'] - 1)
                             
-                st.session_state.keranjang_warga = []
-                st.success(f"Pesanan Terkirim! ID: {id_nota}. Nota otomatis tersinkronisasi ke komputer kasir.")
+                st.session_state.cart_warga = []
+                st.success(f"Sukses Terkirim! ID Nota: {id_nota_baru}. Status otomatis dikirimkan ke Monitor Kasir {st.session_state.active_cabang}.")
                 st.rerun()
 
 # ==============================================================================
-# MENU 2: MONITOR KOMPUTER KASIR TOKO (SINKRONISASI REALTIME)
+# TAB 2: MONITOR KOMPUTER KASIR DESKTOP TOKO AGEN
 # ==============================================================================
-elif st.session_state.menu_aktif == "kasir":
-    st.markdown("### 🖥️ POS Cashier Desktop Terminal (Layar Toko Fisik)")
+elif current_tab == "🖥️ POS Kasir Toko":
+    st.subheader(f"🖥️ POS Cashier Terminal Desktop Control — {st.session_state.active_cabang}")
     
-    st.markdown("#### 🔔 Antrean Pesanan Masuk dari HP Warga (Realtime Synchronized)")
-    antrean_hp = [o for o in st.session_state.orders_database if o['tipe'] == "Order Lewat HP (Online)" and o['proses_kasir'] == "Antrean Masuk"]
+    st.markdown("#### 🔔 Antrean Sinkronisasi Masuk Dari Handphone Warga (Realtime)")
+    antrean_cabang_ini = [x for x in st.session_state.db_transaksi if x['cabang_asal'] == st.session_state.active_cabang and x['status_kasir'] == "Antrean Masuk (Belum Diproses Kasir)"]
     
-    if not antrean_hp:
-        st.info("Kondisi Aman. Belum ada antrean masuk dari aplikasi HP warga.")
+    if not antrean_cabang_ini:
+        st.info("Kondisi Antrean Kosong. Tidak ada orderan online yang pending di cabang ini.")
     else:
-        for order in antrean_hp:
-            with st.expander(f"📦 NOTA: {order['nota']} - Pembeli: {order['pembeli']} ({order['kurir']})"):
-                st.write(f"Total Nilai Tagihan: **Rp {order['total']:,}** | Status Keuangan: `{order['status']}`")
-                st.write("Daftar Item Barang:")
-                st.dataframe(pd.DataFrame(order['item'])[["nama", "harga", "qty"]], use_container_width=True, hide_index=True)
-                
-                if st.button("Terima & Proses Struk Belanja Kasir 🖨️", key=f"acc_{order['nota']}"):
-                    order['proses_kasir'] = "Sudah Diproses Kasir & Siap Kirim"
-                    st.success(f"Nota {order['nota']} selesai diproses kasir fisik toko!")
+        for order in antrean_cabang_ini:
+            with st.expander(f"📦 NOTA: {order['id_nota']} — Pelanggan: {order['pembeli']} [Nilai: Rp {order['total_dana']:,}]"):
+                st.write(f"Items: `{', '.join(order['daftar_barang'])}`")
+                st.write(f"Metode Pembayaran Pilihan Pembeli: **{order['metode_pembayaran']}**")
+                if st.button("Terima Order & Cetak Nota Struk Kasir 🖨️", key=f"print_{order['id_nota']}"):
+                    order['status_kasir'] = "Lunas & Sedang Dipacking Gudang"
+                    order['posisi_kurir'] = "Barang Sedang Dipacking Tim Gudang Agen"
+                    st.success("Struk dicetak, order diteruskan ke departemen kurir pengiriman!")
                     st.rerun()
-                    
-    st.markdown("---")
-    st.markdown("#### 🛒 Pembelian Manual Langsung di Meja Kasir Offline")
-    c_off1, c_off2 = st.columns(2)
-    with c_off1:
-        p_kasir = st.selectbox("Pilih Barang Belanjaan:", [p["nama"] for p in st.session_state.produk])
-        q_kasir = st.number_input("Jumlah Beli:", min_value=1, value=1)
-        if st.button("Tambahkan ke Struk Fisik Kasir ➕"):
-            p_obj = next(x for x in st.session_state.produk if x['nama'] == p_kasir)
-            st.session_state.keranjang_kasir.append({"id": p_obj['id'], "nama": p_obj['nama'], "harga": p_obj['harga'], "qty": q_kasir})
-            st.rerun()
-            
-    with c_off2:
-        if st.session_state.keranjang_kasir:
-            st.markdown("**📄 Struk Belanja Offline Kasir Toko:**")
-            st.dataframe(pd.DataFrame(st.session_state.keranjang_kasir)[["nama", "harga", "qty"]], use_container_width=True, hide_index=True)
-            
-            total_struk_offline = sum(x['harga'] * x['qty'] for x in st.session_state.keranjang_kasir)
-            st.markdown(f"### Total Bayar: Rp {total_struk_offline:,}")
-            
-            metode_offline = st.radio("Metode Pembayaran Offline Kasir:", ["Uang Tunai (Cash)", "Scan QRIS Dinamis Bank"])
-            
-            if "QRIS" in metode_offline:
-                st.image(f"https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=QRIS-POS-DINAMIS-{total_struk_offline}", caption="QRIS Dinamis POS Kasir Toko")
-                
-            if st.button("CETAK NOTA THERMAL STRUK TOKO FISIK LUNAS 🧾"):
-                id_nota_off = f"NOT-POS-{random.randint(1000,9999)}"
-                st.session_state.orders_database.append({
-                    "nota": id_nota_off, "pembeli": "Pembeli Langsung Toko", "tipe": "POS Offline Kasir",
-                    "item": st.session_state.keranjang_kasir.copy(), "total": total_struk_offline,
-                    "metode": metode_offline, "status": "Lunas (Kasir Fisik)", "kurir": "Bawa Sendiri", "proses_kasir": "Selesai Sempurna"
-                })
-                # Potong stok
-                for item in st.session_state.keranjang_kasir:
-                    for prod in st.session_state.produk:
-                        if prod['id'] == item['id']:
-                            prod['stok'] = max(0, prod['stok'] - item['qty'])
-                            
-                st.session_state.keranjang_kasir = []
-                st.success(f"Struk {id_nota_off} dicetak lunas!")
-                st.rerun()
 
 # ==============================================================================
-# MENU 3: DIREKSI OWNER (PORTAL ARSIP DATA NOTA)
+# TAB 3: LOGISTIK EKSPEDISI & REALTIME GPS SIMULATOR
 # ==============================================================================
-elif st.session_state.menu_aktif == "owner":
-    st.markdown("### 👑 Portal Direksi Utama & Rekap Transaksi")
+elif current_tab == "🚚 Logistik Kurir":
+    st.subheader("🚚 Jalur Distribusi Logistik Kurir Ekspedisi")
     
-    if st.session_state.orders_database:
-        st.markdown("#### 📈 Semua Jurnal Arsip Transaksi Terintegrasi (Omnichannel)")
-        st.dataframe(pd.DataFrame(st.session_state.orders_database)[["nota", "pembeli", "tipe", "total", "metode", "status", "proses_kasir"]], use_container_width=True)
+    orders_logistik = [x for x in st.session_state.db_transaksi if "Antrean Masuk" not in x['status_kasir']]
+    if not orders_logistik:
+        st.info("Belum ada armada paket kurir yang berjalan hari ini.")
     else:
-        st.info("Belum ada data rekaman transaksi yang masuk ke dalam sistem database pusat.")
+        for trans in orders_logistik:
+            with st.expander(f"🚛 Pengiriman {trans['id_nota']} ➔ Tujuan: {trans['pembeli']}"):
+                st.write(f"Alamat Lengkap: **{st.session_state.db_member[trans['pembeli']]['alamat']}**")
+                st.write(f"Status Perjalanan Terakhir: :orange[{trans['posisi_kurir']}]")
+                st.write(f"Koordinat GPS Kurir Tracker: `{trans['latitude_gps']}, {trans['longitude_gps']}`")
+                
+                # Simulasi Update Logistik Perjalanan
+                opsi_manifest = st.selectbox("Perbarui Progress Posisi Manifest:", ["Barang Sedang Dipacking Tim Gudang Agen", "Kurir Mengambil Paket Menuju Jalan Raya", "Paket Macet di Jalan Desa Utama", "Kurir Sudah Sampai Depan Pagar Rumah Warga", "Paket Berhasil Diterima Sukses Lunas"], key=f"status_ship_{trans['id_nota']}")
+                if st.button("Simpan Manifest Perjalanan 🛠️", key=f"btn_ship_{trans['id_nota']}"):
+                    trans['posisi_kurir'] = opsi_manifest
+                    # Ubah titik GPS sedikit sebagai tanda bergerak nyata
+                    trans['latitude_gps'] += random.uniform(-0.005, 0.005)
+                    trans['longitude_gps'] += random.uniform(-0.005, 0.005)
+                    st.success("Manifest & GPS Paket Berhasil Diperbarui Realtime!")
+                    st.rerun()
+
+# ==============================================================================
+# TAB 4: PANEL CONTROL MASTER OWNER (SUPER LENGKAP)
+# ==============================================================================
+elif current_tab == "👑 Panel Control Owner":
+    st.markdown("<h2 class='owner-title'>👑 EXECUTIVE DASHBOARD OWNER UTAMA</h2>", unsafe_allow_html=True)
+    
+    # 1. KARTU ANALISIS KEUANGAN GLOBAL BISNIS
+    st.markdown("#### 📊 Ringkasan Finansial Realtime & Keuntungan Bank")
+    total_omset_pos = sum(x['total_dana'] for x in st.session_state.db_transaksi)
+    total_deposit_masuk = sum(x['jumlah_bersih'] for x in st.session_state.db_mutasi_bank_owner)
+    total_cuan_admin = sum(x['pendapatan_admin'] for x in st.session_state.db_mutasi_bank_owner)
+    
+    c_m1, c_m2, c_m3 = st.columns(3)
+    with c_m1:
+        st.metric(label="Total Omset Penjualan POS", value=f"Rp {total_omset_pos:,}")
+    with c_m2:
+        st.metric(label="Total Dana Simpanan Deposit Warga", value=f"Rp {total_deposit_masuk:,}")
+    with c_m3:
+        st.metric(label="Keuntungan Bersih Biaya Admin Fintek", value=f"Rp {total_cuan_admin:,}")
+        
+    st.markdown("---")
+    
+    # 2. CRUD: PANEL MODIFIKASI / TAMBAH PRODUK BARU SECARA REALTIME
+    st.markdown("#### 🛠️ Manajemen Menu & Stok Gudang Pusat")
+    with st.expander("➕ Tambah / Modifikasi Produk Baru"):
+        c_add1, c_add2 = st.columns(2)
+        with c_add1:
+            new_id = f"PD-{random.randint(10,99)}"
+            new_nama = st.text_input("Nama Produk Sembako Baru:")
+            new_kat = st.selectbox("Kategori Menu:", ["Sembako", "Sayuran", "Lauk Pauk"])
+        with c_add2:
+            new_harga = st.number_input("Harga Jual Jual (Rp):", min_value=1000, step=500, value=20000)
+            new_stok = st.number_input("Jumlah Akumulasi Stok Gudang:", min_value=1, value=50)
+            
+        if st.button("Suntik Data Produk ke Seluruh Cabang 🚀"):
+            if new_nama:
+                st.session_state.db_produk.append({
+                    "id": new_id, "nama": new_nama, "kategori": new_kat, "harga": new_harga, "stok": new_stok, "tag": "Menu Baru"
+                })
+                st.success(f"Sukses Menambahkan {new_nama} ke Database Master!")
+                st.rerun()
+
+    st.markdown("**Tabel Inventaris Menu Master Saat Ini:**")
+    st.dataframe(pd.DataFrame(st.session_state.db_produk), use_container_width=True, hide_index=True)
+    
+    st.markdown("---")
+    
+    # 3. JURNAL RIWAYAT BELANJA CUSTOMER OMNICHANNEL
+    st.markdown("#### 📑 Jurnal Transaksi Riwayat Belanja Customer")
+    if st.session_state.db_transaksi:
+        st.dataframe(pd.DataFrame(st.session_state.db_transaksi)[["id_nota", "waktu", "pembeli", "cabang_asal", "total_dana", "metode_pembayaran", "poin_didapat", "posisi_kurir"]], use_container_width=True, hide_index=True)
+    else:
+        st.info("Belum ada riwayat transaksi konsumen yang tercatat.")
+
+    st.markdown("---")
+
+    # 4. MUTASI REKENING BANK OWNER MASUK REALTIME
+    st.markdown("#### 🏦 Rekaman Rekening Mutasi Finansial Owner (QRIS & VA Settlement)")
+    if st.session_state.db_mutasi_bank_owner:
+        st.dataframe(pd.DataFrame(st.session_state.db_mutasi_bank_owner), use_container_width=True, hide_index=True)
+    else:
+        st.info("Belum ada mutasi finansial bank masuk dari aktivitas isi saldo warga.")
