@@ -67,7 +67,7 @@ st.markdown(
     </marquee>
     </div>
     """,
-    unsafe_allowed_html=true
+    unsafe_allow_html=True
     
 )
 
