@@ -1,6 +1,6 @@
 # ==================================================
-# APLIKASI PETANI DESA BERKAH - TAMPILAN HP OPTIMAL
-# Versi Khusus Agar Tampil Sempurna di APK
+# APLIKASI PETANI DESA BERKAH - DENGAN GAMBAR PRODUK & AI
+# Tampilan Modern Seperti Shopee/Indomaret Klik
 # ==================================================
 
 import streamlit as st
@@ -9,7 +9,7 @@ from datetime import datetime
 import uuid
 
 # --------------------------
-# PENGATURAN WAJIB UNTUK HP
+# PENGATURAN AWAL
 # --------------------------
 st.set_page_config(
     page_title="Petani Desa Berkah",
@@ -20,68 +20,72 @@ st.set_page_config(
 )
 
 # --------------------------
-# CSS KHUSUS PERBAIKAN TAMPILAN
+# DESAIN TAMPILAN MODERN
 # --------------------------
 st.markdown("""
 <style>
-/* Hapus semua latar belakang & jarak tidak perlu */
-.stApp {background-color: #ffffff;}
-div.block-container {padding: 10px 15px !important; max-width: 100% !important;}
-.main {overflow-x: hidden !important;}
+.stApp {background: linear-gradient(180deg, #F8F9FA 0%, #FFFFFF 100%);}
+div.block-container {padding: 12px 16px !important; max-width: 550px !important;}
 
-/* Atur ukuran tulisan pas di HP */
-* {font-family: 'Segoe UI', sans-serif; font-size: 15px !important;}
-h1 {font-size: 20px !important; color: #1b5e20 !important;}
-h2 {font-size: 18px !important; color: #2e7d32 !important;}
-h3 {font-size: 16px !important;}
+* {font-family: 'Segoe UI', Roboto, sans-serif !important; color: #212121 !important; font-size: 15px !important;}
+h1, h2, h3 {color: #1B5E20 !important; font-weight: 700 !important;}
+h1 {font-size: 22px !important;}
+h2 {font-size: 19px !important;}
+h3 {font-size: 17px !important;}
 
-/* Hilangkan elemen mengganggu */
-footer, .stAppToolbar, .viewerBadge_container__1QSob, .stDecoration {display: none !important;}
-div[data-testid="stSidebar"] {display: none !important;}
+footer, .stAppToolbar, .viewerBadge_container__1QSob, .stDecoration, div[data-testid="stSidebar"] {display: none !important;}
 
-/* Tombol & Input nyaman ditekan */
-button, .stButton>button {min-height: 48px !important; border-radius: 8px !important; font-weight: 500 !important;}
-.stSelectbox>div, .stTextInput>div, .stNumberInput>div {min-height: 48px !important; border-radius: 8px !important;}
+.stRadio div[role="radiogroup"] {display: flex !important; gap: 8px !important;}
+.stRadio label div:first-child {
+    background: #FFFFFF !important; border: 1.5px solid #E0E0E0 !important; border-radius: 12px !important;
+    padding: 10px 14px !important; text-align: center !important; font-weight: 600 !important;
+}
+.stRadio label input:checked + div {background: #1B5E20 !important; border-color: #1B5E20 !important;}
+.stRadio label input:checked + div p {color: #FFFFFF !important;}
 
-/* Perbaiki tampilan tab & menu */
-.stTabs [data-baseweb="tab-list"] {gap: 8px;}
-.stTabs [data-baseweb="tab"] {padding: 8px 12px; border-radius: 8px;}
-.st-b7 {background-color: #f1f8e9 !important;}
+.stTabs [data-baseweb="tab-list"] {gap: 8px; background: #F1F8E9; border-radius: 12px; padding: 6px;}
+.stTabs [data-baseweb="tab"] {border-radius: 8px; padding: 8px 12px; font-weight: 500;}
+.stTabs [aria-selected="true"] {background: #1B5E20 !important; color: white !important;}
 
-/* Perbaiki tampilan tabel & kotak info */
-.stDataFrame {border-radius: 8px;}
-div.stMetric {background: #f8f9fa; padding: 12px; border-radius: 8px; margin: 5px 0;}
+.stSelectbox>div, .stTextInput>div, .stNumberInput>div, .stTextArea>div {
+    background: #FFFFFF !important; border: 1px solid #E0E0E0 !important; border-radius: 10px !important; padding: 10px !important;
+}
+
+.stButton>button {
+    background: #1B5E20 !important; color: #FFFFFF !important; border-radius: 10px !important; border: none !important;
+    font-weight: 600 !important; min-height: 48px !important; box-shadow: 0 2px 8px rgba(27, 94, 32, 0.25);
+}
+
+/* KARTU PRODUK DENGAN GAMBAR */
+.produk-card {
+    background: white; border-radius: 12px; padding: 12px; margin-bottom: 12px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+}
+.produk-gambar {border-radius: 8px; width: 100%; height: 120px; object-fit: cover;}
 </style>
 """, unsafe_allow_html=True)
 
 # --------------------------
-# INISIALISASI DATA
+# DATA PRODUK + LINK GAMBAR OTOMATIS
 # --------------------------
 def inisialisasi_data():
     if 'produk' not in st.session_state:
         st.session_state.produk = [
-            {"id": "SB001", "nama": "Beras Premium 5kg", "kategori": "Sembako", "harga": 75000, "stok": 45},
-            {"id": "SB002", "nama": "Beras Merah Organik 1kg", "kategori": "Sembako", "harga": 22000, "stok": 38},
-            {"id": "SB003", "nama": "Minyak Goreng Sawit 1 Liter", "kategori": "Sembako", "harga": 18000, "stok": 52},
-            {"id": "SB004", "nama": "Gula Pasir Putih 1kg", "kategori": "Sembako", "harga": 17500, "stok": 41},
-            {"id": "TP001", "nama": "Tepung Terigu Segitiga 1kg", "kategori": "Sembako", "harga": 13000, "stok": 36},
-            {"id": "TP002", "nama": "Tepung Tapioka 1kg", "kategori": "Sembako", "harga": 12500, "stok": 33},
-            {"id": "TP003", "nama": "Tepung Beras 500g", "kategori": "Sembako", "harga": 8000, "stok": 48},
-            {"id": "TL001", "nama": "Telur Ayam Ras 1kg", "kategori": "Sembako", "harga": 28000, "stok": 55},
-            {"id": "SY001", "nama": "Cabai Rawit Merah 250g", "kategori": "Sayuran", "harga": 15000, "stok": 32},
-            {"id": "SY002", "nama": "Cabai Merah Keriting 250g", "kategori": "Sayuran", "harga": 12000, "stok": 37},
-            {"id": "SY003", "nama": "Tomat Merah 1kg", "kategori": "Sayuran", "harga": 14000, "stok": 42},
-            {"id": "SY004", "nama": "Bawang Merah 500g", "kategori": "Sayuran", "harga": 20000, "stok": 34},
-            {"id": "SY005", "nama": "Bawang Putih 500g", "kategori": "Sayuran", "harga": 18000, "stok": 39},
-            {"id": "SY006", "nama": "Bayam Hijau Ikat", "kategori": "Sayuran", "harga": 3000, "stok": 60},
-            {"id": "SY007", "nama": "Kangkung Ikat", "kategori": "Sayuran", "harga": 2500, "stok": 65},
-            {"id": "SY008", "nama": "Sawi Hijau Ikat", "kategori": "Sayuran", "harga": 4000, "stok": 58},
-            {"id": "SY009", "nama": "Kubis 1kg", "kategori": "Sayuran", "harga": 9000, "stok": 44},
-            {"id": "SY010", "nama": "Wortel 1kg", "kategori": "Sayuran", "harga": 13500, "stok": 40},
-            {"id": "SY011", "nama": "Kentang Dieng 1kg", "kategori": "Sayuran", "harga": 17000, "stok": 35},
-            {"id": "SY012", "nama": "Daun Bawang Ikat", "kategori": "Sayuran", "harga": 3500, "stok": 50},
-            {"id": "LK001", "nama": "Daging Ayam Potong 1kg", "kategori": "Lauk Pauk", "harga": 36000, "stok": 31},
-            {"id": "LK002", "nama": "Daging Sapi Segar 500g", "kategori": "Lauk Pauk", "harga": 65000, "stok": 28}
+            {"id": "SB001", "nama": "Beras Premium 5kg", "kategori": "Sembako", "harga": 75000, "stok": 45, "gambar": "https://images.unsplash.com/photo-1586201375761-83865001e31c?w=400&h=300&fit=crop"},
+            {"id": "SB002", "nama": "Beras Merah Organik 1kg", "kategori": "Sembako", "harga": 22000, "stok": 38, "gambar": "https://images.unsplash.com/photo-1608686207856-001b95cf60ca?w=400&h=300&fit=crop"},
+            {"id": "SB003", "nama": "Minyak Goreng Sawit 1 Liter", "kategori": "Sembako", "harga": 18000, "stok": 52, "gambar": "https://images.unsplash.com/photo-1474979266404-7eaacbcd87c5?w=400&h=300&fit=crop"},
+            {"id": "SB004", "nama": "Gula Pasir Putih 1kg", "kategori": "Sembako", "harga": 17500, "stok": 41, "gambar": "https://images.unsplash.com/photo-1581954548122-fd4e3a4180ec?w=400&h=300&fit=crop"},
+            {"id": "TP001", "nama": "Tepung Terigu Segitiga 1kg", "kategori": "Sembako", "harga": 13000, "stok": 36, "gambar": "https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?w=400&h=300&fit=crop"},
+            {"id": "TL001", "nama": "Telur Ayam Ras 1kg", "kategori": "Sembako", "harga": 28000, "stok": 55, "gambar": "https://images.unsplash.com/photo-1582722872445-44dc5f7e3c8f?w=400&h=300&fit=crop"},
+            {"id": "SY001", "nama": "Cabai Rawit Merah 250g", "kategori": "Sayuran", "harga": 15000, "stok": 32, "gambar": "https://images.unsplash.com/photo-1567696911980-2db289c27b3b?w=400&h=300&fit=crop"},
+            {"id": "SY002", "nama": "Cabai Merah Keriting 250g", "kategori": "Sayuran", "harga": 12000, "stok": 37, "gambar": "https://images.unsplash.com/photo-1563565375-f3fdfdbefa83?w=400&h=300&fit=crop"},
+            {"id": "SY003", "nama": "Tomat Merah 1kg", "kategori": "Sayuran", "harga": 14000, "stok": 42, "gambar": "https://images.unsplash.com/photo-1546470427-227c7b8a2b5d?w=400&h=300&fit=crop"},
+            {"id": "SY004", "nama": "Bawang Merah 500g", "kategori": "Sayuran", "harga": 20000, "stok": 34, "gambar": "https://images.unsplash.com/photo-1618164436241-4473940d1f5c?w=400&h=300&fit=crop"},
+            {"id": "SY005", "nama": "Bawang Putih 500g", "kategori": "Sayuran", "harga": 18000, "stok": 39, "gambar": "https://images.unsplash.com/photo-1591789482491-986e143a0f96?w=400&h=300&fit=crop"},
+            {"id": "SY006", "nama": "Bayam Hijau Ikat", "kategori": "Sayuran", "harga": 3000, "stok": 60, "gambar": "https://images.unsplash.com/photo-1576045057995-568f588f82fb?w=400&h=300&fit=crop"},
+            {"id": "SY007", "nama": "Kangkung Ikat", "kategori": "Sayuran", "harga": 2500, "stok": 65, "gambar": "https://images.unsplash.com/photo-1586202431591-6808e65a05a7?w=400&h=300&fit=crop"},
+            {"id": "LK001", "nama": "Daging Ayam Potong 1kg", "kategori": "Lauk Pauk", "harga": 36000, "stok": 31, "gambar": "https://images.unsplash.com/photo-1604503468506-a8da13d82791?w=400&h=300&fit=crop"},
+            {"id": "LK002", "nama": "Daging Sapi Segar 500g", "kategori": "Lauk Pauk", "harga": 65000, "stok": 28, "gambar": "https://images.unsplash.com/photo-1603048297517-4126ec79be60?w=400&h=300&fit=crop"}
         ]
     
     if 'cabang' not in st.session_state:
@@ -100,7 +104,7 @@ def inisialisasi_data():
 inisialisasi_data()
 
 # --------------------------
-# FUNGSI BANTUAN
+# FUNGSI BANTUAN & AI
 # --------------------------
 def hitung_subsidi(status_member, total_asli):
     if status_member == "Janda": diskon = 20
@@ -112,32 +116,32 @@ def hitung_subsidi(status_member, total_asli):
 def jawab_pertanyaan(pertanyaan):
     tanya = pertanyaan.lower()
     if "subsidi" in tanya or "diskon" in tanya:
-        return "✅ Rincian Subsidi:\n• Warga Umum: 0%\n• Janda: 20%\n• Anak Yatim: 35%"
+        return "✅ Rincian Subsidi:\n• Warga Umum: Harga Normal\n• Janda: Potongan 20%\n• Anak Yatim: Potongan 35%"
     elif "beli" in tanya or "pesan" in tanya:
-        return "🛒 Cara Belanja:\n1. Pilih Cabang\n2. Pilih Status\n3. Masukkan Barang\n4. Isi Data & Checkout"
+        return "🛒 Cara Belanja:\n1. Pilih Cabang Toko\n2. Pilih Status Keanggotaan\n3. Masukkan Barang ke Keranjang\n4. Isi Data Penerima & Klik Checkout"
     elif "cabang" in tanya or "lokasi" in tanya:
-        return "🏠 Cabang Tersedia:\n• Desa Utara\n• Desa Selatan\n• Desa Barat"
+        return "🏠 Cabang Kami:\n• Desa Utara\n• Desa Selatan\n• Desa Barat"
+    elif "gambar" in tanya or "foto" in tanya:
+        return "📸 Semua produk sudah dilengkapi gambar asli agar mudah dikenali!"
     else:
-        return "🤖 Silakan tanya soal belanja, subsidi, atau info toko ya!"
+        return "🤖 Asisten Siap Membantu! Silakan tanya soal belanja, subsidi, atau info toko."
 
 # --------------------------
-# BANNER UTAMA
+# HEADER APLIKASI
 # --------------------------
 st.markdown("""
-<div style="background:linear-gradient(90deg,#1b5e20,#43a047); color:white; padding:12px; border-radius:8px; text-align:center; font-weight:bold; margin-bottom:15px;">
-🌾 PETANI DESA BERKAH
+<div style="background: #1B5E20; color: white; padding: 16px; border-radius: 12px; text-align: center; margin-bottom: 15px;">
+    <div style="font-size: 20px; font-weight: 700; color: white;">🌾 PETANI DESA BERKAH</div>
+    <div style="font-size: 13px; color: #C8E6C9; margin-top: 4px;">Belanja Murah & Penuh Berkah</div>
 </div>
 """, unsafe_allow_html=True)
 
 # --------------------------
-# PILIH CABANG
+# PILIH CABANG & MENU UTAMA
 # --------------------------
 cabang_terpilih = st.selectbox("📍 Pilih Cabang Terdekat", st.session_state.cabang)
 st.divider()
 
-# --------------------------
-# MENU UTAMA (RAPI BERJEJER)
-# --------------------------
 menu_pilihan = st.radio(
     "",
     ["🛒 BELANJA", "💼 KASIR", "👑 PEMILIK", "🤖 BANTUAN"],
@@ -146,73 +150,91 @@ menu_pilihan = st.radio(
 )
 
 # ==================================================
-# HALAMAN BELANJA
+# HALAMAN BELANJA DENGAN GAMBAR PRODUK
 # ==================================================
 if menu_pilihan == "🛒 BELANJA":
-    st.subheader("🛒 Menu Belanja Warga")
+    st.subheader("🛒 Daftar Barang")
     
     status_member = st.radio("Status Keanggotaan", ["Warga Umum", "Janda", "Anak Yatim"], horizontal=True)
     info_subsidi = hitung_subsidi(status_member, 100)
-    st.info(f"💡 Subsidi yang didapat: {info_subsidi['persen']}%")
+    st.info(f"💡 Subsidi Didapat: {info_subsidi['persen']}%")
     st.divider()
 
     tab1, tab2, tab3 = st.tabs(["🥫 Sembako", "🥬 Sayuran", "🍗 Lauk Pauk"])
     
     with tab1:
         for p in [x for x in st.session_state.produk if x["kategori"]=="Sembako"]:
-            c1,c2,c3,c4 = st.columns([3,1,1,1])
-            c1.write(f"**{p['nama']}**")
-            c1.caption(f"Stok: {p['stok']}")
-            c2.write(f"Rp {p['harga']:,}")
-            jml = c3.number_input("", min_value=1, max_value=p['stok'], value=1, key=f"j{p['id']}", label_visibility="collapsed")
-            if c4.button("+", key=f"t{p['id']}"):
-                st.session_state.keranjang.append({"nama":p['nama'],"harga":p['harga'],"jumlah":jml,"subtotal":p['harga']*jml})
-                st.toast("✅ Ditambahkan ke keranjang")
+            with st.container():
+                st.markdown(f"""
+                <div class="produk-card">
+                    <img src="{p['gambar']}" class="produk-gambar" alt="{p['nama']}">
+                    <h4 style="margin:8px 0 4px 0;">{p['nama']}</h4>
+                    <p style="margin:0; color:#666; font-size:13px;">Stok: {p['stok']}</p>
+                    <p style="margin:4px 0; font-weight:bold; color:#1B5E20;">Rp {p['harga']:,}</p>
+                </div>
+                """, unsafe_allow_html=True)
+                c1,c2 = st.columns([1,1])
+                jml = c1.number_input("", 1, p['stok'], 1, key=f"a{p['id']}", label_visibility="collapsed")
+                if c2.button("+ Keranjang", key=f"b{p['id']}"):
+                    st.session_state.keranjang.append({"nama":p['nama'],"harga":p['harga'],"jumlah":jml,"subtotal":p['harga']*jml})
+                    st.toast("✅ Ditambahkan ke keranjang")
             st.divider()
 
     with tab2:
         for p in [x for x in st.session_state.produk if x["kategori"]=="Sayuran"]:
-            c1,c2,c3,c4 = st.columns([3,1,1,1])
-            c1.write(f"**{p['nama']}**")
-            c1.caption(f"Stok: {p['stok']}")
-            c2.write(f"Rp {p['harga']:,}")
-            jml = c3.number_input("", min_value=1, max_value=p['stok'], value=1, key=f"k{p['id']}", label_visibility="collapsed")
-            if c4.button("+", key=f"s{p['id']}"):
-                st.session_state.keranjang.append({"nama":p['nama'],"harga":p['harga'],"jumlah":jml,"subtotal":p['harga']*jml})
-                st.toast("✅ Ditambahkan ke keranjang")
+            with st.container():
+                st.markdown(f"""
+                <div class="produk-card">
+                    <img src="{p['gambar']}" class="produk-gambar" alt="{p['nama']}">
+                    <h4 style="margin:8px 0 4px 0;">{p['nama']}</h4>
+                    <p style="margin:0; color:#666; font-size:13px;">Stok: {p['stok']}</p>
+                    <p style="margin:4px 0; font-weight:bold; color:#1B5E20;">Rp {p['harga']:,}</p>
+                </div>
+                """, unsafe_allow_html=True)
+                c1,c2 = st.columns([1,1])
+                jml = c1.number_input("", 1, p['stok'], 1, key=f"c{p['id']}", label_visibility="collapsed")
+                if c2.button("+ Keranjang", key=f"d{p['id']}"):
+                    st.session_state.keranjang.append({"nama":p['nama'],"harga":p['harga'],"jumlah":jml,"subtotal":p['harga']*jml})
+                    st.toast("✅ Ditambahkan ke keranjang")
             st.divider()
 
     with tab3:
         for p in [x for x in st.session_state.produk if x["kategori"]=="Lauk Pauk"]:
-            c1,c2,c3,c4 = st.columns([3,1,1,1])
-            c1.write(f"**{p['nama']}**")
-            c1.caption(f"Stok: {p['stok']}")
-            c2.write(f"Rp {p['harga']:,}")
-            jml = c3.number_input("", min_value=1, max_value=p['stok'], value=1, key=f"l{p['id']}", label_visibility="collapsed")
-            if c4.button("+", key=f"u{p['id']}"):
-                st.session_state.keranjang.append({"nama":p['nama'],"harga":p['harga'],"jumlah":jml,"subtotal":p['harga']*jml})
-                st.toast("✅ Ditambahkan ke keranjang")
+            with st.container():
+                st.markdown(f"""
+                <div class="produk-card">
+                    <img src="{p['gambar']}" class="produk-gambar" alt="{p['nama']}">
+                    <h4 style="margin:8px 0 4px 0;">{p['nama']}</h4>
+                    <p style="margin:0; color:#666; font-size:13px;">Stok: {p['stok']}</p>
+                    <p style="margin:4px 0; font-weight:bold; color:#1B5E20;">Rp {p['harga']:,}</p>
+                </div>
+                """, unsafe_allow_html=True)
+                c1,c2 = st.columns([1,1])
+                jml = c1.number_input("", 1, p['stok'], 1, key=f"e{p['id']}", label_visibility="collapsed")
+                if c2.button("+ Keranjang", key=f"f{p['id']}"):
+                    st.session_state.keranjang.append({"nama":p['nama'],"harga":p['harga'],"jumlah":jml,"subtotal":p['harga']*jml})
+                    st.toast("✅ Ditambahkan ke keranjang")
             st.divider()
 
-    # KERANJANG BELANJA
+    # KERANJANG & CHECKOUT
     st.subheader("🛒 Keranjang Belanja")
     if not st.session_state.keranjang:
         st.info("Keranjang masih kosong, silakan pilih barang")
     else:
         st.dataframe(pd.DataFrame(st.session_state.keranjang), use_container_width=True, hide_index=True)
-        total_asli = sum(item['subtotal'] for item in st.session_state.keranjang)
-        hasil = hitung_subsidi(status_member, total_asli)
+        total_asli = sum(i['subtotal'] for i in st.session_state.keranjang)
+        res = hitung_subsidi(status_member, total_asli)
         
         ca, cb, cc = st.columns(3)
         ca.metric("Harga Normal", f"Rp {total_asli:,}")
-        cb.metric("Subsidi", f"Rp {hasil['nilai']:,}")
-        cc.metric("Total Bayar", f"Rp {hasil['akhir']:,}")
+        cb.metric("Subsidi", f"Rp {res['nilai']:,}")
+        cc.metric("Total Bayar", f"Rp {res['akhir']:,}")
         
         st.divider()
         st.subheader("📝 Data Penerima")
         nama = st.text_input("Nama Lengkap")
-        no_hp = st.text_input("Nomor HP/WA")
-        alamat = st.text_area("Alamat Lengkap")
+        no_hp = st.text_input("Nomor HP / WhatsApp")
+        alamat = st.text_area("Alamat Lengkap Pengiriman")
         
         if st.button("✅ CHECKOUT SEKARANG", type="primary", use_container_width=True):
             if not nama or not no_hp or not alamat:
@@ -223,10 +245,10 @@ if menu_pilihan == "🛒 BELANJA":
                     "id":id_pesanan, "waktu":datetime.now().strftime("%d-%m-%Y %H:%M"),
                     "cabang":cabang_terpilih, "nama":nama, "hp":no_hp, "alamat":alamat,
                     "status_member":status_member, "barang":st.session_state.keranjang.copy(),
-                    "total_asli":total_asli, "subsidi":hasil['nilai'], "bayar":hasil['akhir'],
+                    "total_asli":total_asli, "subsidi":res['nilai'], "bayar":res['akhir'],
                     "status_bayar":"Belum Lunas", "status_kirim":"Menunggu Verifikasi"
                 })
-                st.session_state.total_sedekah += hasil['nilai']
+                st.session_state.total_sedekah += res['nilai']
                 st.session_state.keranjang = []
                 st.success(f"🎉 Pesanan Berhasil! No: {id_pesanan}")
 
@@ -234,34 +256,31 @@ if menu_pilihan == "🛒 BELANJA":
 # HALAMAN KASIR
 # ==================================================
 elif menu_pilihan == "💼 KASIR":
-    st.subheader("💼 Panel Kerja Kasir")
-    st.info(f"Cabang: {cabang_terpilih}")
+    st.subheader("💼 Panel Kasir")
+    st.info(f"Cabang Aktif: {cabang_terpilih}")
     st.divider()
     
     if not st.session_state.pesanan:
-        st.info("Belum ada pesanan masuk saat ini")
+        st.info("📭 Belum ada pesanan masuk")
     else:
         for idx, p in enumerate(st.session_state.pesanan):
             with st.expander(f"📦 {p['id']} | {p['nama']}"):
                 st.write(f"👤 Status: {p['status_member']}")
-                st.write(f"💰 Total Bayar: Rp {p['bayar']:,}")
-                st.write(f"💸 Subsidi: Rp {p['subsidi']:,}")
-                st.write(f"💳 Bayar: {p['status_bayar']} | 🚚 Kirim: {p['status_kirim']}")
+                st.write(f"💰 Bayar: Rp {p['bayar']:,} | 💸 Subsidi: Rp {p['subsidi']:,}")
+                st.write(f"💳 Pembayaran: {p['status_bayar']} | 🚚 Pengiriman: {p['status_kirim']}")
                 
                 ubah_bayar = st.selectbox("Ubah Status Bayar", 
                     ["Belum Lunas", "Lunas", "Gagal"],
-                    ["Belum Lunas", "Lunas", "Gagal"].index(p['status_bayar']),
-                    key=f"b{idx}"
+                    ["Belum Lunas", "Lunas", "Gagal"].index(p['status_bayar']), key=f"by{idx}"
                 )
                 ubah_kirim = st.selectbox("Ubah Status Kirim", 
                     ["Menunggu Verifikasi", "Sedang Dikemas", "Sedang Dikirim", "Selesai"],
-                    ["Menunggu Verifikasi", "Sedang Dikemas", "Sedang Dikirim", "Selesai"].index(p['status_kirim']),
-                    key=f"k{idx}"
+                    ["Menunggu Verifikasi", "Sedang Dikemas", "Sedang Dikirim", "Selesai"].index(p['status_kirim']), key=f"kr{idx}"
                 )
-                if st.button("✅ Simpan Perubahan", key=f"s{idx}"):
+                if st.button("✅ Simpan", key=f"sp{idx}"):
                     st.session_state.pesanan[idx]['status_bayar'] = ubah_bayar
                     st.session_state.pesanan[idx]['status_kirim'] = ubah_kirim
-                    st.success("Status pesanan diperbarui!")
+                    st.success("Tersimpan!")
                     st.experimental_rerun()
             st.divider()
 
@@ -269,45 +288,45 @@ elif menu_pilihan == "💼 KASIR":
 # HALAMAN PEMILIK
 # ==================================================
 elif menu_pilihan == "👑 PEMILIK":
-    st.subheader("👑 Menu Khusus Pemilik")
+    st.subheader("👑 Menu Pemilik")
     st.divider()
     
     if not st.session_state.login_bos:
-        st.warning("🔐 Masukkan kata sandi untuk melanjutkan")
-        sandi = st.text_input("Kata Sandi", type="password", placeholder="Masukkan sandi disini...")
-        if st.button("🔓 Masuk Menu Pemilik", type="primary", use_container_width=True):
+        st.warning("🔐 Masukkan Kata Sandi Pemilik")
+        sandi = st.text_input("Kata Sandi", type="password", placeholder="Masukkan sandi...")
+        if st.button("🔓 Masuk Menu", type="primary", use_container_width=True):
             if sandi == "bos_petanidesa":
                 st.session_state.login_bos = True
                 st.experimental_rerun()
             else:
-                st.error("❌ Kata sandi salah!")
+                st.error("❌ Sandi Salah!")
     else:
         st.success("✅ Selamat Datang Pemilik")
         st.divider()
         
-        st.subheader("📊 Laporan Real-Time")
+        st.subheader("📊 Laporan")
         c1, c2 = st.columns(2)
         c1.metric("Total Pesanan", len(st.session_state.pesanan))
-        c2.metric("💸 Total Sedekah", f"Rp {st.session_state.total_sedekah:,}")
+        c2.metric("Total Subsidi", f"Rp {st.session_state.total_sedekah:,}")
         
         st.divider()
-        st.subheader("⚙️ Ubah Harga & Stok")
-        daftar_barang = [p['nama'] for p in st.session_state.produk]
-        pilih_barang = st.selectbox("Pilih Barang", daftar_barang)
-        data = next(p for p in st.session_state.produk if p['nama'] == pilih_barang)
+        st.subheader("⚙️ Kelola Barang")
+        daftar = [p['nama'] for p in st.session_state.produk]
+        pilih = st.selectbox("Pilih Barang", daftar)
+        data = next(p for p in st.session_state.produk if p['nama'] == pilih)
         
-        st.info(f"Saat Ini: Harga Rp {data['harga']:,} | Stok {data['stok']}")
-        harga_baru = st.number_input("Harga Baru", min_value=0, value=data['harga'])
-        stok_baru = st.number_input("Stok Baru", min_value=0, value=data['stok'])
+        st.info(f"Sekarang: Rp {data['harga']:,} | Stok: {data['stok']}")
+        harga_baru = st.number_input("Harga Baru", value=data['harga'])
+        stok_baru = st.number_input("Stok Baru", value=data['stok'])
         
-        if st.button("✅ Simpan Perubahan Barang", type="primary", use_container_width=True):
-            idx = next(i for i,p in enumerate(st.session_state.produk) if p['nama'] == pilih_barang)
+        if st.button("✅ Simpan Perubahan", type="primary", use_container_width=True):
+            idx = next(i for i,p in enumerate(st.session_state.produk) if p['nama'] == pilih)
             st.session_state.produk[idx]['harga'] = harga_baru
             st.session_state.produk[idx]['stok'] = stok_baru
-            st.success("✅ Data barang berhasil diperbarui!")
+            st.success("✅ Data Tersimpan!")
         
         st.divider()
-        if st.button("🔒 Keluar dari Akun"):
+        if st.button("🔒 Keluar Akun"):
             st.session_state.login_bos = False
             st.experimental_rerun()
 
@@ -315,10 +334,7 @@ elif menu_pilihan == "👑 PEMILIK":
 # HALAMAN BANTUAN AI
 # ==================================================
 elif menu_pilihan == "🤖 BANTUAN":
-    st.subheader("🤖 Asisten Bantuan")
-    st.info("Tanyakan apa saja tentang cara pakai aplikasi, belanja, dan subsidi")
-    st.divider()
-    
+    st.subheader("🤖 Tanya Asisten")
     pertanyaan = st.chat_input("Tulis pertanyaan anda...")
     if pertanyaan:
         st.session_state.riwayat_chat.append(("Anda", pertanyaan))
@@ -335,4 +351,4 @@ elif menu_pilihan == "🤖 BANTUAN":
 # KAKI APLIKASI
 # --------------------------
 st.markdown("---")
-st.caption("🌾 Petani Desa Berkah | Versi 1.0")
+st.caption("© 2026 Petani Desa Berkah | Versi 1.0")
