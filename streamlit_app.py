@@ -1,11 +1,11 @@
 # ==============================================================================
-# 🌾 PETANI DESA BERKAH - VERSI SESUAI PERMINTAAN PENUH
+# 🌾 PETANI DESA BERKAH - VERSI TANPA EROR & DATA AMAN
 # ✅ CHAT SEPERTI WHATSAPP + KIRIM FOTO & TELEPON
 # ✅ AI PENJAWAB KELUHAN CERDAS
 # ✅ NOTIFIKASI & IKLAN SEPERTI MARKETPLACE
 # ✅ DAFTAR PAKAI NIK KTP & KONDISI MEMBER
 # ✅ UPLOAD FOTO LANGSUNG DARI GALERI
-# ✅ SEMUA FITUR LAMA TETAP UTUH & TIDAK ADA EROR
+# ✅ DATA OTOMATIS TERSIMPAN, TIDAK HILANG SAAT UPDATE
 # ==============================================================================
 
 import streamlit as st
@@ -14,6 +14,7 @@ import datetime
 import random
 import json
 import os
+import base64
 from io import BytesIO
 from PIL import Image
 
@@ -94,7 +95,7 @@ h2 { font-size: 18px !important; font-weight: 600 !important; margin: 8px 0; }
     position: relative;
 }
 .waktu-chat { font-size: 11px !important; color: #666 !important; text-align: right; margin-top: 4px; }
-.tombol-telepon { background: #25D366 !important; color: white !important; border-radius: 50%; padding: 8px 12px; font-size: 18px !important; }
+.tombol-telepon { background: #25D366 !important; color: white !important; border-radius: 50%; padding: 8px 12px; font-size: 18px !important; text-decoration: none !important; }
 .foto-chat { max-width: 200px; border-radius: 6px; margin: 5px 0; }
 </style>
 """, unsafe_allow_html=True)
@@ -518,7 +519,7 @@ if user.get('tipe') is None:
                 "pesan": kirim_teks if kirim_teks else "[Mengirim Foto]"
             }
             if kirim_foto:
-                data_chat['foto'] = f"data:image/{kirim_foto.type.split('/')[-1]};base64,{kirim_foto.read().hex()}"
+                data_chat['foto'] = f"data:image/{kirim_foto.type.split('/')[-1]};base64,{base64.b64encode(kirim_foto.read()).decode()}"
             st.session_state.db_chat.append(data_chat)
             simpan_data()
             st.success("✅ Pesan Terkirim!")
@@ -707,7 +708,7 @@ TERIMA KASIH
                     "pesan": balas_teks if balas_teks else "[Mengirim Foto]"
                 }
                 if balas_foto:
-                    data_balas['foto'] = f"data:image/{balas_foto.type.split('/')[-1]};base64,{balas_foto.read().hex()}"
+                    data_balas['foto'] = f"data:image/{balas_foto.type.split('/')[-1]};base64,{base64.b64encode(balas_foto.read()).decode()}"
                 st.session_state.db_chat.append(data_balas)
                 simpan_data()
                 st.success("✅ Terkirim!")
@@ -775,7 +776,7 @@ elif user['tipe'] == 'pemilik':
             if st.button("Simpan Barang") and nb_nama:
                 foto_simpan = ""
                 if nb_foto_file:
-                    foto_simpan = f"data:image/{nb_foto_file.type.split('/')[-1]};base64,{nb_foto_file.read().hex()}"
+                    foto_simpan = f"data:image/{nb_foto_file.type.split('/')[-1]};base64,{base64.b64encode(nb_foto_file.read()).decode()}"
                 
                 st.session_state.db_produk.append({
                     "id": f"PD-{random.randint(10,99)}", "nama": nb_nama, 
@@ -801,7 +802,7 @@ elif user['tipe'] == 'pemilik':
                 brg_ubah['stok'] = ubah_stok
                 brg_ubah['subsidi'] = ubah_sub
                 if ubah_foto_baru:
-                    brg_ubah['foto'] = f"data:image/{ubah_foto_baru.type.split('/')[-1]};base64,{ubah_foto_baru.read().hex()}"
+                    brg_ubah['foto'] = f"data:image/{ubah_foto_baru.type.split('/')[-1]};base64,{base64.b64encode(ubah_foto_baru.read()).decode()}"
                 simpan_data()
                 st.success("✅ Diperbarui")
                 st.rerun()
@@ -812,4 +813,6 @@ elif user['tipe'] == 'pemilik':
             st.subheader("Kelola Voucher Diskon")
             st.dataframe(pd.DataFrame(st.session_state.db_voucher), use_container_width=True)
             kode = st.text_input("Kode Voucher")
-            potong = st.number_input("Potongan Harga
+            potong = st.number_input("Potongan Harga", min_value=1000, value=10000)
+            syarat = st.text_input("Syarat", value="Min. Belanja Rp 50.000")
+            aktif = st.checkbox("Voucher Aktif", value=True)
