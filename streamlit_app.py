@@ -17,28 +17,21 @@ st.set_page_config(page_title="Petani Desa Berkah AI", page_icon="🌾", layout=
 if "stok_toko" not in st.session_state:
     st.session_state.stok_toko = {
         "Cabang Desa Utara": {
-            # === SEMBAKO UTAMA & TEPUNG ===
             "Beras Premium 5kg": {"harga": 75000, "stok": 40, "kategori": "Sembako Utama & Tepung", "foto": "https://unsplash.com"},
             "Beras Merah 1kg": {"harga": 22000, "stok": 20, "kategori": "Sembako Utama & Tepung", "foto": "https://unsplash.com"},
             "Minyak Goreng Pouch 1L": {"harga": 18000, "stok": 60, "kategori": "Sembako Utama & Tepung", "foto": "https://unsplash.com"},
             "Gula Pasir Putih 1kg": {"harga": 17500, "stok": 50, "kategori": "Sembako Utama & Tepung", "foto": "https://unsplash.com"},
             "Telur Ayam Ras 1kg": {"harga": 28000, "stok": 100, "kategori": "Sembako Utama & Tepung", "foto": "https://unsplash.com"},
             "Tepung Terigu 1kg": {"harga": 13000, "stok": 45, "kategori": "Sembako Utama & Tepung", "foto": "https://unsplash.com"},
-            
-            # === BUMBU DAPUR ===
             "Garam Dapur Pax": {"harga": 3000, "stok": 80, "kategori": "Bumbu & Penyedap", "foto": "https://unsplash.com"},
             "Micin Penyedap 250g": {"harga": 7000, "stok": 40, "kategori": "Bumbu & Penyedap", "foto": "https://unsplash.com"},
             "Kecap Manis Botol": {"harga": 11000, "stok": 35, "kategori": "Bumbu & Penyedap", "foto": "https://unsplash.com"},
-            
-            # === SAYURAN SEGAR & BUAH ===
             "Cabai Rawit Merah 250g": {"harga": 15000, "stok": 25, "kategori": "Sayuran Segar & Buah", "foto": "https://unsplash.com"},
             "Tomat Merah Segar 1kg": {"harga": 14000, "stok": 30, "kategori": "Sayuran Segar & Buah", "foto": "https://unsplash.com"},
             "Bawang Merah Lokal 500g": {"harga": 20000, "stok": 40, "kategori": "Sayuran Segar & Buah", "foto": "https://unsplash.com"},
             "Bawang Putih 500g": {"harga": 18000, "stok": 40, "kategori": "Sayuran Segar & Buah", "foto": "https://unsplash.com"},
             "Wortel Lokal 1kg": {"harga": 13500, "stok": 35, "kategori": "Sayuran Segar & Buah", "foto": "https://unsplash.com"},
             "Kentang Dieng 1kg": {"harga": 17000, "stok": 40, "kategori": "Sayuran Segar & Buah", "foto": "https://unsplash.com"},
-            
-            # === LAUK PAUK ===
             "Daging Ayam Potong 1kg": {"harga": 36000, "stok": 20, "kategori": "Lauk Pauk", "foto": "https://unsplash.com"},
             "Daging Sapi Segar 500g": {"harga": 65000, "stok": 15, "kategori": "Lauk Pauk", "foto": "https://unsplash.com"},
             "Tempe Papan Besar": {"harga": 5000, "stok": 40, "kategori": "Lauk Pauk", "foto": "https://unsplash.com"}
@@ -107,7 +100,6 @@ if peran == "Pembeli (Warga Desa)":
 
         st.markdown("---")
         
-        # TOMBOL FILTER HORISONTAL KATEGORI
         kategori_tombol = st.radio("📂 PILIH KATEGORI BELANJAAN:", ["🍞 Sembako & Tepung", "🧂 Bumbu & Penyedap", "🥦 Sayuran Segar & Buah", "🍗 Lauk Pauk"], horizontal=True)
         if "Sembako" in kategori_tombol:
             kat_pilihan = "Sembako Utama & Tepung"
@@ -122,10 +114,9 @@ if peran == "Pembeli (Warga Desa)":
         
         st.markdown("### 🛍️ Katalog Produk Toko Desa")
         
-        # SISTEM DETEKSI BARIS KOTAK SEPERTI SHOPEE (GRID 3 KOLOM)
         items = list(daftar_barang.items())
         for i in range(0, len(items), 3):
-            cols = st.columns(3) # Buat susunan berjajar ke samping sebanyak 3 kotak
+            cols = st.columns(3)
             for j in range(3):
                 if i + j < len(items):
                     b_nama, b_data = items[i+j]
@@ -133,11 +124,9 @@ if peran == "Pembeli (Warga Desa)":
                     stok_ada = b_data["stok"]
                     foto_url = b_data["foto"]
                     
-                    # Potongan harga subsidi
                     harga_diskon = harga_asli - (harga_asli * diskon_persen)
                     
                     with cols[j]:
-                        # Tampilkan visual kotak produk (Card) beserta gambarnya
                         st.markdown(f"""
                         <div style='border:1px solid #ddd; border-radius:10px; padding:10px; background-color:#161b22; text-align:center;'>
                             <img src='{foto_url}' style='width:100%; max-height:140px; object-fit:cover; border-radius:8px;'/>
@@ -146,10 +135,8 @@ if peran == "Pembeli (Warga Desa)":
                         </div>
                         """, unsafe_allow_html=True)
                         
-                        # Tampilkan informasi harga di luar box HTML biar sinkron dengan Streamlit
                         st.write(f"💵 Harga: **Rp {int(harga_diskon):,}**" + (f" ~(Rp {harga_asli:,})~" if diskon_persen > 0 else ""))
                         
-                        # Tombol tambah belanjaan per item kotak
                         jml_beli = st.number_input(f"Beli ({b_nama}):", min_value=1, max_value=max(1, stok_ada), key=f"num_{b_nama}")
                         if st.button(f"🛒 Masukkan", key=f"btn_{b_nama}"):
                             if stok_ada <= 0:
@@ -157,3 +144,14 @@ if peran == "Pembeli (Warga Desa)":
                             else:
                                 st.session_state.keranjang.append({
                                     "Barang": b_nama,
+                                    "Harga Asli": harga_asli,
+                                    "Jumlah": jml_beli,
+                                    "Subsidi (Diskon)": (harga_asli * diskon_persen) * jml_beli,
+                                    "Total Bayar": harga_diskon * jml_beli
+                                })
+                                st.success(f"{b_nama} masuk keranjang!")
+                                st.rerun()
+
+        if len(st.session_state.keranjang) > 0:
+            st.markdown("---")
+            st.subheader("📋 Keranjang Belanja Anda saat ini:")
