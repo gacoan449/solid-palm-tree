@@ -56,7 +56,7 @@ if "database_member" not in st.session_state:
     }
 
 # ==============================================================================
-# HEADER VISUAL & ADVERTISEMENT (TEKS BERJALAN MODERN)
+# HEADER VISUAL & ADVERTISEMENT
 # ==============================================================================
 st.markdown(
     """
@@ -75,9 +75,10 @@ st.sidebar.title("🔐 Hak Akses Menu")
 peran = st.sidebar.selectbox("Buka Menu Sebagai:", ["Pembeli (Warga Desa)", "Kasir & Admin (Toko)", "BOS / PEMILIK (Menu Rahasia)"])
 
 # ==============================================================================
-# MENU 1: PEMBELI (TAMPILAN CARD KOTAK GRID SEPERTI SHOPEE)
+# MENU 1: PEMBELI (WARGA DESA)
 # ==============================================================================
 if peran == "Pembeli (Warga Desa)":
+    st.header("🛒 Menu Belanja Warga Desa")
     st.subheader("🔑 Silakan Masukkan Nomor HP Belanja")
     hp_login = st.text_input("Nomor Handphone Anggota:", placeholder="Contoh: 08123456789")
     
@@ -155,3 +156,4 @@ if peran == "Pembeli (Warga Desa)":
         if len(st.session_state.keranjang) > 0:
             st.markdown("---")
             st.subheader("📋 Keranjang Belanja Anda saat ini:")
+            df_tampil = pd.DataFrame(st.session_state.keranjang)
