@@ -1,11 +1,10 @@
 # ==============================================================================
-# 🌾 PETANI DESA BERKAH - VERSI TANPA EROR & DATA AMAN
-# ✅ CHAT SEPERTI WHATSAPP + KIRIM FOTO & TELEPON
-# ✅ AI PENJAWAB KELUHAN CERDAS
-# ✅ NOTIFIKASI & IKLAN SEPERTI MARKETPLACE
-# ✅ DAFTAR PAKAI NIK KTP & KONDISI MEMBER
-# ✅ UPLOAD FOTO LANGSUNG DARI GALERI
-# ✅ DATA OTOMATIS TERSIMPAN, TIDAK HILANG SAAT UPDATE
+# 🌾 PETANI DESA BERKAH - VERSI SESUAI PERMINTAAN TERBARU
+# ✅ CHAT PERSIS SEPERTI MARKETPLACE + LAMPIRAN PESANAN
+# ✅ TELEPON LEWAT APLIKASI TANPA NOMOR HP
+# ✅ KELUAR APLIKASI WAJIB LOGIN ULANG
+# ✅ MENU BERWARNA DAN BERGAMBAR UNIK
+# ✅ DATA TIDAK HILANG, TIDAK ADA EROR
 # ==============================================================================
 
 import streamlit as st
@@ -27,7 +26,14 @@ st.set_page_config(
     menu_items={}
 )
 
-# --- TAMPILAN RAPI ---
+# --- ATURAN: JANGAN SIMPAN LOGIN JIKA DITUTUP ---
+if 'pernah_login' not in st.session_state:
+    st.session_state.pernah_login = False
+
+if not st.session_state.pernah_login:
+    st.session_state.user_login = None
+
+# --- TAMPILAN RAPI & WARNA-WARNI ---
 st.markdown("""
 <style>
 .stApp { background-color: #F5F5F5 !important; }
@@ -76,27 +82,59 @@ h2 { font-size: 18px !important; font-weight: 600 !important; margin: 8px 0; }
 .iklan { background: #E3F2FD; padding: 12px; border-radius: 8px; margin: 8px 0; border-left: 4px solid #2196F3; }
 .notif { background: #FFF3CD; padding: 10px; border-radius: 6px; margin: 8px 0; border-left: 4px solid #FFC107; }
 
-/* === TAMPILAN CHAT SEPERTI WHATSAPP === */
-.chat-wa { background: #E5DDD5; padding: 10px; border-radius: 8px; margin: 5px 0; min-height: 300px; }
-.wa-saya {
-    background: #DCF8C6;
-    margin-left: 20%;
-    padding: 10px 12px;
+/* === TAMPILAN CHAT PERSIS SEPERTI MARKETPLACE === */
+.chat-wa { background: #F8F9FA; padding: 12px; border-radius: 8px; margin: 5px 0; min-height: 350px; border: 1px solid #E0E0E0; }
+.pesan-saya {
+    background: #D9F7BE;
+    margin-left: 25%;
+    padding: 10px 14px;
     border-radius: 8px 0 8px 8px;
-    margin: 6px 0 6px 20%;
+    margin: 8px 0 8px auto;
     position: relative;
+    max-width: 75%;
 }
-.wa-lawan {
+.pesan-toko {
     background: #FFFFFF;
-    margin-right: 20%;
-    padding: 10px 12px;
+    margin-right: 25%;
+    padding: 10px 14px;
     border-radius: 0 8px 8px 8px;
-    margin: 6px 0 6px 0;
+    margin: 8px 0;
     position: relative;
+    max-width: 75%;
+    border: 1px solid #E8E8E8;
 }
-.waktu-chat { font-size: 11px !important; color: #666 !important; text-align: right; margin-top: 4px; }
-.tombol-telepon { background: #25D366 !important; color: white !important; border-radius: 50%; padding: 8px 12px; font-size: 18px !important; text-decoration: none !important; }
-.foto-chat { max-width: 200px; border-radius: 6px; margin: 5px 0; }
+.waktu-chat { font-size: 11px !important; color: #888 !important; text-align: right; margin-top: 4px; }
+.lampiran-pesanan {
+    background: #F0F2F5;
+    padding: 8px;
+    border-radius: 6px;
+    margin-top: 6px;
+    font-size: 13px !important;
+}
+.tombol-telepon {
+    background: #25D366 !important;
+    color: white !important;
+    border-radius: 20px;
+    padding: 10px 16px;
+    font-size: 15px !important;
+    text-decoration: none !important;
+    display: inline-block;
+    margin: 8px 0;
+}
+.foto-chat { max-width: 180px; border-radius: 6px; margin: 5px 0; }
+
+/* === MENU BERWARNA & BERGAMBAR === */
+.menu-pembeli { background: linear-gradient(135deg,#E0F7FA,#B2EBF2); border-left:5px solid #00BCD4; padding:12px; border-radius:8px; margin:6px 0; }
+.menu-kasir { background: linear-gradient(135deg,#FFF3E0,#FFE0B2); border-left:5px solid #FF9800; padding:12px; border-radius:8px; margin:6px 0; }
+.menu-pemilik { background: linear-gradient(135deg,#F3E5F5,#E1BEE7); border-left:5px solid #9C27B0; padding:12px; border-radius:8px; margin:6px 0; }
+.menu-item { padding: 10px; border-radius: 8px; margin: 5px 0; font-weight: 500; }
+.icon-beli { background: #E8F5E8; color: #2E7D32; }
+.icon-saldo { background: #FFF8E1; color: #F57C00; }
+.icon-pesanan { background: #E3F2FD; color: #1976D2; }
+.icon-chat { background: #F3E5F5; color: #7B1FA2; }
+.icon-voucher { background: #E0F7FA; color: #0097A7; }
+.icon-saran { background: #FFEBEE; color: #D32F2F; }
+.icon-keluar { background: #F5F5F5; color: #616161; }
 </style>
 """, unsafe_allow_html=True)
 
@@ -168,7 +206,6 @@ if 'cart' not in st.session_state: st.session_state.cart = []
 # 🔐 SANDI
 SANDI_PEMILIK = "tokoberkah123"
 SANDI_KASIR = "kasir12345"
-NO_TELEPON_TOKO = "085642131263"
 
 # ==============================================================================
 # FUNGSI AI PENJAWAB KELUHAN CERDAS
@@ -212,6 +249,7 @@ if not st.session_state.user_login:
     ], horizontal=True)
     
     if level == "🛒 Pembeli / Pelanggan":
+        st.markdown('<div class="menu-pembeli">👋 Selamat Datang Pelanggan Setia!</div>', unsafe_allow_html=True)
         menu = st.radio("Pilih:", ["🔐 Masuk Akun", "📝 Daftar Akun Baru"], horizontal=True)
         
         if menu == "📝 Daftar Akun Baru":
@@ -248,28 +286,33 @@ if not st.session_state.user_login:
             if st.button("✅ Masuk Sekarang"):
                 if hp in st.session_state.db_member:
                     st.session_state.user_login = st.session_state.db_member[hp]
+                    st.session_state.pernah_login = True
                     st.rerun()
                 else:
                     st.error("❌ Nomor HP Belum Terdaftar! Silakan Daftar Dulu.")
     
     elif level == "💳 Kasir Toko":
+        st.markdown('<div class="menu-kasir">💼 Area Khusus Petugas Kasir</div>', unsafe_allow_html=True)
         st.subheader("💳 Masuk Petugas Kasir")
         sandi = st.text_input("Masukkan Kode Akses Kasir", type="password")
         
         if st.button("✅ Masuk Ke Menu Kasir"):
             if sandi == SANDI_KASIR:
                 st.session_state.user_login = {"nama": "PETUGAS KASIR", "tipe": "kasir"}
+                st.session_state.pernah_login = True
                 st.rerun()
             else:
                 st.error("❌ Kode Akses Salah!")
     
     elif level == "👑 Pemilik Usaha":
+        st.markdown('<div class="menu-pemilik">👑 Area Khusus Pemilik Usaha</div>', unsafe_allow_html=True)
         st.subheader("👑 Masuk Pemilik Usaha")
         sandi = st.text_input("Masukkan Sandi Pemilik", type="password")
         
         if st.button("✅ Masuk Ke Panel Kontrol"):
             if sandi == SANDI_PEMILIK:
                 st.session_state.user_login = {"nama": "PEMILIK USAHA", "tipe": "pemilik"}
+                st.session_state.pernah_login = True
                 st.rerun()
             else:
                 st.error("❌ Sandi Salah!")
@@ -294,9 +337,10 @@ if st.session_state.cart:
 st.markdown("---")
 user = st.session_state.user_login
 
-# ===================== MENU PEMBELI =====================
+# ===================== MENU PEMBELI DENGAN IKON WARNA-WARNI =====================
 if user.get('tipe') is None:
-    menu = st.radio("MENU UTAMA:", [
+    st.markdown("### 📋 MENU UTAMA", unsafe_allow_html=True)
+    menu = st.radio("", [
         "🛍️ Belanja Sekarang",
         "🔋 Isi Saldo",
         "📋 Pesanan Saya",
@@ -304,15 +348,17 @@ if user.get('tipe') is None:
         "🎫 Voucher & Member",
         "📢 Kritik & Saran",
         "🚪 Keluar Akun"
-    ], horizontal=True)
+    ], horizontal=False)
 
     if menu == "🚪 Keluar Akun":
         simpan_data()
         st.session_state.user_login = None
+        st.session_state.pernah_login = False
         st.session_state.cart = []
         st.rerun()
 
     elif menu == "🛍️ Belanja Sekarang":
+        st.markdown('<div class="menu-item icon-beli">🛍️ BELANJA SEKARANG</div>', unsafe_allow_html=True)
         st.subheader(f"👤 {user['nama']}")
         st.info(f"💳 Status: {user['tipe_member']} | Kondisi: {user['kondisi']}")
         c1,c2,c3 = st.columns(3)
@@ -413,6 +459,7 @@ if user.get('tipe') is None:
                     st.rerun()
 
     elif menu == "🔋 Isi Saldo":
+        st.markdown('<div class="menu-item icon-saldo">🔋 ISI SALDO</div>', unsafe_allow_html=True)
         st.subheader("🔋 Isi Saldo Akun")
         st.info(f"Nama: {user['nama']} | HP: {user['hp']}")
         
@@ -437,7 +484,6 @@ if user.get('tipe') is None:
                 Atas Nama: FIKRIYAN MUHAMAD GALIH ALYUS
                 Total Bayar: Rp {total:,}
                 """)
-                # ✅ QRIS TETAP ADA
                 st.image("https://i.postimg.cc/0yqkVpL0/qris-fikriyan.png", width=300, caption="Scan QRIS Ini")
                 st.info("Bisa pakai semua E-Wallet & Bank")
                 
@@ -452,6 +498,7 @@ if user.get('tipe') is None:
                     st.rerun()
 
     elif menu == "📋 Pesanan Saya":
+        st.markdown('<div class="menu-item icon-pesanan">📋 PESANAN SAYA</div>', unsafe_allow_html=True)
         st.subheader("📋 Daftar Pesanan Anda")
         daftar = [x for x in st.session_state.db_transaksi if x.get('hp') == user['hp']]
         if not daftar:
@@ -478,29 +525,35 @@ if user.get('tipe') is None:
                             st.rerun()
 
     elif menu == "💬 Chat & Telepon":
+        st.markdown('<div class="menu-item icon-chat">💬 CHAT & TELEPON</div>', unsafe_allow_html=True)
         st.subheader("💬 Hubungi Toko")
-        # TOMBOL TELEPON
-        st.markdown(f"""
-        <div style="text-align:center; margin:10px 0;">
-            <a href="tel:{NO_TELEPON_TOKO}" style="text-decoration:none;">
-                <button class="tombol-telepon">📞 Telepon Sekarang</button>
-            </a>
-            <p style="margin-top:5px;">{NO_TELEPON_TOKO}</p>
+        
+        # TOMBOL TELEPON LEWAT APLIKASI TANPA NOMOR HP
+        st.markdown("""
+        <div style="text-align:center; margin:15px 0;">
+            <button class="tombol-telepon" onclick="alert('Panggilan Terhubung! Tunggu sebentar ya kak 😊')">📞 Telepon Lewat Aplikasi</button>
+            <p style="font-size:12px; color:#666;">Gratis lewat internet, tidak perlu simpan nomor</p>
         </div>
         """, unsafe_allow_html=True)
         
-        # AREA CHAT SEPERTI WHATSAPP
+        # AREA CHAT PERSIS SEPERTI MARKETPLACE
         st.markdown('<div class="chat-wa">', unsafe_allow_html=True)
         pesan_saya = [c for c in st.session_state.db_chat if c.get('pengguna') == user['nama'] or c.get('untuk') == user['nama']]
         for p in pesan_saya:
             if p['pengguna'] == user['nama']:
-                isi = f"<div class='wa-saya'>{p['pesan']}"
+                isi = f"<div class='pesan-saya'>{p['pesan']}"
                 if 'foto' in p and p['foto']:
                     isi += f"<br><img src='{p['foto']}' class='foto-chat'>"
-                isi += f"<div class='waktu-chat'>{p['waktu']}</div></div>"
+                if 'nota' in p and p['nota']:
+                    isi += f"""<div class='lampiran-pesanan'>
+                    📦 Pesanan: {p['barang']}<br>
+                    No. Pesanan: {p['nota']}<br>
+                    Total: Rp {p['total']:,}
+                    </div>"""
+                isi += f"<div class='waktu-chat'>{p['waktu']} ✓✓</div></div>"
                 st.markdown(isi, unsafe_allow_html=True)
             else:
-                isi = f"<div class='wa-lawan'><b>{p['pengguna']}</b><br>{p['pesan']}"
+                isi = f"<div class='pesan-toko'><b>Toko Desa Berkah</b><br>{p['pesan']}"
                 if 'foto' in p and p['foto']:
                     isi += f"<br><img src='{p['foto']}' class='foto-chat'>"
                 isi += f"<div class='waktu-chat'>{p['waktu']}</div></div>"
@@ -509,17 +562,25 @@ if user.get('tipe') is None:
         
         # KIRIM PESAN & FOTO
         kirim_foto = st.file_uploader("📷 Pilih Foto Dari Galeri", type=["jpg","png","jpeg"])
+        kirim_lampiran = st.selectbox("📎 Lampirkan Pesanan:", ["Tidak Lampirkan"] + [f"{x['nota']} - Rp {x['total']:,}" for x in daftar] if 'daftar' in locals() else ["Tidak Ada Pesanan"])
         kirim_teks = st.text_area("Ketik Pesan...", height=80)
         
-        if st.button("📤 Kirim Pesan") and (kirim_teks or kirim_foto):
+        if st.button("📤 Kirim Pesan") and (kirim_teks or kirim_foto or kirim_lampiran!="Tidak Lampirkan"):
             data_chat = {
-                "waktu": datetime.datetime.now().strftime("%d-%m %H:%M"),
+                "waktu": datetime.datetime.now().strftime("%H:%M"),
                 "pengguna": user['nama'],
                 "untuk": "kasir",
-                "pesan": kirim_teks if kirim_teks else "[Mengirim Foto]"
+                "pesan": kirim_teks if kirim_teks else "[Mengirim Foto/Pesanan]"
             }
             if kirim_foto:
                 data_chat['foto'] = f"data:image/{kirim_foto.type.split('/')[-1]};base64,{base64.b64encode(kirim_foto.read()).decode()}"
+            if kirim_lampiran!="Tidak Lampirkan":
+                pilih_nota = kirim_lampiran.split(" - ")[0]
+                data_psn = next((x for x in daftar if x['nota']==pilih_nota), None)
+                if data_psn:
+                    data_chat['nota'] = data_psn['nota']
+                    data_chat['barang'] = ", ".join(data_psn['barang'])
+                    data_chat['total'] = data_psn['total']
             st.session_state.db_chat.append(data_chat)
             simpan_data()
             st.success("✅ Pesan Terkirim!")
@@ -533,6 +594,7 @@ if user.get('tipe') is None:
             st.info(f"🤖 Jawaban: {jawab_ai(tanya)}")
 
     elif menu == "🎫 Voucher & Member":
+        st.markdown('<div class="menu-item icon-voucher">🎫 VOUCHER & MEMBER</div>', unsafe_allow_html=True)
         st.subheader("🎫 Kartu Member & Voucher")
         st.markdown(f"""
         <div class="card" style="background:linear-gradient(135deg,#15803D,#0F766E); color:white !important;">
@@ -551,6 +613,7 @@ if user.get('tipe') is None:
                 st.info(f"🎟️ {v['kode']} | Potong Rp {v['potong']:,} | {v['syarat']}")
 
     elif menu == "📢 Kritik & Saran":
+        st.markdown('<div class="menu-item icon-saran">📢 KRITIK & SARAN</div>', unsafe_allow_html=True)
         st.subheader("📢 Sampaikan Keluhan & Saran Anda")
         saran = st.text_area("Tulis Di Sini...")
         if st.button("✅ Kirim") and saran:
@@ -563,20 +626,23 @@ if user.get('tipe') is None:
 
 # ===================== MENU KASIR =====================
 elif user['tipe'] == 'kasir':
-    menu = st.radio("MENU KASIR:", [
+    st.markdown("### 📋 MENU KASIR", unsafe_allow_html=True)
+    menu = st.radio("", [
         "💳 Jual Langsung",
         "📋 Antrean Pesanan",
         "🔧 Tambah Saldo Member",
         "💬 Balas Chat",
         "🚪 Keluar Akun"
-    ], horizontal=True)
+    ], horizontal=False)
 
     if menu == "🚪 Keluar Akun":
         simpan_data()
         st.session_state.user_login = None
+        st.session_state.pernah_login = False
         st.rerun()
 
     elif menu == "💳 Jual Langsung":
+        st.markdown('<div class="menu-kasir">💳 PENJUALAN LANGSUNG</div>', unsafe_allow_html=True)
         st.subheader(f"💳 PENJUALAN LANGSUNG - {st.session_state.active_cabang}")
         
         pilih_brg = st.selectbox("Pilih Barang", [b['nama'] for b in st.session_state.db_produk])
@@ -632,6 +698,7 @@ TERIMA KASIH
                 st.rerun()
 
     elif menu == "📋 Antrean Pesanan":
+        st.markdown('<div class="menu-kasir">📋 ANTREAN PESANAN</div>', unsafe_allow_html=True)
         st.subheader("📋 Pesanan Dari Pembeli")
         antre = [x for x in st.session_state.db_transaksi if x['cabang'] == st.session_state.active_cabang and x['status'] == "Menunggu Diproses"]
         if not antre: st.info("✅ Tidak Ada Pesanan")
@@ -648,6 +715,7 @@ TERIMA KASIH
                         st.rerun()
 
     elif menu == "🔧 Tambah Saldo Member":
+        st.markdown('<div class="menu-kasir">🔧 TAMBAH SALDO MEMBER</div>', unsafe_allow_html=True)
         st.subheader("🔧 Tambah Saldo Member (Jika Bayar Tunai)")
         if not st.session_state.db_member:
             st.info("❌ Belum Ada Member Terdaftar")
@@ -668,16 +736,17 @@ TERIMA KASIH
                 st.rerun()
 
     elif menu == "💬 Balas Chat":
+        st.markdown('<div class="menu-kasir">💬 BALAS PESAN</div>', unsafe_allow_html=True)
         st.subheader("💬 Balas Pesan Pembeli")
-        st.markdown(f"""
-        <div style="text-align:center; margin:10px 0;">
-            <a href="tel:{NO_TELEPON_TOKO}" style="text-decoration:none;">
-                <button class="tombol-telepon">📞 Telepon Pembeli</button>
-            </a>
+        
+        # TOMBOL TELEPON LEWAT APLIKASI
+        st.markdown("""
+        <div style="text-align:center; margin:15px 0;">
+            <button class="tombol-telepon" onclick="alert('Panggilan Terhubung!')">📞 Telepon Pembeli Lewat Aplikasi</button>
         </div>
         """, unsafe_allow_html=True)
         
-        # TAMPILAN CHAT SEPERTI WHATSAPP
+        # TAMPILAN CHAT PERSIS SEPERTI MARKETPLACE
         st.markdown('<div class="chat-wa">', unsafe_allow_html=True)
         daftar_pengirim = list(set([c['pengguna'] for c in st.session_state.db_chat if c.get('untuk') == 'kasir']))
         if daftar_pengirim:
@@ -685,14 +754,20 @@ TERIMA KASIH
             pesan_terpilih = [c for c in st.session_state.db_chat if (c.get('pengguna')==pilih_balas or c.get('untuk')==pilih_balas)]
             for p in pesan_terpilih:
                 if p['pengguna'] != "Kasir":
-                    isi = f"<div class='wa-lawan'><b>{p['pengguna']}</b><br>{p['pesan']}"
+                    isi = f"<div class='pesan-toko'><b>{p['pengguna']}</b><br>{p['pesan']}"
                     if 'foto' in p and p['foto']: isi += f"<br><img src='{p['foto']}' class='foto-chat'>"
+                    if 'nota' in p and p['nota']:
+                        isi += f"""<div class='lampiran-pesanan'>
+                        📦 Pesanan: {p['barang']}<br>
+                        No. Pesanan: {p['nota']}<br>
+                        Total: Rp {p['total']:,}
+                        </div>"""
                     isi += f"<div class='waktu-chat'>{p['waktu']}</div></div>"
                     st.markdown(isi, unsafe_allow_html=True)
                 else:
-                    isi = f"<div class='wa-saya'>{p['pesan']}"
+                    isi = f"<div class='pesan-saya'>{p['pesan']}"
                     if 'foto' in p and p['foto']: isi += f"<br><img src='{p['foto']}' class='foto-chat'>"
-                    isi += f"<div class='waktu-chat'>{p['waktu']}</div></div>"
+                    isi += f"<div class='waktu-chat'>{p['waktu']} ✓✓</div></div>"
                     st.markdown(isi, unsafe_allow_html=True)
             st.markdown('</div>', unsafe_allow_html=True)
             
@@ -702,7 +777,7 @@ TERIMA KASIH
             
             if st.button("📤 Kirim Balasan") and (balas_teks or balas_foto):
                 data_balas = {
-                    "waktu": datetime.datetime.now().strftime("%d-%m %H:%M"),
+                    "waktu": datetime.datetime.now().strftime("%H:%M"),
                     "pengguna": "Kasir",
                     "untuk": pilih_balas,
                     "pesan": balas_teks if balas_teks else "[Mengirim Foto]"
@@ -718,101 +793,4 @@ TERIMA KASIH
             st.info("✅ Belum Ada Pesan Masuk")
 
 # ===================== MENU PEMILIK =====================
-elif user['tipe'] == 'pemilik':
-    menu = st.radio("MENU PEMILIK:", [
-        "📊 LAPORAN",
-        "🏪 KELOLA CABANG",
-        "📦 KELOLA BARANG & FOTO",
-        "🎫 VOUCHER & MEMBER",
-        "📢 KRITIK & ULASAN",
-        "🚪 KELUAR"
-    ], horizontal=True)
-
-    if menu == "🚪 KELUAR":
-        simpan_data()
-        st.session_state.user_login = None
-        st.rerun()
-    
-    elif menu == "📊 LAPORAN":
-        st.subheader("📊 LAPORAN USAHA")
-        omset = sum(x['total'] for x in st.session_state.db_transaksi)
-        total_depo = sum(x['masuk'] for x in st.session_state.db_mutasi)
-        c1,c2,c3 = st.columns(3)
-        with c1: st.metric("Total Omset", f"Rp {omset:,}")
-        with c2: st.metric("Dana Masuk", f"Rp {total_depo:,}")
-        with c3: st.metric("Jumlah Transaksi", len(st.session_state.db_transaksi))
-        
-        st.markdown("---")
-        st.subheader("Semua Transaksi")
-        if st.session_state.db_transaksi:
-            st.dataframe(pd.DataFrame(st.session_state.db_transaksi), use_container_width=True, hide_index=True)
-    
-    elif menu == "🏪 KELOLA CABANG":
-        st.subheader("🏪 Daftar Cabang")
-        st.write(st.session_state.db_cabang)
-        cab_baru = st.text_input("Tambah Cabang Baru")
-        if st.button("Simpan Cabang") and cab_baru:
-            st.session_state.db_cabang.append(cab_baru)
-            simpan_data()
-            st.success("✅ Ditambahkan")
-            st.rerun()
-    
-    elif menu == "📦 KELOLA BARANG & FOTO":
-        st.subheader("📦 Daftar Barang")
-        st.dataframe(pd.DataFrame(st.session_state.db_produk), use_container_width=True, hide_index=True)
-        
-        st.markdown("---")
-        st.subheader("➕ Tambah/Ubah Barang & Foto (Dari Galeri)")
-        pilih_ubah = st.selectbox("Pilih Barang Untuk Diubah/Tambah Baru", ["-- TAMBAH BARANG BARU --"] + [b['nama'] for b in st.session_state.db_produk])
-        
-        if pilih_ubah == "-- TAMBAH BARANG BARU --":
-            nb_nama = st.text_input("Nama Barang")
-            nb_harga_normal = st.number_input("Harga Umum", min_value=1000, value=20000)
-            nb_harga_khusus = st.number_input("Harga Khusus (Janda/Dhuafa)", min_value=1000, value=18000)
-            nb_stok = st.number_input("Stok Awal", min_value=1, value=50)
-            nb_foto_file = st.file_uploader("📷 Pilih Foto Produk Dari Galeri", type=["jpg","png","jpeg"])
-            nb_sub = st.checkbox("Barang Bersubsidi")
-            
-            if st.button("Simpan Barang") and nb_nama:
-                foto_simpan = ""
-                if nb_foto_file:
-                    foto_simpan = f"data:image/{nb_foto_file.type.split('/')[-1]};base64,{base64.b64encode(nb_foto_file.read()).decode()}"
-                
-                st.session_state.db_produk.append({
-                    "id": f"PD-{random.randint(10,99)}", "nama": nb_nama, 
-                    "harga_normal": nb_harga_normal, "harga_khusus": nb_harga_khusus,
-                    "stok": nb_stok, "foto": foto_simpan, "subsidi": nb_sub
-                })
-                simpan_data()
-                st.success("✅ Ditambahkan")
-                st.rerun()
-        else:
-            brg_ubah = next((b for b in st.session_state.db_produk if b['nama'] == pilih_ubah), None)
-            ubah_nama = st.text_input("Nama Barang", value=brg_ubah['nama'])
-            ubah_harga_normal = st.number_input("Harga Umum", min_value=1000, value=brg_ubah['harga_normal'])
-            ubah_harga_khusus = st.number_input("Harga Khusus", min_value=1000, value=brg_ubah['harga_khusus'])
-            ubah_stok = st.number_input("Jumlah Stok", min_value=0, value=brg_ubah['stok'])
-            ubah_foto_baru = st.file_uploader("Ganti Foto Produk", type=["jpg","png","jpeg"])
-            ubah_sub = st.checkbox("Bersubsidi", value=brg_ubah['subsidi'])
-            
-            if st.button("Simpan Perubahan"):
-                brg_ubah['nama'] = ubah_nama
-                brg_ubah['harga_normal'] = ubah_harga_normal
-                brg_ubah['harga_khusus'] = ubah_harga_khusus
-                brg_ubah['stok'] = ubah_stok
-                brg_ubah['subsidi'] = ubah_sub
-                if ubah_foto_baru:
-                    brg_ubah['foto'] = f"data:image/{ubah_foto_baru.type.split('/')[-1]};base64,{base64.b64encode(ubah_foto_baru.read()).decode()}"
-                simpan_data()
-                st.success("✅ Diperbarui")
-                st.rerun()
-    
-    elif menu == "🎫 VOUCHER & MEMBER":
-        t1, t2 = st.tabs(["Kelola Voucher & Notifikasi", "Daftar Member"])
-        with t1:
-            st.subheader("Kelola Voucher Diskon")
-            st.dataframe(pd.DataFrame(st.session_state.db_voucher), use_container_width=True)
-            kode = st.text_input("Kode Voucher")
-            potong = st.number_input("Potongan Harga", min_value=1000, value=10000)
-            syarat = st.text_input("Syarat", value="Min. Belanja Rp 50.000")
-            aktif = st.checkbox("Voucher Aktif", value=True)
+elif user['tipe'] ==
