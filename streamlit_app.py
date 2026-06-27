@@ -1,5 +1,6 @@
 # ==================================================
-# APLIKASI PETANI DESA BERKAH + AI + TAMPILAN HP OPTIMAL
+# APLIKASI PETANI DESA BERKAH - TAMPILAN HP OPTIMAL
+# Versi Khusus Agar Tampil Sempurna di APK
 # ==================================================
 
 import streamlit as st
@@ -8,43 +9,55 @@ from datetime import datetime
 import uuid
 
 # --------------------------
-# PENGATURAN KHUSUS TAMPILAN HP
+# PENGATURAN WAJIB UNTUK HP
 # --------------------------
 st.set_page_config(
     page_title="Petani Desa Berkah",
     page_icon="🌾",
-    layout="centered",  # Ubah jadi centered agar pas di HP
-    initial_sidebar_state="collapsed",  # Menu otomatis tersembunyi agar layar luas
-    menu_items={'Get Help':None,'Report a bug':None,'About':None}  # Sembunyikan menu bawaan streamlit
+    layout="centered",
+    initial_sidebar_state="collapsed",
+    menu_items={}
 )
 
 # --------------------------
-# CSS KHUSUS AGAR TAMPIL SEPERTI APLIKASI
+# CSS KHUSUS PERBAIKAN TAMPILAN
 # --------------------------
 st.markdown("""
 <style>
-/* Hilangkan latar belakang abu-abu bawaan */
-.stApp {background-color: #f8f9fa;}
+/* Hapus semua latar belakang & jarak tidak perlu */
+.stApp {background-color: #ffffff;}
+div.block-container {padding: 10px 15px !important; max-width: 100% !important;}
+.main {overflow-x: hidden !important;}
+
 /* Atur ukuran tulisan pas di HP */
-* {font-size: 15px !important;}
-h1 {font-size: 22px !important;}
-h2 {font-size: 19px !important;}
-h3 {font-size: 17px !important;}
-/* Atur jarak agar tidak terlalu renggang */
-div.block-container {padding-top: 1rem; padding-bottom: 1rem;}
-/* Tombol lebih besar dan mudah ditekan */
-button {min-height: 45px !important; font-size: 16px !important;}
-/* Sembunyikan tulisan Streamlit di pojok kanan bawah */
-footer {display: none !important;}
-/* Input teks lebih nyaman dipakai */
-input, select {min-height: 45px !important;}
+* {font-family: 'Segoe UI', sans-serif; font-size: 15px !important;}
+h1 {font-size: 20px !important; color: #1b5e20 !important;}
+h2 {font-size: 18px !important; color: #2e7d32 !important;}
+h3 {font-size: 16px !important;}
+
+/* Hilangkan elemen mengganggu */
+footer, .stAppToolbar, .viewerBadge_container__1QSob, .stDecoration {display: none !important;}
+div[data-testid="stSidebar"] {display: none !important;}
+
+/* Tombol & Input nyaman ditekan */
+button, .stButton>button {min-height: 48px !important; border-radius: 8px !important; font-weight: 500 !important;}
+.stSelectbox>div, .stTextInput>div, .stNumberInput>div {min-height: 48px !important; border-radius: 8px !important;}
+
+/* Perbaiki tampilan tab & menu */
+.stTabs [data-baseweb="tab-list"] {gap: 8px;}
+.stTabs [data-baseweb="tab"] {padding: 8px 12px; border-radius: 8px;}
+.st-b7 {background-color: #f1f8e9 !important;}
+
+/* Perbaiki tampilan tabel & kotak info */
+.stDataFrame {border-radius: 8px;}
+div.stMetric {background: #f8f9fa; padding: 12px; border-radius: 8px; margin: 5px 0;}
 </style>
 """, unsafe_allow_html=True)
 
 # --------------------------
 # INISIALISASI DATA
 # --------------------------
-def inisialisasi_semua():
+def inisialisasi_data():
     if 'produk' not in st.session_state:
         st.session_state.produk = [
             {"id": "SB001", "nama": "Beras Premium 5kg", "kategori": "Sembako", "harga": 75000, "stok": 45},
@@ -84,7 +97,7 @@ def inisialisasi_semua():
     if 'riwayat_chat' not in st.session_state:
         st.session_state.riwayat_chat = []
 
-inisialisasi_semua()
+inisialisasi_data()
 
 # --------------------------
 # FUNGSI BANTUAN
@@ -99,24 +112,21 @@ def hitung_subsidi(status_member, total_asli):
 def jawab_pertanyaan(pertanyaan):
     tanya = pertanyaan.lower()
     if "subsidi" in tanya or "diskon" in tanya:
-        return "✅ Warga Umum: 100% | Janda: Potong 20% | Anak Yatim: Potong 35%"
-    elif "cara beli" in tanya or "pesan" in tanya:
-        return "🛒 Pilih Barang > Masuk Keranjang > Isi Data > Checkout > Bayar"
+        return "✅ Rincian Subsidi:\n• Warga Umum: 0%\n• Janda: 20%\n• Anak Yatim: 35%"
+    elif "beli" in tanya or "pesan" in tanya:
+        return "🛒 Cara Belanja:\n1. Pilih Cabang\n2. Pilih Status\n3. Masukkan Barang\n4. Isi Data & Checkout"
     elif "cabang" in tanya or "lokasi" in tanya:
-        return "🏠 Cabang: Desa Utara, Desa Selatan, Desa Barat"
+        return "🏠 Cabang Tersedia:\n• Desa Utara\n• Desa Selatan\n• Desa Barat"
     else:
-        return "🤖 Saya bantu jawab soal belanja, subsidi, dan info toko ya!"
+        return "🤖 Silakan tanya soal belanja, subsidi, atau info toko ya!"
 
 # --------------------------
-# BANNER APLIKASI
+# BANNER UTAMA
 # --------------------------
 st.markdown("""
-<style>
-@keyframes gerak {0%{transform:translateX(100%)}100%{transform:translateX(-100%)}}
-.banner{background:linear-gradient(90deg,#1b5e20,#2e7d32,#43a047);color:white;padding:12px;border-radius:8px;font-weight:bold;margin-bottom:15px;overflow:hidden}
-.teks-jalan{display:inline-block;animation:gerak 18s linear infinite;white-space:nowrap}
-</style>
-<div class="banner"><div class="teks-jalan">🌾 PETANI DESA BERKAH | Janda Diskon 20% | Anak Yatim Diskon 35%</div></div>
+<div style="background:linear-gradient(90deg,#1b5e20,#43a047); color:white; padding:12px; border-radius:8px; text-align:center; font-weight:bold; margin-bottom:15px;">
+🌾 PETANI DESA BERKAH
+</div>
 """, unsafe_allow_html=True)
 
 # --------------------------
@@ -126,152 +136,203 @@ cabang_terpilih = st.selectbox("📍 Pilih Cabang Terdekat", st.session_state.ca
 st.divider()
 
 # --------------------------
-# MENU UTAMA
+# MENU UTAMA (RAPI BERJEJER)
 # --------------------------
 menu_pilihan = st.radio(
-    "MENU UTAMA",
+    "",
     ["🛒 BELANJA", "💼 KASIR", "👑 PEMILIK", "🤖 BANTUAN"],
     horizontal=True,
     label_visibility="collapsed"
 )
 
 # ==================================================
-# ISI MENU SAMA SEPERTI SEBELUMNYA (DENGAN TAMPILAN LEBIH RAPI)
+# HALAMAN BELANJA
 # ==================================================
 if menu_pilihan == "🛒 BELANJA":
-    st.subheader("🛒 Belanja Warga Desa")
+    st.subheader("🛒 Menu Belanja Warga")
+    
     status_member = st.radio("Status Keanggotaan", ["Warga Umum", "Janda", "Anak Yatim"], horizontal=True)
-    st.success(f"Subsidi: {hitung_subsidi(status_member,100)['persen']}%")
+    info_subsidi = hitung_subsidi(status_member, 100)
+    st.info(f"💡 Subsidi yang didapat: {info_subsidi['persen']}%")
     st.divider()
 
-    tab1, tab2, tab3 = st.tabs(["🥫 Sembako", "🥬 Sayuran", "🍗 Lauk"])
+    tab1, tab2, tab3 = st.tabs(["🥫 Sembako", "🥬 Sayuran", "🍗 Lauk Pauk"])
+    
     with tab1:
         for p in [x for x in st.session_state.produk if x["kategori"]=="Sembako"]:
-            c1,c2,c3 = st.columns([3,1,1])
+            c1,c2,c3,c4 = st.columns([3,1,1,1])
             c1.write(f"**{p['nama']}**")
             c1.caption(f"Stok: {p['stok']}")
             c2.write(f"Rp {p['harga']:,}")
-            jml = c3.number_input(f"Jml",1,p['stok'],1, key=f"a{p['id']}")
-            if st.button("+", key=f"b{p['id']}"):
+            jml = c3.number_input("", min_value=1, max_value=p['stok'], value=1, key=f"j{p['id']}", label_visibility="collapsed")
+            if c4.button("+", key=f"t{p['id']}"):
                 st.session_state.keranjang.append({"nama":p['nama'],"harga":p['harga'],"jumlah":jml,"subtotal":p['harga']*jml})
-                st.toast("Ditambah ✅")
+                st.toast("✅ Ditambahkan ke keranjang")
             st.divider()
 
     with tab2:
         for p in [x for x in st.session_state.produk if x["kategori"]=="Sayuran"]:
-            c1,c2,c3 = st.columns([3,1,1])
+            c1,c2,c3,c4 = st.columns([3,1,1,1])
             c1.write(f"**{p['nama']}**")
             c1.caption(f"Stok: {p['stok']}")
             c2.write(f"Rp {p['harga']:,}")
-            jml = c3.number_input(f"Jml",1,p['stok'],1, key=f"c{p['id']}")
-            if st.button("+", key=f"d{p['id']}"):
+            jml = c3.number_input("", min_value=1, max_value=p['stok'], value=1, key=f"k{p['id']}", label_visibility="collapsed")
+            if c4.button("+", key=f"s{p['id']}"):
                 st.session_state.keranjang.append({"nama":p['nama'],"harga":p['harga'],"jumlah":jml,"subtotal":p['harga']*jml})
-                st.toast("Ditambah ✅")
+                st.toast("✅ Ditambahkan ke keranjang")
             st.divider()
 
     with tab3:
         for p in [x for x in st.session_state.produk if x["kategori"]=="Lauk Pauk"]:
-            c1,c2,c3 = st.columns([3,1,1])
+            c1,c2,c3,c4 = st.columns([3,1,1,1])
             c1.write(f"**{p['nama']}**")
             c1.caption(f"Stok: {p['stok']}")
             c2.write(f"Rp {p['harga']:,}")
-            jml = c3.number_input(f"Jml",1,p['stok'],1, key=f"e{p['id']}")
-            if st.button("+", key=f"f{p['id']}"):
+            jml = c3.number_input("", min_value=1, max_value=p['stok'], value=1, key=f"l{p['id']}", label_visibility="collapsed")
+            if c4.button("+", key=f"u{p['id']}"):
                 st.session_state.keranjang.append({"nama":p['nama'],"harga":p['harga'],"jumlah":jml,"subtotal":p['harga']*jml})
-                st.toast("Ditambah ✅")
+                st.toast("✅ Ditambahkan ke keranjang")
             st.divider()
 
-    # KERANJANG
+    # KERANJANG BELANJA
     st.subheader("🛒 Keranjang Belanja")
     if not st.session_state.keranjang:
-        st.info("Masih kosong")
+        st.info("Keranjang masih kosong, silakan pilih barang")
     else:
         st.dataframe(pd.DataFrame(st.session_state.keranjang), use_container_width=True, hide_index=True)
-        total_asli = sum(i['subtotal'] for i in st.session_state.keranjang)
-        res = hitung_subsidi(status_member, total_asli)
+        total_asli = sum(item['subtotal'] for item in st.session_state.keranjang)
+        hasil = hitung_subsidi(status_member, total_asli)
         
-        c1,c2,c3 = st.columns(3)
-        c1.metric("Normal", f"Rp {total_asli:,}")
-        c2.metric("Subsidi", f"Rp {res['nilai']:,}")
-        c3.metric("Bayar", f"Rp {res['akhir']:,}")
+        ca, cb, cc = st.columns(3)
+        ca.metric("Harga Normal", f"Rp {total_asli:,}")
+        cb.metric("Subsidi", f"Rp {hasil['nilai']:,}")
+        cc.metric("Total Bayar", f"Rp {hasil['akhir']:,}")
         
         st.divider()
+        st.subheader("📝 Data Penerima")
         nama = st.text_input("Nama Lengkap")
-        hp = st.text_input("Nomor HP")
-        alamat = st.text_area("Alamat")
+        no_hp = st.text_input("Nomor HP/WA")
+        alamat = st.text_area("Alamat Lengkap")
         
         if st.button("✅ CHECKOUT SEKARANG", type="primary", use_container_width=True):
-            if not nama or not hp or not alamat:
-                st.error("Lengkapi data dulu!")
+            if not nama or not no_hp or not alamat:
+                st.error("Harap lengkapi semua data terlebih dahulu!")
             else:
                 id_pesanan = f"ORD-{datetime.now().strftime('%Y%m%d')}-{str(uuid.uuid4())[:4]}"
                 st.session_state.pesanan.append({
                     "id":id_pesanan, "waktu":datetime.now().strftime("%d-%m-%Y %H:%M"),
-                    "cabang":cabang_terpilih, "nama":nama, "hp":hp, "alamat":alamat,
+                    "cabang":cabang_terpilih, "nama":nama, "hp":no_hp, "alamat":alamat,
                     "status_member":status_member, "barang":st.session_state.keranjang.copy(),
-                    "total_asli":total_asli, "subsidi":res['nilai'], "bayar":res['akhir'],
+                    "total_asli":total_asli, "subsidi":hasil['nilai'], "bayar":hasil['akhir'],
                     "status_bayar":"Belum Lunas", "status_kirim":"Menunggu Verifikasi"
                 })
-                st.session_state.total_sedekah += res['nilai']
+                st.session_state.total_sedekah += hasil['nilai']
                 st.session_state.keranjang = []
-                st.success(f"Berhasil! No: {id_pesanan}")
+                st.success(f"🎉 Pesanan Berhasil! No: {id_pesanan}")
 
+# ==================================================
+# HALAMAN KASIR
+# ==================================================
 elif menu_pilihan == "💼 KASIR":
-    st.subheader("💼 Panel Kasir")
+    st.subheader("💼 Panel Kerja Kasir")
+    st.info(f"Cabang: {cabang_terpilih}")
+    st.divider()
+    
     if not st.session_state.pesanan:
-        st.info("Belum ada pesanan")
+        st.info("Belum ada pesanan masuk saat ini")
     else:
         for idx, p in enumerate(st.session_state.pesanan):
             with st.expander(f"📦 {p['id']} | {p['nama']}"):
-                st.write(f"Status: {p['status_member']} | Bayar: Rp {p['bayar']:,}")
-                ubah_bayar = st.selectbox("Ubah Bayar", ["Belum Lunas","Lunas","Gagal"], 
-                    ["Belum Lunas","Lunas","Gagal"].index(p['status_bayar']), key=f"by{idx}")
-                ubah_kirim = st.selectbox("Ubah Kirim", ["Tunggu","Kemas","Kirim","Selesai"], 
-                    ["Tunggu","Kemas","Kirim","Selesai"].index(p['status_kirim']), key=f"kr{idx}")
-                if st.button("Simpan", key=f"sp{idx}"):
+                st.write(f"👤 Status: {p['status_member']}")
+                st.write(f"💰 Total Bayar: Rp {p['bayar']:,}")
+                st.write(f"💸 Subsidi: Rp {p['subsidi']:,}")
+                st.write(f"💳 Bayar: {p['status_bayar']} | 🚚 Kirim: {p['status_kirim']}")
+                
+                ubah_bayar = st.selectbox("Ubah Status Bayar", 
+                    ["Belum Lunas", "Lunas", "Gagal"],
+                    ["Belum Lunas", "Lunas", "Gagal"].index(p['status_bayar']),
+                    key=f"b{idx}"
+                )
+                ubah_kirim = st.selectbox("Ubah Status Kirim", 
+                    ["Menunggu Verifikasi", "Sedang Dikemas", "Sedang Dikirim", "Selesai"],
+                    ["Menunggu Verifikasi", "Sedang Dikemas", "Sedang Dikirim", "Selesai"].index(p['status_kirim']),
+                    key=f"k{idx}"
+                )
+                if st.button("✅ Simpan Perubahan", key=f"s{idx}"):
                     st.session_state.pesanan[idx]['status_bayar'] = ubah_bayar
                     st.session_state.pesanan[idx]['status_kirim'] = ubah_kirim
-                    st.success("Tersimpan")
+                    st.success("Status pesanan diperbarui!")
                     st.experimental_rerun()
+            st.divider()
 
+# ==================================================
+# HALAMAN PEMILIK
+# ==================================================
 elif menu_pilihan == "👑 PEMILIK":
-    st.subheader("👑 Menu Pemilik")
+    st.subheader("👑 Menu Khusus Pemilik")
+    st.divider()
+    
     if not st.session_state.login_bos:
-        sandi = st.text_input("Masukkan Kata Sandi", type="password")
-        if st.button("Masuk", type="primary", use_container_width=True):
+        st.warning("🔐 Masukkan kata sandi untuk melanjutkan")
+        sandi = st.text_input("Kata Sandi", type="password", placeholder="Masukkan sandi disini...")
+        if st.button("🔓 Masuk Menu Pemilik", type="primary", use_container_width=True):
             if sandi == "bos_petanidesa":
                 st.session_state.login_bos = True
                 st.experimental_rerun()
             else:
-                st.error("Sandi Salah!")
+                st.error("❌ Kata sandi salah!")
     else:
-        st.metric("Total Sedekah", f"Rp {st.session_state.total_sedekah:,}")
+        st.success("✅ Selamat Datang Pemilik")
         st.divider()
-        daftar_nama = [p['nama'] for p in st.session_state.produk]
-        pilih = st.selectbox("Ubah Barang", daftar_nama)
-        data = next(p for p in st.session_state.produk if p['nama'] == pilih)
-        harga_baru = st.number_input("Harga Baru", value=data['harga'])
-        stok_baru = st.number_input("Stok Baru", value=data['stok'])
-        if st.button("Simpan Perubahan", type="primary"):
-            idx = next(i for i,p in enumerate(st.session_state.produk) if p['nama'] == pilih)
+        
+        st.subheader("📊 Laporan Real-Time")
+        c1, c2 = st.columns(2)
+        c1.metric("Total Pesanan", len(st.session_state.pesanan))
+        c2.metric("💸 Total Sedekah", f"Rp {st.session_state.total_sedekah:,}")
+        
+        st.divider()
+        st.subheader("⚙️ Ubah Harga & Stok")
+        daftar_barang = [p['nama'] for p in st.session_state.produk]
+        pilih_barang = st.selectbox("Pilih Barang", daftar_barang)
+        data = next(p for p in st.session_state.produk if p['nama'] == pilih_barang)
+        
+        st.info(f"Saat Ini: Harga Rp {data['harga']:,} | Stok {data['stok']}")
+        harga_baru = st.number_input("Harga Baru", min_value=0, value=data['harga'])
+        stok_baru = st.number_input("Stok Baru", min_value=0, value=data['stok'])
+        
+        if st.button("✅ Simpan Perubahan Barang", type="primary", use_container_width=True):
+            idx = next(i for i,p in enumerate(st.session_state.produk) if p['nama'] == pilih_barang)
             st.session_state.produk[idx]['harga'] = harga_baru
             st.session_state.produk[idx]['stok'] = stok_baru
-            st.success("Tersimpan")
-        if st.button("Keluar Akun"):
+            st.success("✅ Data barang berhasil diperbarui!")
+        
+        st.divider()
+        if st.button("🔒 Keluar dari Akun"):
             st.session_state.login_bos = False
             st.experimental_rerun()
 
+# ==================================================
+# HALAMAN BANTUAN AI
+# ==================================================
 elif menu_pilihan == "🤖 BANTUAN":
-    st.subheader("🤖 Tanya Bantuan")
-    pertanyaan = st.chat_input("Tulis pertanyaan...")
+    st.subheader("🤖 Asisten Bantuan")
+    st.info("Tanyakan apa saja tentang cara pakai aplikasi, belanja, dan subsidi")
+    st.divider()
+    
+    pertanyaan = st.chat_input("Tulis pertanyaan anda...")
     if pertanyaan:
         st.session_state.riwayat_chat.append(("Anda", pertanyaan))
         st.session_state.riwayat_chat.append(("Asisten", jawab_pertanyaan(pertanyaan)))
+    
     for pengirim, pesan in st.session_state.riwayat_chat:
         st.chat_message(pengirim).write(pesan)
-    if st.button("Hapus Percakapan"):
+    
+    if st.button("🗑️ Hapus Percakapan"):
         st.session_state.riwayat_chat = []
         st.experimental_rerun()
 
+# --------------------------
+# KAKI APLIKASI
+# --------------------------
 st.markdown("---")
-st.caption("🌾 Petani Desa Berkah - Versi 1.0")
+st.caption("🌾 Petani Desa Berkah | Versi 1.0")
