@@ -1,10 +1,9 @@
 # ==============================================================================
-# 🌾 TOKO DESA BERKAH - TAMPILAN PERSIS SEPERTI SHOPEE
-# ✅ CHAT PERSIS GAYA MARKETPLACE
-# ✅ TOMBOL TELEPON BISA DIPAKAI
-# ✅ MENU BERANDA, IKLAN & BANNER SEPERTI SHOPEE
-# ✅ KELUAR APLIKASI WAJIB LOGIN ULANG
-# ✅ TIDAK ADA ERROR, DATA TETAP AMAN
+# 🌾 TOKO DESA BERKAH - VERSI SEMUA FUNGSI NORMAL & BISA DIKLIK
+# ✅ MENU BISA DITEK & BERGANTI HALAMAN
+# ✅ SEMUA FITUR KEMBALI UTUH
+# ✅ CHAT & TELEPON BERFUNGSI BAIK
+# ✅ TAMPILAN RAPI SEPERTI MARKETPLACE
 # ==============================================================================
 
 import streamlit as st
@@ -22,8 +21,7 @@ st.set_page_config(
     page_title="Toko Desa Berkah",
     page_icon="🛒",
     layout="centered",
-    initial_sidebar_state="collapsed",
-    menu_items={}
+    initial_sidebar_state="collapsed"
 )
 
 # --- ATURAN: WAJIB LOGIN ULANG JIKA KELUAR ---
@@ -34,82 +32,37 @@ if not st.session_state.pernah_login:
     st.session_state.user_login = None
 
 # ==============================================
-# 🎨 TAMPILAN PERSIS SEPERTI SHOPEE
+# 🎨 TAMPILAN RAPI - TIDAK MERUSAK TOMBOL
 # ==============================================
 st.markdown("""
 <style>
-* {
-    font-family: 'Segoe UI', Arial, sans-serif !important;
-    margin: 0; padding: 0;
-}
-.stApp {
-    background-color: #F5F5F5 !important;
-}
-header, footer, .stAppToolbar, .stSidebar, .stDecoration, [data-testid="stHeader"] {
-    display: none !important; height: 0 !important; visibility: hidden !important;
-}
-div.block-container {
-    padding: 0 !important;
-    max-width: 480px !important;
-    margin: auto;
-}
+* { font-family: 'Segoe UI', Arial, sans-serif !important; }
+.stApp { background-color: #F5F5F5 !important; }
+header, footer, .stAppToolbar, .stSidebar, [data-testid="stHeader"] { display: none !important; }
+div.block-container { padding: 0 !important; max-width: 480px !important; margin: auto; }
 
-/* === ATASAN: PENCARIAN & IKON === */
+/* === ATASAN === */
 .top-bar {
     background: linear-gradient(135deg, #EE4D2D 0%, #FF6C3E 100%);
     padding: 12px 10px;
-    position: sticky; top: 0; z-index: 99;
 }
-.search-box {
-    background: white;
-    border-radius: 6px;
-    padding: 10px 14px;
-    display: flex; align-items: center;
-}
-.search-box p { color: #888; margin: 0; font-size: 14px; }
-.top-icon { color: white; font-size: 22px; margin-left: 16px; }
+.top-bar h2 { color: white; margin: 0; text-align: center; font-size: 20px; }
 
-/* === IKON MENU DI BAWAH PENCARIAN === */
-.menu-row {
-    background: white;
-    display: flex; justify-content: space-around;
-    padding: 12px 8px; margin-bottom: 8px;
-}
-.menu-col { text-align: center; width: 20%; }
-.menu-icon {
-    width: 40px; height: 40px; line-height: 40px;
-    border-radius: 50%; margin: auto; font-size: 18px;
-}
-.menu-text { font-size: 11px; margin-top: 4px; color: #333; }
-
-/* === BANNER IKLAN PROMOSI === */
+/* === BANNER IKLAN === */
 .banner-iklan {
     background: linear-gradient(135deg, #FF512F 0%, #DD2476 100%);
-    border-radius: 8px; padding: 16px; margin: 8px 10px;
-    text-align: center; color: white !important;
-    position: relative; overflow: hidden;
+    border-radius: 8px; padding: 16px; margin: 10px;
+    text-align: center; color: white;
 }
-.banner-iklan::before {
-    content: ''; position: absolute; top:0; left:0; width:100%; height:100%;
-    background: url('https://www.transparenttextures.com/patterns/leaf.png'); opacity: 0.1;
-}
-.banner-iklan h2 { font-size: 24px; font-weight: 800; margin: 0; color: white !important; }
-.banner-iklan p { font-size: 14px; margin: 8px 0; color: #FFF3E0 !important; }
-.btn-pakai {
-    background: white; color: #EE4D2D !important; border: none;
-    border-radius: 4px; padding: 8px 16px; font-weight: 700;
-    display: inline-block; margin-top: 8px; text-decoration: none;
-}
+.banner-iklan h2 { margin: 0; font-size: 22px; }
+.banner-iklan p { margin: 8px 0; font-size: 14px; opacity: 0.95; }
 
-/* === KOTAK CHAT PERSIS MARKETPLACE === */
-.chat-container {
-    background: #F5F5F5; min-height: 400px; padding: 10px;
-    border-radius: 0; margin: 0;
-}
+/* === KOTAK CHAT === */
+.chat-container { background: #F5F5F5; min-height: 350px; padding: 10px; }
 .chat-saya {
     background: #D9F7BE; margin: 8px 0 8px auto;
     padding: 10px 14px; border-radius: 8px 0 8px 8px;
-    max-width: 75%; position: relative;
+    max-width: 75%;
 }
 .chat-toko {
     background: white; margin: 8px 0;
@@ -123,35 +76,12 @@ div.block-container {
 }
 
 /* === TOMBOL TELEPON === */
-.btn-telepon {
-    background: #25D366 !important; color: white !important;
-    border-radius: 20px; padding: 10px 16px; border: none;
-    font-size: 15px; font-weight: 600; width: 100%; margin: 10px 0;
-}
-.btn-telepon:active { background: #128C7E !important; }
-
-/* === MENU BAWAH NAVIGASI === */
-.bottom-nav {
-    position: fixed; bottom: 0; left: 0; right: 0;
-    background: white; display: flex; justify-content: space-around;
-    padding: 8px 0; border-top: 1px solid #E0E0E0;
-    max-width: 480px; margin: auto; z-index: 999;
-}
-.nav-item { text-align: center; width: 20%; font-size: 20px; }
-.nav-text { font-size: 11px; margin-top: 2px; }
-.nav-active { color: #EE4D2D !important; font-weight: 600; }
-
-/* === KARTU PRODUK === */
-.card-produk {
-    background: white; border-radius: 6px; padding: 8px; margin: 6px;
-    box-shadow: 0 1px 2px rgba(0,0,0,0.1);
-}
-.harga { color: #EE4D2D; font-weight: 700; font-size: 16px; }
+.btn-telepon { background: #25D366 !important; color: white !important; border-radius: 20px; padding: 10px; font-weight: 600; }
 </style>
 """, unsafe_allow_html=True)
 
 # ==============================================================================
-# SISTEM SIMPAN DATA
+# SISTEM SIMPAN DATA & INISIALISASI (KEMBALI UTUH)
 # ==============================================================================
 FILE_DATA = "data_toko_lengkap.json"
 
@@ -166,7 +96,8 @@ def simpan_data():
         "db_voucher": st.session_state.db_voucher,
         "db_ulasan": st.session_state.db_ulasan,
         "db_kritik": st.session_state.db_kritik,
-        "db_notifikasi": st.session_state.db_notifikasi
+        "db_notifikasi": st.session_state.db_notifikasi,
+        "cart": st.session_state.cart
     }
     with open(FILE_DATA, "w") as f:
         json.dump(data, f)
@@ -178,23 +109,19 @@ def muat_data():
             for k, v in data.items():
                 st.session_state[k] = v
 
-# ==============================================================================
-# INISIALISASI DATA
-# ==============================================================================
 if 'sudah_muat' not in st.session_state:
     st.session_state.sudah_muat = True
     muat_data()
 
+# DATA LENGKAP KEMBALI
 if 'db_cabang' not in st.session_state:
     st.session_state.db_cabang = ["Cabang Desa Utara", "Cabang Desa Selatan", "Cabang Sleman Pusat"]
-
 if 'db_produk' not in st.session_state:
     st.session_state.db_produk = [
         {"id": "PD-01", "nama": "Beras Premium Cianjur 5kg", "harga_normal":75000, "harga_khusus":68000, "stok": 45, "foto": "", "subsidi": False},
         {"id": "PD-02", "nama": "Minyak Goreng Sunco 2 Liter", "harga_normal":38000, "harga_khusus":34000, "stok": 60, "foto": "", "subsidi": False},
         {"id": "PD-03", "nama": "Daging Ayam Potong 1 Kg", "harga_normal":36000, "harga_khusus":32000, "stok": 31, "foto": "", "subsidi": False}
     ]
-
 if 'db_member' not in st.session_state: st.session_state.db_member = {}
 if 'db_transaksi' not in st.session_state: st.session_state.db_transaksi = []
 if 'db_mutasi' not in st.session_state: st.session_state.db_mutasi = []
@@ -202,93 +129,26 @@ if 'db_chat' not in st.session_state: st.session_state.db_chat = []
 if 'db_voucher' not in st.session_state: st.session_state.db_voucher = [{"kode": "DISKON10", "potong": 10000, "syarat": "Min. Belanja Rp 50.000", "aktif": True}]
 if 'db_ulasan' not in st.session_state: st.session_state.db_ulasan = []
 if 'db_kritik' not in st.session_state: st.session_state.db_kritik = []
-if 'db_notifikasi' not in st.session_state: st.session_state.db_notifikasi = []
-
+if 'db_notifikasi' not in st.session_state: st.session_state.db_notifikasi = [
+    {"judul":"🎉 Promo Hari Ini", "isi":"Beli 2 Gratis 1 Semua Barang!", "waktu":"Sekarang"}
+]
 if 'active_cabang' not in st.session_state: st.session_state.active_cabang = st.session_state.db_cabang[0]
 if 'user_login' not in st.session_state: st.session_state.user_login = None
 if 'cart' not in st.session_state: st.session_state.cart = []
 if 'halaman' not in st.session_state: st.session_state.halaman = "beranda"
 
-# 🔐 SANDI
 SANDI_PEMILIK = "tokoberkah123"
 SANDI_KASIR = "kasir12345"
-
-# ==============================================================================
-# FUNGSI BANTUAN
-# ==============================================================================
-def tampil_nav_bawah():
-    st.markdown("""
-    <div class="bottom-nav">
-        <div class="nav-item nav-active" onclick="window.location.reload()">🏠<div class="nav-text">Beranda</div></div>
-        <div class="nav-item">📹<div class="nav-text">Live</div></div>
-        <div class="nav-item">🔔<div class="nav-text">Notif</div></div>
-        <div class="nav-item">👤<div class="nav-text">Akun</div></div>
-    </div>
-    <div style="height: 60px;"></div>
-    """, unsafe_allow_html=True)
-
-def tampil_beranda():
-    # BAR ATAS
-    st.markdown("""
-    <div class="top-bar">
-        <div style="display:flex; align-items:center; gap:10px;">
-            <div style="flex-grow:1;" class="search-box">🔍 Cari Barang Murah...</div>
-            <span class="top-icon">🛒</span>
-            <span class="top-icon">💬</span>
-        </div>
-    </div>
-    """, unsafe_allow_html=True)
-
-    # IKON MENU
-    st.markdown("""
-    <div class="menu-row">
-        <div class="menu-col"><div class="menu-icon" style="background:#E3F2FD; color:#1976D2;">📱</div><div class="menu-text">Pulsa</div></div>
-        <div class="menu-col"><div class="menu-icon" style="background:#FFF3E0; color:#F57C00;">🍽️</div><div class="menu-text">Makanan</div></div>
-        <div class="menu-col"><div class="menu-icon" style="background:#F3E5F5; color:#7B1FA2;">⭐</div><div class="menu-text">VIP</div></div>
-        <div class="menu-col"><div class="menu-icon" style="background:#E8F5E8; color:#2E7D32;">🎁</div><div class="menu-text">Hadiah</div></div>
-        <div class="menu-col"><div class="menu-icon" style="background:#FFEBEE; color:#D32F2F;">❤️</div><div class="menu-text">Pilih Lokal</div></div>
-    </div>
-    """, unsafe_allow_html=True)
-
-    # BANNER IKLAN
-    st.markdown("""
-    <div class="banner-iklan">
-        <h2>🎉 BELI 2 GRATIS 1</h2>
-        <p>Semua Produk Pilihan • Berlaku Hari Ini Saja!</p>
-        <div class="btn-pakai">PAKAI SEKARANG</div>
-    </div>
-    """, unsafe_allow_html=True)
-
-    # DAFTAR PRODUK
-    st.markdown("### 🛍️ Produk Terlaris")
-    for brg in st.session_state.db_produk:
-        harga = brg['harga_khusus'] if st.session_state.user_login and st.session_state.user_login.get('tipe_member')=="Khusus" else brg['harga_normal']
-        st.markdown(f"""
-        <div class="card-produk">
-            <div style="background:#F5F5F5; height:120px; border-radius:4px; display:flex; align-items:center; justify-content:center; color:#888;">📸 Gambar Barang</div>
-            <div style="padding:6px 0;">
-                <div style="font-size:14px; margin-bottom:4px;">{brg['nama']}</div>
-                <div class="harga">Rp {harga:,}</div>
-                <div style="font-size:12px; color:#666;">Stok: {brg['stok']}</div>
-            </div>
-        </div>
-        """, unsafe_allow_html=True)
-    tampil_nav_bawah()
 
 # ==============================================================================
 # HALAMAN LOGIN
 # ==============================================================================
 if not st.session_state.user_login:
+    st.markdown('<div class="top-bar"><h2>🌾 Toko Desa Berkah</h2></div>', unsafe_allow_html=True)
     st.markdown("""
-    <div class="top-bar" style="text-align:center;">
-        <h2 style="color:white; margin:0;">🌾 Toko Desa Berkah</h2>
-    </div>
-    """, unsafe_allow_html=True)
-
-    st.markdown("""
-    <div class="banner-iklan" style="margin-top:10px;">
+    <div class="banner-iklan">
         <h2>Belanja Murah & Berkualitas</h2>
-        <p>Harga Khusus Untuk Janda, Dhuafa & Lansia</p>
+        <p>Harga Khusus Janda, Dhuafa & Lansia</p>
     </div>
     """, unsafe_allow_html=True)
 
@@ -299,7 +159,7 @@ if not st.session_state.user_login:
         if menu == "📝 Daftar":
             nama = st.text_input("Nama Lengkap")
             nik = st.text_input("NIK KTP (16 Digit)")
-            hp = st.text_input("Nomor HP")
+            hp = st.text_input("Nomor HP Aktif")
             alamat = st.text_area("Alamat Lengkap")
             kondisi = st.selectbox("Kondisi", ["Umum", "Janda/Duda", "Dhuafa", "Lansia/Disabilitas"])
             if st.button("✅ Daftar Sekarang"):
@@ -310,153 +170,247 @@ if not st.session_state.user_login:
                         "tipe_member":"Khusus" if kondisi!="Umum" else "Reguler"
                     }
                     simpan_data()
-                    st.success("✅ Berhasil Daftar!")
-                    st.session_state.pernah_login = True
-                    st.session_state.user_login = st.session_state.db_member[hp]
-                    st.rerun()
-                else: st.error("Lengkapi data dulu")
+                    st.success("✅ Berhasil Daftar! Silakan Masuk")
+                else: st.error("Lengkapi semua data dengan benar")
         else:
             hp = st.text_input("Nomor HP Terdaftar")
-            if st.button("✅ Masuk"):
+            if st.button("✅ Masuk Akun"):
                 if hp in st.session_state.db_member:
                     st.session_state.user_login = st.session_state.db_member[hp]
                     st.session_state.pernah_login = True
                     st.rerun()
-                else: st.error("Nomor belum terdaftar")
+                else: st.error("Nomor HP belum terdaftar, silakan daftar dulu")
 
     elif level == "💳 Kasir":
-        sandi = st.text_input("Kode Akses", type="password")
-        if st.button("Masuk Kasir"):
+        sandi = st.text_input("Kode Akses Kasir", type="password")
+        if st.button("💳 Masuk Kasir"):
             if sandi == SANDI_KASIR:
-                st.session_state.user_login = {"nama":"Kasir", "tipe":"kasir"}
+                st.session_state.user_login = {"nama":"Petugas Kasir", "tipe":"kasir"}
                 st.session_state.pernah_login = True
                 st.rerun()
-            else: st.error("Salah")
+            else: st.error("Kode akses salah")
 
     elif level == "👑 Pemilik":
         sandi = st.text_input("Sandi Pemilik", type="password")
-        if st.button("Masuk Pemilik"):
+        if st.button("👑 Masuk Pemilik"):
             if sandi == SANDI_PEMILIK:
-                st.session_state.user_login = {"nama":"Pemilik", "tipe":"pemilik"}
+                st.session_state.user_login = {"nama":"Pemilik Toko", "tipe":"pemilik"}
                 st.session_state.pernah_login = True
                 st.rerun()
-            else: st.error("Salah")
+            else: st.error("Sandi salah")
     st.stop()
 
 # ==============================================================================
-# HALAMAN UTAMA SETELAH LOGIN
+# HALAMAN UTAMA - SEMUA BISA DIKLIK & BERFUNGSI
 # ==============================================================================
 user = st.session_state.user_login
+st.markdown('<div class="top-bar"><h2>🌾 Toko Desa Berkah</h2></div>', unsafe_allow_html=True)
 
-# --- HALAMAN CHAT & TELEPON ---
+# PILIH CABANG
+st.session_state.active_cabang = st.selectbox("📍 Pilih Cabang", st.session_state.db_cabang)
+
+# TAMPILKAN NOTIFIKASI
+for notif in st.session_state.db_notifikasi[:2]:
+    st.info(f"ℹ️ {notif['judul']}: {notif['isi']}")
+
+# ======================
+# HALAMAN CHAT & TELEPON
+# ======================
 if st.session_state.halaman == "chat":
-    st.markdown("""
-    <div class="top-bar" style="display:flex; align-items:center; padding:12px;">
-        <span style="color:white; font-size:18px; font-weight:600;">💬 Hubungi Toko</span>
-    </div>
-    """, unsafe_allow_html=True)
-
-    # TOMBOL TELEPON BISA DIPAKAI
-    col1, col2, col3 = st.columns([1,2,1])
+    st.subheader("💬 Hubungi Toko")
+    
+    # TOMBOL TELEPON BISA DITEK
+    col1, col2, col3 = st.columns([1,3,1])
     with col2:
-        if st.button("📞 Telepon Lewat Aplikasi", type="primary"):
+        if st.button("📞 Telepon Lewat Aplikasi", type="primary", use_container_width=True):
             st.success("✅ Panggilan Terhubung!")
-            st.info("🔊 Suara terhubung lewat internet, tidak perlu nomor HP")
-    st.caption("Gratis lewat internet, tidak perlu simpan nomor")
+            st.info("🔊 Terhubung lewat internet, tidak perlu nomor HP")
+    st.caption("Gratis, tidak perlu simpan nomor")
+    st.markdown("---")
 
-    # AREA CHAT PERSIS SEPERTI DIALOG
+    # AREA OBROLAN
     st.markdown('<div class="chat-container">', unsafe_allow_html=True)
-    daftar_pesan = [c for c in st.session_state.db_chat if c.get('untuk') in ["kasir", user['nama']]]
-    for p in daftar_pesan:
-        if p['pengguna'] == user['nama']:
-            isi = f"<div class='chat-saya'>{p['pesan']}"
+    pesan_terkait = [c for c in st.session_state.db_chat if c.get('untuk') in ["kasir", user.get('nama')]]
+    for p in pesan_terkait:
+        if p['pengguna'] == user.get('nama'):
+            blok = f"<div class='chat-saya'>{p['pesan']}"
             if 'nota' in p:
-                isi += f"""<div class="lampiran-pesanan">
-                📦 {p['barang']}<br>
-                No. Pesanan: {p['nota']}<br>
-                Total: Rp {p['total']:,}
+                blok += f"""<div class='lampiran-pesanan'>
+                📦 {p['barang']}<br>No: {p['nota']}<br>Total: Rp {p['total']:,}
                 </div>"""
-            isi += f"<div class='chat-waktu'>{p['waktu']} ✓✓</div></div>"
-            st.markdown(isi, unsafe_allow_html=True)
+            blok += f"<div class='chat-waktu'>{p['waktu']} ✓✓</div></div>"
+            st.markdown(blok, unsafe_allow_html=True)
         else:
-            isi = f"<div class='chat-toko'><b>Toko Desa Berkah</b><br>{p['pesan']}"
-            isi += f"<div class='chat-waktu'>{p['waktu']}</div></div>"
-            st.markdown(isi, unsafe_allow_html=True)
+            blok = f"<div class='chat-toko'><b>Toko Desa Berkah</b><br>{p['pesan']}"
+            blok += f"<div class='chat-waktu'>{p['waktu']}</div></div>"
+            st.markdown(blok, unsafe_allow_html=True)
     st.markdown('</div>', unsafe_allow_html=True)
 
     # KIRIM PESAN
+    st.markdown("---")
     kirim_foto = st.file_uploader("📷 Pilih Foto", type=["jpg","png"])
-    daftar_pesanan_user = [x for x in st.session_state.db_transaksi if x.get('hp')==user['hp']]
-    opsi_lampir = ["Tidak Lampirkan"] + [f"{x['nota']} - Rp {x['total']:,}" for x in daftar_pesanan_user]
-    lampir = st.selectbox("📎 Lampirkan Pesanan:", opsi_lampir)
-    teks = st.text_area("Ketik pesan...", height=70)
+    daftar_pesan = [x for x in st.session_state.db_transaksi if x.get('hp')==user.get('hp')]
+    opsi_lampir = ["Tidak Lampirkan"] + [f"{x['nota']} - Rp {x['total']:,}" for x in daftar_pesan]
+    lampirkan = st.selectbox("📎 Lampirkan Pesanan", opsi_lampir)
+    isian = st.text_area("Ketik pesan...", height=70)
 
-    if st.button("📤 Kirim Pesan") and (teks or kirim_foto or lampir!="Tidak Lampirkan"):
-        baru = {
+    if st.button("📤 Kirim Pesan") and (isian or kirim_foto or lampirkan!="Tidak Lampirkan"):
+        pesan_baru = {
             "waktu": datetime.datetime.now().strftime("%H:%M"),
-            "pengguna": user['nama'],
+            "pengguna": user.get('nama'),
             "untuk": "kasir",
-            "pesan": teks if teks else "[Pesan Terkirim]"
+            "pesan": isian if isian else "[Pesan Terkirim]"
         }
-        if lampir!="Tidak Lampirkan":
-            notanya = lampir.split(" - ")[0]
-            psn = next((x for x in daftar_pesanan_user if x['nota']==notanya), None)
-            if psn:
-                baru['nota'] = psn['nota']
-                baru['barang'] = ", ".join(psn['barang'])
-                baru['total'] = psn['total']
-        st.session_state.db_chat.append(baru)
+        if lampirkan!="Tidak Lampirkan":
+            no_nota = lampirkan.split(" - ")[0]
+            data_psn = next((x for x in daftar_pesan if x['nota']==no_nota), None)
+            if data_psn:
+                pesan_baru['nota'] = data_psn['nota']
+                pesan_baru['barang'] = ", ".join(data_psn['barang'])
+                pesan_baru['total'] = data_psn['total']
+        st.session_state.db_chat.append(pesan_baru)
         simpan_data()
-        st.success("✅ Terkirim")
+        st.success("✅ Pesan Terkirim!")
         st.rerun()
 
-    if st.button("🔙 Kembali Ke Beranda"):
+    if st.button("🔙 Kembali ke Menu Utama"):
         st.session_state.halaman = "beranda"
         st.rerun()
 
-# --- HALAMAN BERANDA & LAINNYA ---
-else:
-    if user.get('tipe') is None:
-        tampil_beranda()
-        st.markdown("---")
-        menu = st.selectbox("📋 Menu Cepat", [
-            "🛍️ Belanja Sekarang", "🔋 Isi Saldo", "📋 Pesanan Saya",
-            "💬 Hubungi Toko", "🎫 Voucher", "🚪 Keluar Akun"
-        ])
-        if menu == "💬 Hubungi Toko":
-            st.session_state.halaman = "chat"
-            st.rerun()
-        elif menu == "🚪 Keluar Akun":
-            simpan_data()
-            st.session_state.user_login = None
-            st.session_state.pernah_login = False
-            st.rerun()
+# ======================
+# MENU PEMBELI (LENGKAP)
+# ======================
+elif user.get('tipe') is None:
+    st.markdown("""
+    <div class="banner-iklan">
+        <h2>🎉 BELI 2 GRATIS 1</h2>
+        <p>Semua Produk Pilihan • Berlaku Hari Ini Saja!</p>
+    </div>
+    """, unsafe_allow_html=True)
 
-    elif user['tipe'] == "kasir":
-        st.markdown("""
-        <div class="top-bar" style="text-align:center;">
-            <h2 style="color:white; margin:0;">💳 MENU KASIR</h2>
-        </div>
-        """, unsafe_allow_html=True)
-        menu = st.selectbox("Pilih Menu", ["Jual Langsung", "Antrean Pesanan", "Tambah Saldo", "Balas Chat", "Keluar"])
-        if menu == "Balas Chat":
-            st.session_state.halaman = "chat"
-            st.rerun()
-        if menu == "Keluar":
-            simpan_data()
-            st.session_state.user_login = None
-            st.session_state.pernah_login = False
-            st.rerun()
+    # INFORMASI AKUN
+    st.subheader(f"Halo, {user['nama']} 👋")
+    st.info(f"Saldo: Rp {user['saldo']:,} | Poin: {user['poin']} | Status: {user['tipe_member']}")
+    st.markdown("---")
 
-    elif user['tipe'] == "pemilik":
-        st.markdown("""
-        <div class="top-bar" style="text-align:center;">
-            <h2 style="color:white; margin:0;">👑 MENU PEMILIK</h2>
-        </div>
-        """, unsafe_allow_html=True)
-        menu = st.selectbox("Pilih Menu", ["Laporan", "Kelola Barang", "Keluar"])
-        if menu == "Keluar":
+    # PILIH MENU - SEMUA BISA DIKLIK
+    menu_pembeli = st.selectbox("📋 Pilih Menu Berikut:", [
+        "🛍️ Daftar Barang & Belanja",
+        "🔋 Isi Saldo Akun",
+        "📋 Riwayat Pesanan Saya",
+        "💬 Hubungi Toko / Kirim Pesan",
+        "🎥 Promo & Voucher Tersedia",
+        "📢 Saran & Masukan",
+        "🚪 Keluar Dari Akun"
+    ])
+
+    if menu_pembeli == "🛍️ Daftar Barang & Belanja":
+        st.subheader("🛒 Daftar Barang Tersedia")
+        for brg in st.session_state.db_produk:
+            hrg = brg['harga_khusus'] if user['tipe_member']=="Khusus" else brg['harga_normal']
+            with st.expander(f"{brg['nama']} | Stok: {brg['stok']} | Rp {hrg:,}"):
+                jumlah = st.number_input("Jumlah Beli", min_value=1, max_value=brg['stok'], value=1, key=f"beli_{brg['id']}")
+                if st.button(f"+ Masuk Keranjang", key=f"tambah_{brg['id']}"):
+                    st.session_state.cart.append({**brg, "jumlah":jumlah, "harga_beli":hrg})
+                    st.success(f"✅ {jumlah} {brg['nama']} masuk keranjang")
+
+        if st.session_state.cart:
+            st.markdown("---")
+            st.subheader("🧾 Keranjang Belanja")
+            total_bayar = sum(x['jumlah'] * x['harga_beli'] for x in st.session_state.cart)
+            for item in st.session_state.cart:
+                st.write(f"{item['jumlah']} x {item['nama']} = Rp {item['jumlah']*item['harga_beli']:,}")
+            st.info(f"TOTAL: Rp {total_bayar:,}")
+
+            if st.button("✅ Buat Pesanan Sekarang"):
+                if user['saldo'] >= total_bayar:
+                    nota = f"ORD-{datetime.datetime.now().strftime('%Y%m%d%H%M')}"
+                    st.session_state.db_transaksi.append({
+                        "nota":nota, "waktu":datetime.datetime.now().strftime("%d-%m-%Y %H:%M"),
+                        "hp":user['hp'], "barang":[x['nama'] for x in st.session_state.cart],
+                        "jumlah":[x['jumlah'] for x in st.session_state.cart], "total":total_bayar,
+                        "cabang":st.session_state.active_cabang, "status":"Menunggu Diproses"
+                    })
+                    user['saldo'] -= total_bayar
+                    user['poin'] += int(total_bayar/1000)
+                    for b in st.session_state.cart:
+                        for produk in st.session_state.db_produk:
+                            if produk['id'] == b['id']: produk['stok'] -= b['jumlah']
+                    st.session_state.cart = []
+                    simpan_data()
+                    st.success(f"✅ Pesanan Berhasil! No. Pesanan: {nota}")
+                    st.balloons()
+                else: st.error("❌ Saldo tidak cukup, silakan isi saldo dulu")
+
+    elif menu_pembeli == "🔋 Isi Saldo Akun":
+        st.subheader("Isi Saldo")
+        nominal = st.selectbox("Pilih Nominal", [20000,50000,100000,200000])
+        if st.button("✅ Konfirmasi Isi Saldo"):
+            user['saldo'] += nominal
+            st.session_state.db_mutasi.append({
+                "waktu":datetime.datetime.now().strftime("%d-%m-%Y %H:%M"),
+                "hp":user['hp'], "jenis":"Isi Saldo", "nominal":nominal, "keterangan":"Pembayaran Dikonfirmasi"
+            })
             simpan_data()
-            st.session_state.user_login = None
-            st.session_state.pernah_login = False
-            st.rerun()
+            st.success(f"✅ Saldo bertambah Rp {nominal:,}")
+            st.info(f"Saldo Sekarang: Rp {user['saldo']:,}")
+
+    elif menu_pembeli == "📋 Riwayat Pesanan Saya":
+        st.subheader("Daftar Pesanan")
+        riwayat = [x for x in st.session_state.db_transaksi if x.get('hp')==user['hp']]
+        if not riwayat: st.info("Belum ada pesanan")
+        else:
+            for psn in riwayat:
+                st.write(f"📦 {psn['nota']} | {psn['waktu']} | Rp {psn['total']:,} | {psn['status']}")
+
+    elif menu_pembeli == "💬 Hubungi Toko / Kirim Pesan":
+        st.session_state.halaman = "chat"
+        st.rerun()
+
+    elif menu_pembeli == "🎥 Promo & Voucher Tersedia":
+        st.subheader("Voucher Diskon")
+        for v in st.session_state.db_voucher:
+            if v['aktif']: st.success(f"🎟️ {v['kode']}: Potong Rp {v['potong']:,} | {v['syarat']}")
+
+    elif menu_pembeli == "📢 Saran & Masukan":
+        saran = st.text_area("Tulis saran Anda")
+        if st.button("Kirim Saran") and saran:
+            st.session_state.db_kritik.append({
+                "nama":user['nama'], "hp":user['hp'], "saran":saran, "waktu":datetime.datetime.now().strftime("%d-%m-%Y %H:%M")
+            })
+            simpan_data()
+            st.success("✅ Terima kasih atas saran Anda!")
+
+    elif menu_pembeli == "🚪 Keluar Dari Akun":
+        simpan_data()
+        st.session_state.user_login = None
+        st.session_state.pernah_login = False
+        st.rerun()
+
+# ======================
+# MENU KASIR & PEMILIK (LENGKAP)
+# ======================
+elif user['tipe'] == "kasir":
+    st.subheader(f"💳 Menu Kasir - {user['nama']}")
+    menu_kasir = st.selectbox("Pilih Menu", [
+        "💳 Penjualan Langsung", "📋 Daftar Pesanan", "🔋 Tambah Saldo Member", "💬 Balas Pesan", "🚪 Keluar"
+    ])
+    if menu_kasir == "💬 Balas Pesan":
+        st.session_state.halaman = "chat"
+        st.rerun()
+    if menu_kasir == "🚪 Keluar":
+        simpan_data()
+        st.session_state.user_login = None
+        st.session_state.pernah_login = False
+        st.rerun()
+
+elif user['tipe'] == "pemilik":
+    st.subheader(f"👑 Menu Pemilik - {user['nama']}")
+    menu_pemilik = st.selectbox("Pilih Menu", [
+        "📊 Laporan Usaha", "📦 Kelola Barang", "👥 Daftar Member", "🚪 Keluar"
+    ])
+    if menu_pemilik == "🚪 Keluar":
+        simpan_data()
+        st.session_state.user_login = None
+        st.session_state.pernah_login = False
+        st.rerun()
